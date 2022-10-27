@@ -1,0 +1,10 @@
+.fechas_inicioT_finT{
+    display: flex;
+    justify-content:space-between;
+}
+
+.inicioTorneo, .finTorneo{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem
+}

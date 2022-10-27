@@ -1,0 +1,75 @@
+.mge_canchas_container{
+    display: flex;
+    justify-content:center;
+    background-color:#F8F8F8;
+    height: 100vh;
+    align-items: baseline
+}
+
+.second_container{
+    margin-top: 3rem;
+    width: 70%;
+    text-align: center;
+    margin-right: 10rem;
+}
+
+.table_headers th, td{
+    text-align: center;
+}
+
+.linkAddCancha{
+    text-decoration: none;
+    border: #0b7037 2px solid;
+    border-radius: 5px;
+    padding: .5rem;
+    background-color: #0b7037;
+    color: white;
+    font-size: 1rem;
+    margin-top: 0rem;
+}
+
+.deleteCanchaBtn{
+    background-color: red;
+    padding: 0.5rem 0.5rem;
+    border: none;
+    border-radius: 5px;
+}
+
+.deleteCanchaBtn:hover{
+    cursor: pointer;
+}
+
+.editCanchaBtn{
+    background-color: rgb(251, 255, 0);
+    padding: 0.5rem 0.5rem;
+    border: none;
+    border-radius: 5px;
+    color: black;
+}
+
+.editCanchaBtn a{
+    color: black;
+    text-decoration:none
+}
+
+.editCanchaBtn:hover{
+    cursor: pointer;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  thead{
+    background-color:#0b7037;
+    color: white
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
+  
