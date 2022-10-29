@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import './AddCanchas.css'
 import axios from 'axios'
+import {Link, useNavigate} from 'react-router-dom'
+
 
 export default function AddCanchas() {
 
@@ -64,6 +66,7 @@ export default function AddCanchas() {
                 <p style={{fontSize:"14px"}}>{Confirmation}</p>
                 <div className="btn_addCancha_container">
                     <button type="submit">Agregar</button>
+                    <button type="submit"><Link to="/admin/manageCanchas" className="link_go_back">Volver</Link></button>
                 </div>
             </form>
         </div>

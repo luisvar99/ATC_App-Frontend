@@ -5,7 +5,7 @@ import './ManageCanchas.css'
 
 export default function ManageTorneos() {
 
-    const [Torneos, setCanchas] = useState([])
+    const [Torneos, setTorneos] = useState([])
 
     useEffect(() => {
         GetAllTorneos();
@@ -15,7 +15,7 @@ export default function ManageTorneos() {
     const GetAllTorneos = async () => {
         try {
             const result = await axios.get('http://localhost:4000/api/getAllTorneos');
-            setCanchas(result.data);
+            setTorneos(result.data);
             console.log("result.data: " + JSON.stringify(result.data));
         } catch (error) {
             alert(error.message)
@@ -24,9 +24,10 @@ export default function ManageTorneos() {
 
     const DeleteTorneo = async (id) => {
         try {
-            await axios.delete(`http://localhost:4000/api/deleteTorneo/${id}`);
-            const filter = Torneos.filter(e => e.id_cancha !== id)
-            setCanchas(filter);
+            const result = await axios.delete(`http://localhost:4000/api/deleteTorneo/${id}`);
+            const filter = Torneos.filter(e => e.id_torneo !== id)
+            console.log(result.data);
+            setTorneos(filter);
         } catch (error) {
             alert(error.message)
         }
@@ -47,7 +48,6 @@ export default function ManageTorneos() {
                         <th>Fin Inscripcion</th>
                         <th>Inicio Torneo</th>
                         <th>Fin Torneo</th>
-                        <th>Descripcion</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -62,8 +62,7 @@ export default function ManageTorneos() {
                                 <td>{new Date(torneo.fecha_fin_inscripcion).toLocaleDateString('es-MX')}</td>
                                 <td>{new Date(torneo.fecha_inicio).toLocaleDateString('es-MX')}</td>
                                 <td>{new Date(torneo.fecha_fin).toLocaleDateString('es-MX')}</td>
-                                <td>{torneo.descripcion}</td>
-                                <td><button className="editCanchaBtn"><Link to={`editTorneo/id=${torneo.id_torneo}`}>Editar</Link></button></td>
+                                <td><button className="editCanchaBtn"><Link to={`editTorneo/id=${torneo.id_torneo}`}>Detalles</Link></button></td>
                                 <td><button className="deleteCanchaBtn" onClick={(e) => DeleteTorneo(torneo.id_torneo)}>Eliminar</button></td>
                             </tr>
                             ))

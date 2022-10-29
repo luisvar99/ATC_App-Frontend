@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './AddTorneo.css'
+import {Link, useNavigate} from 'react-router-dom'
+
 import axios from 'axios'
 
 
@@ -92,6 +94,7 @@ export default function AddTorneo() {
                 <p style={{fontSize:"14px"}}>{Confirmation}</p>
                 <div className="btn_addCancha_container">
                     <button type="submit">Agregar</button>
+                    <button type="submit"><Link to="/admin/manageCanchas" className="link_go_back">Volver</Link></button>
                 </div>
             </form>
         </div>

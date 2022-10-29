@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './Dashboard.css'
+import './TorneosDashboard.css'
 import axios from 'axios'
 import {Link, useNavigate} from 'react-router-dom'
 
@@ -32,15 +32,15 @@ export default function TorneosDashboard() {
                 {
                     Torneos.length>0 ?
                     Torneos.map((torneo)=>(
-                        <Link className="link_to_torneo" to={`/torneos/id=${torneo.id_torneo}`}>
+                        <Link className="link_to_torneo" to={`/torneos/${torneo.nombre_torneo}/id=${torneo.id_torneo}`}>
                         <div className="torneo_card">
                         <div className="torneo_card_header">
                             <p>{torneo.nombre_torneo}</p>
                         </div>
                             <div className="torneo_card_info">
                                 <p>Fecha Inscripcion: {new Date(torneo.fecha_inicio_inscripcion).toLocaleDateString('es-MX')}</p>
-                                <p>Fecha Inicio: {torneo.fecha_inicio.substring(0,10)}</p>
-                                <p>Fecha Fin: {torneo.fecha_fin.substring(0,10)}</p>
+                                <p>Fecha Inicio: {new Date(torneo.fecha_inicio).toLocaleDateString('es-MX')}</p>
+                                <p>Fecha Fin: {new Date(torneo.fecha_fin).toLocaleDateString('es-MX')}</p>
                             </div>
                     </div>
                         </Link>

@@ -1,0 +1,23 @@
+.torneo_details_main_container{
+    background-color: #F8F8F8;
+    height: 100vh;
+    display:flex;
+    justify-content:center;
+}
+
+.torneo_details_second_container{
+    background-color: red;
+    width: 80%;
+    display:flex;
+    justify-content:center;
+}
+
+.torneo_details_info{
+    background-color: blue;
+    width: 50%;
+}
+
+.subtorneos{
+    background-color: yellow;
+    width: 50%;
+}

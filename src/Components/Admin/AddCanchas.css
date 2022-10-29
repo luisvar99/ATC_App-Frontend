@@ -1,6 +1,5 @@
 .main_addCancha_container{
     display: flex;
-    justify-content:center;
     flex-direction: column;
     align-items: center;
     background-color:#F8F8F8;
@@ -33,8 +32,8 @@
 .btn_addCancha_container{
     display: flex;
     justify-content: center;
-    margin-top: 1rem;
-
+    margin-top: 0.5rem;
+    flex-direction: column;
 }
 
 .btn_addCancha_container button{
@@ -47,4 +46,9 @@
     color: white;
     font-size: 15px;
     cursor: pointer;
+}
+
+.link_go_back{
+    text-decoration: none;
+    color: white;
 }

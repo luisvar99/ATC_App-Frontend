@@ -1,9 +1,11 @@
 import React,{ useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
 import Moment from 'react-moment'
 import 'moment-timezone'
+import './EditTorneo.css'
 
 
 export default function EditTorneo() {
@@ -61,7 +63,7 @@ const EditTorneo = async (e) =>{
               id_categoria: Category,
               descripcion: Description,
             })
-            console.log(editResult.data);
+            //console.log(editResult.data);
             setConfirmation("Se ha actualizado el torneo correctamente")
         } catch (error) {
             setConfirmation("Ha ocurrido un error")
@@ -70,52 +72,59 @@ const EditTorneo = async (e) =>{
     }
 }
   return (
-    <div className="main_addCancha_container">
-        <h3 style={{marginTop:"2rem"}}>Agregar nuevo Torneo</h3>
-        <div className="Addform_container">
-            <form onSubmit={EditTorneo} className="form_add_canchas">
-                <div className="name_input_container">
-                    <label htmlFor="nameCancha">Nombre del Torneo</label>
-                    <input value={Name} type="text" id="name" onChange={(e)=>setName(e.target.value)} required/>
-                </div>
-                <div className="fechas_inicioT_finT">
-                    <div className="inicioTorneo">
-                        <label htmlFor="inicioT">Inicio del Torneo</label>
-                        <input value={Inicio_torneo} type="date" id="inicioT" onChange={(e)=>setInicio_torneo(e.target.value)} required/>
-                    </div>
-                    <div className="finTorneo">
-                        <label htmlFor="finT">Fin del Torneo</label>
-                        <input value={Fin_torneo} type="date" id="finT" onChange={(e)=>setFin_torneo(e.target.value)} required/>
-                    </div>
-                </div>
-                <div className="fechas_inicioT_finT">
-                    <div className="inicioTorneo">
-                        <label htmlFor="inicioIns">Inicio Inscripcion</label>
-                        <input value={Inicio_inscripcion} type="date" id="inicioIns" onChange={(e)=>setInicio_inscripcion(e.target.value)} required/>
-                    </div>
-                    <div className="inicioTorneo">
-                        <label htmlFor="FinIns">Fin Inscripcion</label>
-                        <input value={Fin_inscripcion} type="date" id="FinIns" onChange={(e)=>setFin_inscripcion(e.target.value)} required/>
-                    </div>
-                </div>
-                <div className="category_input_container">
-                <label htmlFor="categoryCancha">Categoria</label>
-                    <select value={Category} id="ecategoryCancha" className="" onChange={(e)=>setCategory(e.target.value)}>
-                        <option value="">---Seleccione una Categoria---</option>
-                        <option value="0">Tennis</option>
-                        <option value="1">Padel</option>
-                    </select>
-                </div>
-                <div className="name_input_container">
-                    <label htmlFor="description">Descripcion</label>
-                    <textarea value={Description} type="text" id="description" onChange={(e)=>setDescription(e.target.value)} rows="5" required/>
-                </div>
-                <p style={{fontSize:"14px"}}>{Confirmation}</p>
-                <div className="btn_addCancha_container">
-                    <button type="submit">Agregar</button>
-                </div>
-            </form>
+    <div className="main_editTorneo_container">
+        <div className="torneo_subTorneo_container">
+            <button><Link to={`/admin/manageTorneos/addCompetencia/${Name}/idTorneo=${params.idTorneo}`}>Agregar Competencia</Link></button>
+            <h2>Competencias</h2>
         </div>
+            <div className="main_addTorneo_container">
+                <h3 style={{marginTop:"2rem"}}>Editar {Name}</h3>
+                <div className="editTorneoForm_container">
+                    <form onSubmit={EditTorneo} className="form_edit_torneos">
+                        <div className="name_input_container">
+                            <label htmlFor="nameCancha">Nombre del Torneo</label>
+                            <input value={Name} type="text" id="name" onChange={(e)=>setName(e.target.value)} required/>
+                        </div>
+                        <div className="fechas_inicioT_finT">
+                            <div className="inicioTorneo">
+                                <label htmlFor="inicioT">Inicio del Torneo</label>
+                                <input value={Inicio_torneo} type="date" id="inicioT" onChange={(e)=>setInicio_torneo(e.target.value)} required/>
+                            </div>
+                            <div className="finTorneo">
+                                <label htmlFor="finT">Fin del Torneo</label>
+                                <input value={Fin_torneo} type="date" id="finT" onChange={(e)=>setFin_torneo(e.target.value)} required/>
+                            </div>
+                        </div>
+                        <div className="fechas_inicioT_finT">
+                            <div className="inicioTorneo">
+                                <label htmlFor="inicioIns">Inicio Inscripcion</label>
+                                <input value={Inicio_inscripcion} type="date" id="inicioIns" onChange={(e)=>setInicio_inscripcion(e.target.value)} required/>
+                            </div>
+                            <div className="inicioTorneo">
+                                <label htmlFor="FinIns">Fin Inscripcion</label>
+                                <input value={Fin_inscripcion} type="date" id="FinIns" onChange={(e)=>setFin_inscripcion(e.target.value)} required/>
+                            </div>
+                        </div>
+                        <div className="category_input_container">
+                        <label htmlFor="categoryCancha">Categoria</label>
+                            <select value={Category} id="ecategoryCancha" className="" onChange={(e)=>setCategory(e.target.value)}>
+                                <option value="">---Seleccione una Categoria---</option>
+                                <option value="0">Tennis</option>
+                                <option value="1">Padel</option>
+                            </select>
+                        </div>
+                        <div className="name_input_container">
+                            <label htmlFor="description">Descripcion</label>
+                            <textarea value={Description} type="text" id="description" onChange={(e)=>setDescription(e.target.value)} rows="5" required/>
+                        </div>
+                        <p style={{fontSize:"14px", marginBottom:"0"}}>{Confirmation}</p>
+                        <div className="btn_addCancha_container">
+                            <button type="submit">Guardar Cambios</button>
+                            <button type="submit"><Link to="/admin/manageTorneos" className="link_go_back">Volver</Link></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
     </div>
   )
 }

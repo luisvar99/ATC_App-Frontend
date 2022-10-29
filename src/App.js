@@ -17,6 +17,8 @@ import NavBar from './Components/Common/NavBar';
 import ManageTorneos from './Components/Admin/ManageTorneos';
 import AddTorneo from './Components/Admin/AddTorneo';
 import EditTorneo from './Components/Admin/EditTorneo';
+import AddSubTorneo from './Components/Admin/AddSubTorneo';
+import TorneoDetails from './Components/Torneos/TorneoDetails';
 
 function App() {
   return (
@@ -53,6 +55,10 @@ function App() {
       <Routes>
         <Route path="/torneos" element={<TorneosDashboard/>}/>      
       </Routes>
+
+      <Routes>
+        <Route path="/torneos/:nombreTorneo/id=:idTorneo" element={<TorneoDetails/>}/>      
+      </Routes>
       
       <Routes>
         <Route path="/admin/manageTorneos" element={<ManageTorneos/>}/>      
@@ -64,6 +70,10 @@ function App() {
 
       <Routes>
         <Route path="/admin/manageTorneos/editTorneo/id=:idTorneo" element={<EditTorneo/>}/>      
+      </Routes>
+      
+      <Routes>
+        <Route path="/admin/manageTorneos/addCompetencia/:nombreTorneo/idTorneo=:idTorneo" element={<AddSubTorneo/>}/>      
       </Routes>
       
 </BrowserRouter>
