@@ -20,6 +20,7 @@ import EditTorneo from './Components/Admin/EditTorneo';
 import AddSubTorneo from './Components/Admin/AddSubTorneo';
 import TorneoDetails from './Components/Torneos/TorneoDetails';
 import SubtorneoDetails from './Components/Torneos/SubtorneoDetails';
+import EditSubtorneo from './Components/Admin/EditSubtorneo';
 
 function App() {
   return (
@@ -79,6 +80,10 @@ function App() {
 
       <Routes>
         <Route path="/subtorneos/:categoria/id=:idSubTorneo" element={<SubtorneoDetails/>}/>      
+      </Routes>
+
+      <Routes>
+        <Route path="/admin/manageTorneos/editTorneo/id=:idTorneo/editSubtorneo/id=:idSubtorneo" element={<EditSubtorneo/>}/>      
       </Routes>
       
 </BrowserRouter>

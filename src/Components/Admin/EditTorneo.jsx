@@ -17,19 +17,24 @@ export default function EditTorneo() {
   const [Fin_torneo, setFin_torneo] = useState()
   const [Description, setDescription] = useState("")
   const [Category, setCategory] = useState(0)
+  const [Competencias, setCompetencias] = useState([])
+  const [Participants, setParticipants] = useState([])
 
   const [Confirmation, setConfirmation] = useState("")
 
+
   const params = useParams();
+
 
   useEffect(() => {
     GetTorneoById();
+    GetCompetencias();
     //console.log("inicio torneo: " + Inicio_torneo);
     }, [])
 
     const GetTorneoById = async (e) =>{
       try {
-          const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
+          const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSingleTorneo/${params.idTorneo}`)
           setName(result.data[0].nombre_torneo)
           setInicio_torneo(moment(result.data[0].fecha_inicio).format('YYYY-MM-DD'))
           setFin_torneo(moment(result.data[0].fecha_fin).format('YYYY-MM-DD'))
@@ -41,7 +46,7 @@ export default function EditTorneo() {
           //console.log("RESULT: " + JSON.stringify(result.data));
           
       } catch (error) {
-          alert(error.message);
+          alert("ERROR: " + error.message);
       }
   }
 
@@ -53,7 +58,7 @@ const EditTorneo = async (e) =>{
     }else{
         setConfirmation("Actualizando Torneo...")
         try {
-            const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.idTorneo}`,
+            const editResult = await axios.put(`https://atcbackend.herokuapp.com/api/editTorneo/${params.idTorneo}`,
             {
               nombre_torneo: Name,
               fecha_inicio: Inicio_torneo,
@@ -71,11 +76,62 @@ const EditTorneo = async (e) =>{
         }
     }
 }
+
+
+const GetCompetencias = async () => {
+    try {
+      const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSubTorneoByTorneoId/${params.idTorneo}`)
+      setCompetencias(result.data);
+    } catch (error) {
+      
+    }
+  }
+
+
+const DeleteCompetencia = async (id) => {
+    try {
+        const result = await axios.delete(`https://atcbackend.herokuapp.com/api/deleteSubTorneo/${id}`);
+        const filter = Competencias.filter(e => e.id_subtorneo !== id)
+        console.log(result.data);
+        setCompetencias(filter);
+    } catch (error) {
+        alert(error.message)
+    }
+}
+
+const getSubTournamentParticipants = async () => {
+
+    const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
+    setParticipants(result.data);
+    //console.log(result.data);
+  }
   return (
     <div className="main_editTorneo_container">
         <div className="torneo_subTorneo_container">
-            <button><Link to={`/admin/manageTorneos/addCompetencia/${Name}/idTorneo=${params.idTorneo}`}>Agregar Competencia</Link></button>
-            <h2>Competencias</h2>
+            <h2 style={{textAlign:"center"}}>Competencias</h2>
+            <button className="add_competencia"><Link to={`/admin/manageTorneos/addCompetencia/${Name}/idTorneo=${params.idTorneo}`}>Agregar Competencia</Link></button>
+            <table className="chanchasAdmin_table">
+                <thead>
+                    <tr className="table_headers">
+                        <th style={{width:"200px"}}>Nombre</th>
+                        <th>Cantidad de Personas</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {
+                            Competencias.map((comp)=>(
+                            <tr key={comp.id_subtorneo}>
+                                <td>{comp.nombre}</td>
+                                <td>{comp.cantidad_personas}</td>
+                                <td><button className="editCanchaBtn"><Link to={`editSubtorneo/id=${comp.id_subtorneo}`}>Detalles</Link></button></td>
+                                <td><button className="deleteCanchaBtn" onClick={(e) => DeleteCompetencia(comp.id_subtorneo)}>Eliminar</button></td>
+                            </tr>
+                            ))
+                        }
+                    </tbody>
+            </table>
         </div>
             <div className="main_addTorneo_container">
                 <h3 style={{marginTop:"2rem"}}>Editar {Name}</h3>
@@ -125,6 +181,7 @@ const EditTorneo = async (e) =>{
                     </form>
                 </div>
             </div>
+            
     </div>
   )
 }

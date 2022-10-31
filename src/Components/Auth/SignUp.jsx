@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons'
 import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
+import { RotatingLines } from  'react-loader-spinner'
 
 
 export default function SignUp() {
@@ -12,15 +13,23 @@ export default function SignUp() {
 
     const [Username, setUsername] = useState("")
     const [Password, setPassword] = useState("")
+    const [IsLoading, setIsLoading] = useState(false)
 
     const HandleSignUp = async(e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:4000/api/signup',
+            const logged = await axios.post('https://atcbackend.herokuapp.com/api/signup',
             {
                 username: Username,
                 password: Password
             })
+
+            if(logged.data.loggedIn===true){
+                sessionStorage.setItem('userId', logged.data.id)
+                navigate("/")
+            }else{
+                alert("El usuario ya pertenece a una persona")
+            }
             //setConfirmation("Se ha agregado la cancha correctamente")
         } catch (error) {
             //setConfirmation("Ha ocurrido un error")
@@ -44,6 +53,14 @@ export default function SignUp() {
                     <input type="password" id="password" placeholder='Contrasena' onChange={(e)=>setPassword(e.target.value)} required/>
                 </div>
                 <button className="btn_login" type="submit">Crear cuenta</button>
+                {IsLoading && <RotatingLines
+                strokeColor="green"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="30"
+                visible={true}
+                />
+                }
             </form>
         </div>
     </div>

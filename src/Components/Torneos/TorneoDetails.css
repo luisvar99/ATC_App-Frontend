@@ -1,35 +1,36 @@
 .torneo_details_main_container{
     background-color: #F8F8F8;
-    height: 100vh;
+    height: 90vh;
     display:flex;
     justify-content:center;
 }
 
 .torneo_details_second_container{
-    width: 80%;
+    margin-top: 1rem;
+    width: 70%;
     display:flex;
     justify-content:center;
 }
 
 .torneo_details_info{
-    border: 1px solid blue;
-    width: 50%;
+    width: 100%;
 }
 
 .subtorneos_container{
-    border: 1px solid yellow;
-    width: 50%;
+    border: 8px solid #0D8641;
+    width: 100%;
     text-align: center;
 }
 
 .subtorneos{
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
     justify-content: space-evenly;
     row-gap: 5px;
+    margin-top: 2rem;
 }
 
 .link_to_torneo{
-
+    width: 100%;
 }
 

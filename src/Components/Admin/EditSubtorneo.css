@@ -1,0 +1,29 @@
+.main_editTorneo_container{
+display: flex;
+align-items: flex-start;
+background-color: #F8F8F8;
+height: 100vh;
+padding: 2rem 0rem
+}
+
+.EditTorneo_form_container {
+    border: 3px #CED4DA solid;
+    border-radius: 5px;
+    padding: 1.5rem;
+    width: 20%; 
+}
+
+.EditTorneo_form_container h3{
+    text-align: center;
+}
+
+.editTorneoDeleteParticipant{
+    background-color:red;
+    border:none;
+    padding: 0.3rem;
+    border-radius: 3px
+}
+
+.editTorneoDeleteParticipant:hover{
+    cursor: pointer;
+}

@@ -12,3 +12,11 @@
     margin-bottom:0.5rem;
     padding:0.5rem 1rem;
 }
+
+.btn_inscripcion:hover{
+    cursor: pointer;
+}
+
+.subtorneo_details_table td, th{
+    border: black solid 1px;
+}

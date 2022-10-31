@@ -28,7 +28,7 @@ export default function AddTorneo() {
         }else{
             setConfirmation("Creando Torneo...")
             try {
-                const response = await axios.post('http://localhost:4000/api/addTorneo',
+                const response = await axios.post('https://atcbackend.herokuapp.com/api/addTorneo',
                 {
                     nombre_torneo: Name,
                     fecha_inicio: Inicio_torneo,

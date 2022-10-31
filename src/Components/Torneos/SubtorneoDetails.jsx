@@ -21,7 +21,7 @@ export default function SubtorneoDetails() {
         alert("Usted ya se encuentra inscrito en este torneo")
       }else{
         setIsLoading(true)
-        const result = await axios.post('http://localhost:4000/api/addParticipant',
+        const result = await axios.post('https://atcbackend.herokuapp.com/api/addParticipant',
         {
           id_subtorneo: params.idSubTorneo,
           user_id: sessionStorage.getItem('userId')
@@ -33,14 +33,14 @@ export default function SubtorneoDetails() {
 
     const getSubTournamentParticipants = async () => {
 
-      const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
+      const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
       setParticipants(result.data);
-      //console.log(result.data);
+      console.log(result.data);
     }
 
     const GetNumberOfParticipants = async () => {
       try {
-        const result = await axios.get(`http://localhost:4000/api/GetNumberOfParticipants/${params.idSubTorneo}`)
+        const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetNumberOfParticipants/${params.idSubTorneo}`)
         //console.log(result.data);
         setNumberOfParticipants(result.data[0].number_of_participants)
       } catch (error) {
@@ -49,9 +49,9 @@ export default function SubtorneoDetails() {
     }
     const GetSubtorneoinfo = async () => {
       try {
-        const result = await axios.get(`http://localhost:4000/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-        console.log("GetSubtorneoinfo " + JSON.stringify(result));
-        setCantidad_personas(result.data[0].number_of_participants)
+        const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
+        //console.log("GetSubtorneoinfo " + JSON.stringify(result));
+        setCantidad_personas(result.data[0].cantidad_personas)
       } catch (error) {
         
       }
@@ -66,8 +66,8 @@ export default function SubtorneoDetails() {
   return (
     <div className="subtorneoDetails_main_container">
       <div className="table_container">
+            <p>Cupos Disponibles: {Cantidad_personas-NumberOfParticipants}</p>
         <div className="btn_spinner" style={{display: 'flex', alignItems:"flex-start"}}>
-          <p>Cupos Disponibles: {Cantidad_personas-NumberOfParticipants}</p>
           <button onClick={inscripcion} className="btn_inscripcion">Inscribirme</button>
           {IsLoading && <RotatingLines
             strokeColor="green"
@@ -77,7 +77,7 @@ export default function SubtorneoDetails() {
             visible={true}
           />}
         </div>
-        <table className="chanchasAdmin_table">
+        <table className="subtorneo_details_table">
                 <thead>
                     <tr className="table_headers">
                         <th>Participantes</th>
@@ -87,7 +87,7 @@ export default function SubtorneoDetails() {
                         {
                             Participants.map((participant, index)=>(
                             <tr key={index}>
-                                <td>{participant.username}</td>
+                                <td style={ participant.id === parseInt(sessionStorage.getItem('userId')) ? {backgroundColor:"yellow"}: {}} >{participant.username}</td>
                             </tr>
                             ))
                         }

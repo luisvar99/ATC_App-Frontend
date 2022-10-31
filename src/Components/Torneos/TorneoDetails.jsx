@@ -12,7 +12,7 @@ export default function TorneoDetails() {
 
   const GetSubtorneos = async () => {
     try {
-      const result = await axios.get(`http://localhost:4000/api/getSubTorneoByTorneoId/${params.idTorneo}`)
+      const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSubTorneoByTorneoId/${params.idTorneo}`)
       setSubtorneos(result.data);
     } catch (error) {
       
@@ -28,11 +28,11 @@ export default function TorneoDetails() {
   return (
     <div className="torneo_details_main_container">
       <div className="torneo_details_second_container">
-        <div className="torneo_details_info">
+        {/* <div className="torneo_details_info">
             <h4>{params.nombreTorneo}</h4>
-        </div>
+        </div> */}
         <div className="subtorneos_container">
-              <h4>Categorias para participar</h4>
+              <h3>Categorias para participar</h3>
           <div className="subtorneos">
               {
                 Subtorneos.map((subtorneo)=> (
@@ -42,8 +42,7 @@ export default function TorneoDetails() {
                               <p>{subtorneo.nombre}</p>
                           </div>
                               <div className="torneo_card_info">
-                                  <p>{subtorneo.nombre}</p>
-                                  <p>Participantes: {subtorneo.cantidad_personas}</p>
+                                  <p>Participantes permitidos: {subtorneo.cantidad_personas}</p>
                               </div>
                       </div>
                   </Link>

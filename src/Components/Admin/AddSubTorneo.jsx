@@ -23,7 +23,7 @@ export default function AddSubTorneo() {
         }else{
             setConfirmation("Agregando cancha")
             try {
-                await axios.post('http://localhost:4000/api/addSubtorneo',
+                await axios.post('https://atcbackend.herokuapp.com/api/addSubtorneo',
                 {
                     id_torneo: params.idTorneo,
                     nombre: Name,

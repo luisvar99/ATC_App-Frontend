@@ -19,7 +19,7 @@ export default function EditCancha() {
 
       const GetCanchaById = async (e) =>{
             try {
-                const result = await axios.get(`http://localhost:4000/api/getSingleCancha/${params.idCancha}`)
+                const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSingleCancha/${params.idCancha}`)
                 setName(result.data[0].nombre_cancha)
                 setCategory(result.data[0].id_categoriacancha)
                 setStatus(result.data[0].estatus_cancha)
@@ -37,7 +37,7 @@ export default function EditCancha() {
           }else{
               setConfirmation("Actualizando cancha")
               try {
-                  const result = await axios.put(`http://localhost:4000/api/editCancha/${params.idCancha}`,
+                  const result = await axios.put(`https://atcbackend.herokuapp.com/api/editCancha/${params.idCancha}`,
                   {
                       nombre_cancha: Name,
                       id_categoriacancha: Category,

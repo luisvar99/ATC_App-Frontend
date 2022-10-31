@@ -36,8 +36,9 @@
 
 .torneo_card_header{
   border-bottom: #0D8641 2px solid;
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: #2aaf64;
+  max-height: 1rem;
 }
 
 

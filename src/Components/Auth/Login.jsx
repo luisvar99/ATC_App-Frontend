@@ -18,7 +18,7 @@ export default function Login() {
         e.preventDefault();
         try {
             setIsLoading(true)
-            const logged = await axios.post('http://localhost:4000/api/login',
+            const logged = await axios.post('https://atcbackend.herokuapp.com/api/login',
             {
                 username: Username,
                 password: Password
@@ -28,6 +28,8 @@ export default function Login() {
             if(logged.data.loggedIn===true){
                 sessionStorage.setItem('userId', logged.data.id)
                 navigate("/home")
+            }else{
+                alert("Ha ocurrido un error")
             }
             //setConfirmation("Se ha agregado la cancha correctamente")
         } catch (error) {
