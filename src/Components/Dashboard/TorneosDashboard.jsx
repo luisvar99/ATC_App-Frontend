@@ -38,7 +38,8 @@ export default function TorneosDashboard() {
                             <p>{torneo.nombre_torneo}</p>
                         </div>
                             <div className="torneo_card_info">
-                                <p>Fecha Inscripcion: {new Date(torneo.fecha_inicio_inscripcion).toLocaleDateString('es-MX')}</p>
+                                <p>Inscripcion: {new Date(torneo.fecha_inicio_inscripcion).toLocaleDateString('es-MX')} hasta {new Date(torneo.fecha_fin_inscripcion).toLocaleDateString('es-MX')}
+                                </p>
                                 <p>Fecha Inicio: {new Date(torneo.fecha_inicio).toLocaleDateString('es-MX')}</p>
                                 <p>Fecha Fin: {new Date(torneo.fecha_fin).toLocaleDateString('es-MX')}</p>
                             </div>

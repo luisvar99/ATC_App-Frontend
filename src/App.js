@@ -19,6 +19,7 @@ import AddTorneo from './Components/Admin/AddTorneo';
 import EditTorneo from './Components/Admin/EditTorneo';
 import AddSubTorneo from './Components/Admin/AddSubTorneo';
 import TorneoDetails from './Components/Torneos/TorneoDetails';
+import SubtorneoDetails from './Components/Torneos/SubtorneoDetails';
 
 function App() {
   return (
@@ -74,6 +75,10 @@ function App() {
       
       <Routes>
         <Route path="/admin/manageTorneos/addCompetencia/:nombreTorneo/idTorneo=:idTorneo" element={<AddSubTorneo/>}/>      
+      </Routes>
+
+      <Routes>
+        <Route path="/subtorneos/:categoria/id=:idSubTorneo" element={<SubtorneoDetails/>}/>      
       </Routes>
       
 </BrowserRouter>

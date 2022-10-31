@@ -4,14 +4,14 @@ import {Link, useNavigate} from 'react-router-dom'
 
 export default function NavBar() {
   return (
-    <div class="navbar">
+    <div className="navbar">
         <Link to="/home">Inicio</Link>
         <Link to="/home">Noticias</Link>
-        <div class="dropdown">
-            <button class="dropbtn">Juegos 
-                <i class="fa fa-caret-down"></i>
+        <div className="dropdown">
+            <button className="dropbtn">Juegos 
+                <i className="fa fa-caret-down"></i>
             </button>
-            <div class="dropdown-content">
+            <div className="dropdown-content">
                 <Link to="/">Reservas</Link>
                 <Link to="/torneos">Torneos</Link>
             </div>
