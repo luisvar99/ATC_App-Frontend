@@ -1,11 +1,14 @@
 .table_container{
-    width: 20%;
-    padding: 2rem 2rem;
+    width: 30%;
+    /* padding: 2rem 2rem; */
 }
 
 .subtorneoDetails_main_container{
     background-color: #F8F8F8;
     height: 100vh;
+    display: flex;
+    align-items:flex-start;
+    justify-content: space-around;
 }
 
 .btn_inscripcion{

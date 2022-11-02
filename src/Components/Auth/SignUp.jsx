@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import './Login.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons'
@@ -23,10 +23,10 @@ export default function SignUp() {
                 username: Username,
                 password: Password
             })
-
+            console.log(logged.data);
             if(logged.data.loggedIn===true){
                 sessionStorage.setItem('userId', logged.data.id)
-                navigate("/")
+                navigate("/home")
             }else{
                 alert("El usuario ya pertenece a una persona")
             }

@@ -11,8 +11,11 @@ import { RotatingLines } from  'react-loader-spinner'
 export default function SubtorneoDetails() {
   const [Participants, setParticipants] = useState([])
   const [IsLoading, setIsLoading] = useState(false)
+  const [IsLoadingMembers, setIsLoadingMembers] = useState(false)
   const [NumberOfParticipants, setNumberOfParticipants] = useState(0)
   const [Cantidad_personas, setCantidad_personas] = useState(0)
+
+  const [GroupsMembers, setGroupsMembers] = useState([])
   const params = useParams();
 
     const inscripcion = async () => {
@@ -57,18 +60,38 @@ export default function SubtorneoDetails() {
       }
     }
 
+    const GetGruposMembers = async () =>{
+      try {
+          setIsLoadingMembers(true)
+          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
+          const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubTorneo}`)
+          setGroupsMembers(result.data);
+          console.log(result.data);
+          setIsLoadingMembers(false)
+      } catch (error) {
+          
+      }
+    }
+
     useEffect(() => {
       getSubTournamentParticipants();
       GetNumberOfParticipants();
-      GetSubtorneoinfo();
+      GetGruposMembers()
     },[])
+
+    useEffect(() => {
+      GetSubtorneoinfo();
+    },[NumberOfParticipants])
 
   return (
     <div className="subtorneoDetails_main_container">
       <div className="table_container">
             <p>Cupos Disponibles: {Cantidad_personas-NumberOfParticipants}</p>
         <div className="btn_spinner" style={{display: 'flex', alignItems:"flex-start"}}>
-          <button onClick={inscripcion} className="btn_inscripcion">Inscribirme</button>
+          {
+            Cantidad_personas-NumberOfParticipants>0 &&
+            <button onClick={inscripcion} className="btn_inscripcion">Inscribirme</button>
+          }
           {IsLoading && <RotatingLines
             strokeColor="green"
             strokeWidth="5"
@@ -94,6 +117,47 @@ export default function SubtorneoDetails() {
                     </tbody>
             </table>
       </div>
-    </div>
+      <div className="table_container">
+        <p>Grupos</p>
+        <table className="subtorneo_details_table">
+            <thead>
+                <tr className="table_headers">
+                    <th>Usuario</th>
+                    <th>Grupo</th>
+                </tr>
+            </thead>
+            <tbody>
+            { 
+            GroupsMembers.map((gm,index)=>(
+                <tr key={index}>
+                  {
+                    IsLoadingMembers ? 
+                    <td><RotatingLines
+                      strokeColor="green"
+                      strokeWidth="5"
+                      animationDuration="0.75"
+                      width="35"
+                      visible={true}/></td>
+                      :
+                      <td>{gm.username}</td>
+                  }
+                  {
+                    IsLoadingMembers ? 
+                    <td><RotatingLines
+                      strokeColor="green"
+                      strokeWidth="5"
+                      animationDuration="0.75"
+                      width="35"
+                      visible={true}/></td>
+                      :
+                      <td>{gm.nombre_grupo}</td>
+                  }  
+                </tr>
+                ))
+            }
+            </tbody>
+        </table>
+                </div>
+      </div>
   )
 }

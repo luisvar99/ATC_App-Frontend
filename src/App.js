@@ -21,10 +21,13 @@ import AddSubTorneo from './Components/Admin/AddSubTorneo';
 import TorneoDetails from './Components/Torneos/TorneoDetails';
 import SubtorneoDetails from './Components/Torneos/SubtorneoDetails';
 import EditSubtorneo from './Components/Admin/EditSubtorneo';
+import PrivateRoutes from './Components/PrivateRoutes/PrivateRoutes';
+import UserContext from './Components/Context/UserContext';
 
 function App() {
   return (
-    <BrowserRouter>
+
+  <BrowserRouter>
     <NavBar/>
       <Routes>
         <Route path="/" exact element={<Login/>}/>      
@@ -35,7 +38,9 @@ function App() {
       </Routes>
 
       <Routes>
-        <Route path="/home" element={<Home/>}/>      
+        {/* <Route element={<PrivateRoutes/>}>       */}
+          <Route path="/home" element={<Home/>}/> 
+        {/* </Route>   */}   
       </Routes>
 
       <Routes>
@@ -86,7 +91,7 @@ function App() {
         <Route path="/admin/manageTorneos/editTorneo/id=:idTorneo/editSubtorneo/id=:idSubtorneo" element={<EditSubtorneo/>}/>      
       </Routes>
       
-</BrowserRouter>
+  </BrowserRouter>
   );
 }
 

@@ -31,8 +31,8 @@ export default function TorneosDashboard() {
             <div className="torneos_cards_container">
                 {
                     Torneos.length>0 ?
-                    Torneos.map((torneo)=>(
-                        <Link className="link_to_torneo" to={`/torneos/${torneo.nombre_torneo}/id=${torneo.id_torneo}`}>
+                    Torneos.map((torneo, index)=>(
+                        <Link key={index} className="link_to_torneo" to={`/torneos/${torneo.nombre_torneo}/id=${torneo.id_torneo}`}>
                         <div className="torneo_card">
                         <div className="torneo_card_header">
                             <p>{torneo.nombre_torneo}</p>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import './Login.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons'
@@ -7,12 +7,14 @@ import axios from 'axios'
 import { RotatingLines } from  'react-loader-spinner'
 
 export default function Login() {
+    axios.defaults.withCredentials = true
 
     const navigate = useNavigate();
 
     const [Username, setUsername] = useState("")
     const [Password, setPassword] = useState("")
     const [IsLoading, setIsLoading] = useState(false)
+
 
     const HandleLogin = async(e) => {
         e.preventDefault();

@@ -35,8 +35,8 @@ export default function TorneoDetails() {
               <h3>Categorias para participar</h3>
           <div className="subtorneos">
               {
-                Subtorneos.map((subtorneo)=> (
-                  <Link className="link_to_torneo" to={`/subtorneos/${subtorneo.nombre}/id=${subtorneo.id_subtorneo}`}>
+                Subtorneos.map((subtorneo, index)=> (
+                  <Link key={index} className="link_to_torneo" to={`/subtorneos/${subtorneo.nombre}/id=${subtorneo.id_subtorneo}`}>
                           <div className="torneo_card">
                           <div className="torneo_card_header">
                               <p>{subtorneo.nombre}</p>

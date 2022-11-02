@@ -1,9 +1,11 @@
+.editTorneoWrapper{
+    background-color: #F8F8F8;
+}
+
 .main_editTorneo_container{
 display: flex;
 align-items: flex-start;
-background-color: #F8F8F8;
-height: 100vh;
-padding: 2rem 0rem
+padding-top: 2rem
 }
 
 .EditTorneo_form_container {
@@ -20,10 +22,87 @@ padding: 2rem 0rem
 .editTorneoDeleteParticipant{
     background-color:red;
     border:none;
-    padding: 0.3rem;
+    padding: 0.5rem;
     border-radius: 3px
 }
 
 .editTorneoDeleteParticipant:hover{
     cursor: pointer;
+}
+
+.groups_container{
+    text-align: center;
+}
+
+#numberOfGroups{
+    width: 2rem;
+    height: 1.5rem;
+    text-align: center;
+    margin-left: 0.75rem;
+}
+
+.form_create_group_container h3{
+    margin-top: 2rem;
+}
+
+.form_create_group_container{
+    border: 3px #CED4DA solid;
+    border-radius: 5px;
+}
+
+.form_create_group{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    padding: 1.5rem;
+}
+.btn_create_group_container{
+    width: 100%;
+    margin-top: 1rem;
+}
+.btn_create_group{
+    width: 100%;
+    padding: 0.5rem;
+    width: 100%;
+    background-color: #0D8641;
+    border: none;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    color: white;
+    font-size: 15px;
+}
+
+.addGroupPlayerContainer{
+    display: flex;
+    justify-content:space-evenly;
+    flex-wrap: wrap;
+    row-gap: 1rem;
+    margin-top: 3rem;
+}
+
+.addGroupPlayerForm{
+
+}
+
+.btnAddGroupPlayer{
+    width: 100%;
+    padding: 0.5rem;
+    width: 100%;
+    background-color: #0D8641;
+    border: none;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    color: white;
+    font-size: 15px;
+}
+
+.groupsMembers_container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 3rem;
+}
+
+.groupsMembers_container table{
+    width: 50%;
 }
