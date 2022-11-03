@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import './ManageCanchas.css'
+import { RotatingLines } from  'react-loader-spinner'
+
 
 export default function ManageTorneos() {
 
@@ -48,6 +50,7 @@ export default function ManageTorneos() {
                         <th>Fin Inscripcion</th>
                         <th>Inicio Torneo</th>
                         <th>Fin Torneo</th>
+                        <th>Modalidad</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -62,6 +65,7 @@ export default function ManageTorneos() {
                                 <td>{new Date(torneo.fecha_fin_inscripcion).toLocaleDateString('es-MX')}</td>
                                 <td>{new Date(torneo.fecha_inicio).toLocaleDateString('es-MX')}</td>
                                 <td>{new Date(torneo.fecha_fin).toLocaleDateString('es-MX')}</td>
+                                <td>{torneo.modalidad}</td>
                                 <td><button className="editCanchaBtn"><Link to={`editTorneo/id=${torneo.id_torneo}`}>Detalles</Link></button></td>
                                 <td><button className="deleteCanchaBtn" onClick={(e) => DeleteTorneo(torneo.id_torneo)}>Eliminar</button></td>
                             </tr>

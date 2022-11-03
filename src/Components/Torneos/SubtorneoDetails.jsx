@@ -10,12 +10,19 @@ import { RotatingLines } from  'react-loader-spinner'
 
 export default function SubtorneoDetails() {
   const [Participants, setParticipants] = useState([])
+  const [Users, setUsers] = useState([])
+  const [Parejas, setParejas] = useState([])
+  const [GroupsMembers, setGroupsMembers] = useState([])
+
   const [IsLoading, setIsLoading] = useState(false)
   const [IsLoadingMembers, setIsLoadingMembers] = useState(false)
+  const [IsLoadingParejas, setIsLoadingParejas] = useState(false)
+
   const [NumberOfParticipants, setNumberOfParticipants] = useState(0)
   const [Cantidad_personas, setCantidad_personas] = useState(0)
+  const [Modalidad, setModalidad] = useState("Dobles")
+  const [MyParejaId, setMyParejaId] = useState(0)
 
-  const [GroupsMembers, setGroupsMembers] = useState([])
   const params = useParams();
 
     const inscripcion = async () => {
@@ -24,10 +31,33 @@ export default function SubtorneoDetails() {
         alert("Usted ya se encuentra inscrito en este torneo")
       }else{
         setIsLoading(true)
-        const result = await axios.post('https://atcbackend.herokuapp.com/api/addParticipant',
+        
+        const result = await axios.post('http://localhost:4000/api/addParticipant',
         {
           id_subtorneo: params.idSubTorneo,
-          user_id: sessionStorage.getItem('userId')
+          user_id: sessionStorage.getItem('userId'),
+          modalidad: Modalidad,
+          myParejaId: MyParejaId
+        })
+        console.log(result.data); 
+        
+        if(Modalidad === "Dobles"){
+          await inscripcionPareja()
+        }
+        window.location.reload();
+      }
+    }
+    const inscripcionPareja = async () => {
+      const duplicateInscription = Participants.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
+      if(duplicateInscription!== undefined){
+        alert("Usted ya se encuentra inscrito en este torneo")
+      }else{
+        setIsLoading(true)
+        const result = await axios.post('http://localhost:4000/api/addSubtorneoPareja',
+        {
+          myId: sessionStorage.getItem('userId'),
+          myParejaId: MyParejaId,
+          id_subtorneo: params.idSubTorneo,
         })
         console.log(result.data); 
         window.location.reload();
@@ -39,6 +69,20 @@ export default function SubtorneoDetails() {
       const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
       setParticipants(result.data);
       console.log(result.data);
+    }
+
+    const getParejas = async () => {
+
+      try {
+        setIsLoadingParejas(true)
+        const result = await axios.get(`http://localhost:4000/api/getSubtorneoParejas/${params.idSubTorneo}`)
+        setParejas(result.data);
+        console.log(result.data); 
+        setIsLoadingParejas(false) 
+      } catch (error) {
+
+      }
+
     }
 
     const GetNumberOfParticipants = async () => {
@@ -73,24 +117,74 @@ export default function SubtorneoDetails() {
       }
     }
 
+    const GetTorneoinfo = async () => {
+      try {
+        //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
+        const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
+        //console.log("GetSubtorneoinfo " + JSON.stringify(result));
+        setModalidad(result.data[0].modalidad)
+      } catch (error) {
+        
+      }
+    }
+
+    const GetUsers = async () => {
+      try {
+        //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
+        const result = await axios.get(`http://localhost:4000/api/getAllUsers`)
+        //console.log("GetSubtorneoinfo " + JSON.stringify(result));
+        setUsers(result.data)
+      } catch (error) {
+        
+      }
+    }
+
     useEffect(() => {
-      getSubTournamentParticipants();
+      if(Modalidad==="Dobles"){
+        getParejas();
+      }else{
+        getSubTournamentParticipants();
+      }
+      GetTorneoinfo();
       GetNumberOfParticipants();
-      GetGruposMembers()
+      GetSubtorneoinfo();
+      GetGruposMembers();
     },[])
 
     useEffect(() => {
-      GetSubtorneoinfo();
+      GetUsers();
     },[NumberOfParticipants])
 
   return (
     <div className="subtorneoDetails_main_container">
       <div className="table_container">
-            <p>Cupos Disponibles: {Cantidad_personas-NumberOfParticipants}</p>
+            <p>Cupos Disponibles: {Cantidad_personas-NumberOfParticipants}</p>          
+        {
+          params.modalidad==="Dobles" &&
+          <div style={{marginBottom:"2rem"}}>
+
+              <label htmlFor="myPareja" style={{marginRight:"0.5rem"}}>Mi Pareja</label>
+              <select id="myPareja" onChange={(e)=> setMyParejaId(e.target.value)} required>
+                {
+                  Users.length===0 ?
+                  <option value="">Cargando Usuarios...</option>
+                  :
+                  Users.map((u, index)=>(
+                    <option key={index} value={u.id}>{u.username}</option>
+                    ))
+                  }
+              </select>
+          </div>
+          
+        }
+        
         <div className="btn_spinner" style={{display: 'flex', alignItems:"flex-start"}}>
           {
-            Cantidad_personas-NumberOfParticipants>0 &&
+            Cantidad_personas-NumberOfParticipants>0 && Modalidad==="Singles" ?
             <button onClick={inscripcion} className="btn_inscripcion">Inscribirme</button>
+            :
+            Users.length!==0 &&
+            <button onClick={inscripcion} className="btn_inscripcion">Inscribir Pareja</button>
           }
           {IsLoading && <RotatingLines
             strokeColor="green"
@@ -100,6 +194,8 @@ export default function SubtorneoDetails() {
             visible={true}
           />}
         </div>
+        {
+        Modalidad!=="Dobles" ?
         <table className="subtorneo_details_table">
                 <thead>
                     <tr className="table_headers">
@@ -107,18 +203,70 @@ export default function SubtorneoDetails() {
                     </tr>
                 </thead>
                     <tbody>
+                    
                         {
                             Participants.map((participant, index)=>(
                             <tr key={index}>
-                                <td style={ participant.id === parseInt(sessionStorage.getItem('userId')) ? {backgroundColor:"yellow"}: {}} >{participant.username}</td>
+                              {
+                                IsLoadingMembers ? 
+                                <td><RotatingLines
+                                  strokeColor="green"
+                                  strokeWidth="5"
+                                  animationDuration="0.75"
+                                  width="35"
+                                  visible={true}/></td>
+                                  : 
+                                  <td style={ participant.id === parseInt(sessionStorage.getItem('userId')) ? {backgroundColor:"yellow"}: {}} >{participant.username}</td>
+                              }  
                             </tr>
                             ))
                         }
                     </tbody>
             </table>
+            :
+            
+            
+                IsLoadingParejas ? 
+                    <RotatingLines
+                    strokeColor="green"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="50"
+                    visible={true}/>
+                  : 
+            <table className="subtorneo_details_table">
+                <thead>
+                    <tr className="table_headers">
+                        <th>Participantes</th>
+                        <th>Numero de Pareja</th>
+                        {/* <th>{IsLoadingParejas}</th> */}
+                    </tr>
+                </thead>
+                    <tbody>
+                    
+                            {Parejas.map((pareja, index)=>(
+                            <tr key={index}>
+                                  <>
+                                    <td style={ pareja.id_pareja === parseInt(sessionStorage.getItem('userId')) ? {backgroundColor:"yellow"}: {}} >{pareja.username}</td>
+                                    <td>{pareja.id_pareja}</td>
+                                  </>
+                            </tr>
+                            ))}
+                            
+                    </tbody>
+              </table>
+            }
+            
+            
+            
       </div>
+      {
       <div className="table_container">
         <p>Grupos</p>
+          {GroupsMembers.length===0 ?
+          <h4>Los grupos no se encuentran disponibles en este momento</h4>
+          :
+        
         <table className="subtorneo_details_table">
             <thead>
                 <tr className="table_headers">
@@ -157,7 +305,9 @@ export default function SubtorneoDetails() {
             }
             </tbody>
         </table>
-                </div>
+          }
+        </div>
+        }
       </div>
   )
 }

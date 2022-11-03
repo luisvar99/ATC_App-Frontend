@@ -84,7 +84,7 @@ function App() {
       </Routes>
 
       <Routes>
-        <Route path="/subtorneos/:categoria/id=:idSubTorneo" element={<SubtorneoDetails/>}/>      
+        <Route path="/torneos/:nombreTorneo/id=:idTorneo/subtorneos/:categoria/id=:idSubTorneo/modalidad=:modalidad" element={<SubtorneoDetails/>}/>      
       </Routes>
 
       <Routes>

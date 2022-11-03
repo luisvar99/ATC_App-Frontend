@@ -21,7 +21,7 @@ export default function AddSubTorneo() {
         if(Name==="" || Cantidad_personas===""){
             alert("Por favor, complete todos los campos")
         }else{
-            setConfirmation("Agregando cancha")
+            setConfirmation("Agregando competencia")
             try {
                 await axios.post('https://atcbackend.herokuapp.com/api/addSubtorneo',
                 {
@@ -29,7 +29,7 @@ export default function AddSubTorneo() {
                     nombre: Name,
                     cantidad_personas: Cantidad_personas,
                 })
-                setConfirmation("Se ha agregado la cancha correctamente")
+                setConfirmation("Se ha agregado la competencia correctamente")
             } catch (error) {
                 setConfirmation("Ha ocurrido un error")
                 alert(error.message);

@@ -14,6 +14,7 @@ export default function AddTorneo() {
     const [Fin_torneo, setFin_torneo] = useState(Date.now)
     const [Description, setDescription] = useState("")
     const [Category, setCategory] = useState(0)
+    const [Modalidad, setModalidad] = useState("")
 
     const [Confirmation, setConfirmation] = useState("")
 
@@ -23,7 +24,7 @@ export default function AddTorneo() {
     
     const AddNewTorneo = async (e) =>{
         e.preventDefault();
-        if(Category===""){
+        if(Category==="" || Modalidad===""){
             alert("Por favor, complete todos los campos")
         }else{
             setConfirmation("Creando Torneo...")
@@ -37,6 +38,7 @@ export default function AddTorneo() {
                     fecha_fin_inscripcion: Fin_inscripcion,
                     id_categoria: Category,
                     descripcion: Description,
+                    modalidad: Modalidad
                 })
                 if(response.data.success===true){
                     setConfirmation("Se ha creado el torneo correctamente");
@@ -85,6 +87,14 @@ export default function AddTorneo() {
                         <option value="">---Seleccione una Categoria---</option>
                         <option value="0">Tennis</option>
                         <option value="1">Padel</option>
+                    </select>
+                </div>
+                <div className="category_input_container">
+                <label htmlFor="categoryCancha">Modalidad</label>
+                    <select id="ecategoryCancha" className="" onChange={(e)=>setModalidad(e.target.value)}>
+                        <option value="">---Seleccione una Modalidad---</option>
+                        <option value="Singles">Singles</option>
+                        <option value="Dobles">Dobles</option>
                     </select>
                 </div>
                 <div className="name_input_container">

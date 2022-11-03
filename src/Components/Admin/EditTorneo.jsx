@@ -17,6 +17,7 @@ export default function EditTorneo() {
   const [Fin_torneo, setFin_torneo] = useState()
   const [Description, setDescription] = useState("")
   const [Category, setCategory] = useState(0)
+  const [Modalidad, setModalidad] = useState(0)
   const [Competencias, setCompetencias] = useState([])
   const [Participants, setParticipants] = useState([])
 
@@ -42,6 +43,7 @@ export default function EditTorneo() {
           setFin_inscripcion(moment(result.data[0].fecha_fin_inscripcion).format('YYYY-MM-DD'))
           setCategory(result.data[0].id_categoria)
           setDescription(result.data[0].descripcion)
+          setModalidad(result.data[0].modalidad)
 
           //console.log("RESULT: " + JSON.stringify(result.data));
           
@@ -53,7 +55,7 @@ export default function EditTorneo() {
 
 const EditTorneo = async (e) =>{
     e.preventDefault();
-    if(Category===""){
+    if(Category==="" || Modalidad===""){
         alert("Por favor, complete todos los campos")
     }else{
         setConfirmation("Actualizando Torneo...")
@@ -67,6 +69,7 @@ const EditTorneo = async (e) =>{
               fecha_fin_inscripcion: Fin_inscripcion,
               id_categoria: Category,
               descripcion: Description,
+              modalidad: Modalidad
             })
             //console.log(editResult.data);
             setConfirmation("Se ha actualizado el torneo correctamente")
@@ -167,6 +170,14 @@ const getSubTournamentParticipants = async () => {
                                 <option value="">---Seleccione una Categoria---</option>
                                 <option value="0">Tennis</option>
                                 <option value="1">Padel</option>
+                            </select>
+                        </div>
+                        <div className="category_input_container">
+                        <label htmlFor="categoryCancha">Categoria</label>
+                            <select value={Modalidad} id="ecategoryCancha" className="" onChange={(e)=>setModalidad(e.target.value)}>
+                                <option value="">---Seleccione una Categoria---</option>
+                                <option value="Singles">Singles</option>
+                                <option value="Dobles">Dobles</option>
                             </select>
                         </div>
                         <div className="name_input_container">
