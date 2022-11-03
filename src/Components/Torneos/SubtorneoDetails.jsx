@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './TorneoDetails.css'
 import axios from 'axios'
-import {Link} from 'react-router-dom'
+/* import {Link} from 'react-router-dom'*/
 import { useParams } from 'react-router-dom'
 import './SubtorneoDetails.css'
 import { RotatingLines } from  'react-loader-spinner'
@@ -149,6 +149,7 @@ export default function SubtorneoDetails() {
       GetNumberOfParticipants();
       GetSubtorneoinfo();
       GetGruposMembers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     useEffect(() => {

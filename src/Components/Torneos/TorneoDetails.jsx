@@ -41,6 +41,7 @@ export default function TorneoDetails() {
     //console.log(params.idTorneo);
     GetSubtorneos();
     GetTorneoinfo();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   return (
