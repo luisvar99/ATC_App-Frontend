@@ -1,0 +1,36 @@
+.reservaciones_main_container{
+    display: flex;
+    height: 100vh
+}
+
+.reservaciones_tennis_container{
+    background-color: #0D8641;
+    width: 50%;
+}
+
+.reservaciones_padel_container{
+    background-color:#F8F8F8;
+    width: 50%;
+}
+
+.reservaciones_tennis_container h3, .reservaciones_padel_container h3{
+    text-align: center;
+    color: white;
+}
+
+.canchas_container{
+    display: flex;
+    justify-content:space-evenly;
+    flex-wrap: wrap;
+}
+
+.img_cancha_container img{
+    width:100%;
+}
+
+.cancha_item{
+    width: 40%;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}

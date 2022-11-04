@@ -5,7 +5,6 @@ import {BrowserRouter,
 
 import './App.css';
 import Login from './Components/Auth/Login';
-import Dashboard from './Components/Dashboard/TorneosDashboard';
 import AdminDashboard from './Components/Admin/AdminDashboard';
 import ManageCanchas from './Components/Admin/ManageCanchas';
 import AddCanchas from './Components/Admin/AddCanchas';
@@ -21,8 +20,10 @@ import AddSubTorneo from './Components/Admin/AddSubTorneo';
 import TorneoDetails from './Components/Torneos/TorneoDetails';
 import SubtorneoDetails from './Components/Torneos/SubtorneoDetails';
 import EditSubtorneo from './Components/Admin/EditSubtorneo';
-import PrivateRoutes from './Components/PrivateRoutes/PrivateRoutes';
-import UserContext from './Components/Context/UserContext';
+/* import PrivateRoutes from './Components/PrivateRoutes/PrivateRoutes';
+import UserContext from './Components/Context/UserContext'; */
+import Reservaciones from './Components/Common/Reservaciones';
+import CanchaReservation from './Components/Canchas/CanchaReservation';
 
 function App() {
   return (
@@ -89,6 +90,14 @@ function App() {
 
       <Routes>
         <Route path="/admin/manageTorneos/editTorneo/id=:idTorneo/editSubtorneo/id=:idSubtorneo" element={<EditSubtorneo/>}/>      
+      </Routes>
+
+      <Routes>
+        <Route path="/Reservaciones" element={<Reservaciones/>}/>      
+      </Routes>
+      
+      <Routes>
+        <Route path="/Reservaciones/tennis/idCancha=:idCancha" element={<CanchaReservation/>}/>      
       </Routes>
       
   </BrowserRouter>
