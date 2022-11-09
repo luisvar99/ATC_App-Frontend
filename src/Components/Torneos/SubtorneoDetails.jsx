@@ -20,14 +20,14 @@ export default function SubtorneoDetails() {
 
   const [NumberOfParticipants, setNumberOfParticipants] = useState(0)
   const [Cantidad_personas, setCantidad_personas] = useState(0)
-  const [Modalidad, setModalidad] = useState("Dobles")
   const [MyParejaId, setMyParejaId] = useState(0)
 
   const params = useParams();
 
     const inscripcion = async () => {
-      const duplicateInscription = Participants.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
-      if(duplicateInscription!== undefined){
+      const duplicateInscriptionSingles = Participants.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
+      const duplicateInscriptionParejas = Parejas.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
+      if(duplicateInscriptionSingles !== undefined || duplicateInscriptionParejas !== undefined){
         alert("Usted ya se encuentra inscrito en este torneo")
       }else{
         setIsLoading(true)
@@ -36,17 +36,18 @@ export default function SubtorneoDetails() {
         {
           id_subtorneo: params.idSubTorneo,
           user_id: sessionStorage.getItem('userId'),
-          modalidad: Modalidad,
+          modalidad: params.modalidad,
           myParejaId: MyParejaId
         })
         console.log(result.data); 
         
-        if(Modalidad === "Dobles"){
+        if(params.modalidad === "Dobles"){
           await inscripcionPareja()
         }
         window.location.reload();
       }
     }
+
     const inscripcionPareja = async () => {
       const duplicateInscription = Participants.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
       if(duplicateInscription!== undefined){
@@ -66,9 +67,9 @@ export default function SubtorneoDetails() {
 
     const getSubTournamentParticipants = async () => {
 
-      const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
+      const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
       setParticipants(result.data);
-      console.log(result.data);
+      console.log("getSubTournamentParticipants: " + result.data);
     }
 
     const getParejas = async () => {
@@ -80,7 +81,7 @@ export default function SubtorneoDetails() {
         console.log(result.data); 
         setIsLoadingParejas(false) 
       } catch (error) {
-
+        console.log("Error: " + error.message);
       }
 
     }
@@ -91,7 +92,7 @@ export default function SubtorneoDetails() {
         //console.log(result.data);
         setNumberOfParticipants(result.data[0].number_of_participants)
       } catch (error) {
-        
+        console.log("Error: " + error.message);
       }
     }
     const GetSubtorneoinfo = async () => {
@@ -100,7 +101,7 @@ export default function SubtorneoDetails() {
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
         setCantidad_personas(result.data[0].cantidad_personas)
       } catch (error) {
-        
+        console.log("Error: " + error.message);
       }
     }
 
@@ -113,18 +114,17 @@ export default function SubtorneoDetails() {
           console.log(result.data);
           setIsLoadingMembers(false)
       } catch (error) {
-          
+        console.log("Error: " + error.message);
       }
     }
 
     const GetTorneoinfo = async () => {
       try {
         //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-        const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
+        await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
-        setModalidad(result.data[0].modalidad)
       } catch (error) {
-        
+        console.log("Error: " + error.message);
       }
     }
 
@@ -140,15 +140,19 @@ export default function SubtorneoDetails() {
     }
 
     useEffect(() => {
-      if(Modalidad==="Dobles"){
+      console.log(params.modalidad);
+      if(params.modalidad==="Dobles"){
         getParejas();
+        console.log("Parejas: " + JSON.stringify(Parejas));
       }else{
         getSubTournamentParticipants();
       }
       GetTorneoinfo();
       GetNumberOfParticipants();
       GetSubtorneoinfo();
-      GetGruposMembers();
+      if(GroupsMembers.length>0){
+        GetGruposMembers();
+      }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
@@ -170,8 +174,14 @@ export default function SubtorneoDetails() {
                   Users.length===0 ?
                   <option value="">Cargando Usuarios...</option>
                   :
+                  <option value="">---Seleccione un usuario---</option>
+                }
+                {
                   Users.map((u, index)=>(
-                    <option key={index} value={u.id}>{u.username}</option>
+                    
+                      u.id !== parseInt(sessionStorage.getItem('userId')) &&
+                      <option key={index} value={u.id}>{u.username}</option>
+                    
                     ))
                   }
               </select>
@@ -181,7 +191,7 @@ export default function SubtorneoDetails() {
         
         <div className="btn_spinner" style={{display: 'flex', alignItems:"flex-start"}}>
           {
-            Cantidad_personas-NumberOfParticipants>0 && Modalidad==="Singles" ?
+            Cantidad_personas-NumberOfParticipants>0 && params.modalidad==="Singles" ?
             <button onClick={inscripcion} className="btn_inscripcion">Inscribirme</button>
             :
             Users.length!==0 &&
@@ -196,7 +206,7 @@ export default function SubtorneoDetails() {
           />}
         </div>
         {
-        Modalidad!=="Dobles" ?
+        params.modalidad!=="Dobles" ?
         <table className="subtorneo_details_table">
                 <thead>
                     <tr className="table_headers">
