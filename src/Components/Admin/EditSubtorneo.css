@@ -106,3 +106,19 @@ padding-top: 2rem
 .groupsMembers_container table{
     width: 50%;
 }
+
+.btn_create_group:hover, .btnDeleteGroup:hover, .btnAddGroupPlayer:hover{
+    cursor: pointer;
+}
+
+.btnDeleteGroup{
+    width: 100%;
+    padding: 0.5rem;
+    width: 100%;
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    color: white;
+    font-size: 15px;
+}

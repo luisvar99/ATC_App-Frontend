@@ -3,12 +3,13 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import './CanchaReservation.css'
 import Reservation from './Reservation'
-/* import { RotatingLines } from  'react-loader-spinner'
-import {Link} from 'react-router-dom' */
+import { RotatingLines } from  'react-loader-spinner'
+import {useNavigate} from 'react-router-dom'
 
 export default function CanchaReservation() {
 
   const params = useParams();
+  const navigate = useNavigate();
 
   const [Horarios, setHorarios] = useState([])
   const [Reservaciones, setReservaciones] = useState([])
@@ -22,6 +23,7 @@ export default function CanchaReservation() {
         alert(error.message)
     }
 }
+
   const GetCanchaReservaciones = async () => {
     try {
         const result = await axios.get(`http://localhost:4000/api/GetCanchaReservaciones/${params.idCancha}`);
@@ -29,6 +31,16 @@ export default function CanchaReservation() {
         //console.log("result.data: " + JSON.stringify(result.data));
     } catch (error) {
         alert(error.message)
+    }
+}
+
+  const HandleReservation = async (type, idHorario) => {
+    if(type===1){
+      navigate("/")
+    }else if(type===2){
+      navigate(`/MakeReservation/idCancha=${params.idCancha}/horario=${idHorario}`)
+    }else{
+      alert("Error")
     }
 }
 
@@ -75,7 +87,7 @@ useEffect(() => {
     <div className="cancha_reservation_main_container">
       <div className="">
         <div className="reservation_table_container">
-          <table>
+          <table className="reservation_table">
             <tbody>
                 {
                   Horarios.map((h, index)=>(
@@ -83,9 +95,9 @@ useEffect(() => {
                   <td>{h.inicio}</td>
                   {
                     Reservaciones.find(r => r.id_horario === h.id_horario) ?
-                    <td style={{backgroundColor:"red"}} key={index}><Reservation idHorario={h.id_horario}/></td>
+                    <td style={{backgroundColor:"yellow"}} key={index} onClick={()=>HandleReservation(1, h.id_horario)}><Reservation idHorario={h.id_horario}/></td>
                     :
-                    <td style={{backgroundColor:"#0b7037"}} key={index}>Libre</td>
+                    <td style={{backgroundColor:"#0b7037"}} key={index} onClick={()=>HandleReservation(2,h.id_horario)}></td>
                   }
                   {/* {
                     Reservaciones.map((r, index)=>(

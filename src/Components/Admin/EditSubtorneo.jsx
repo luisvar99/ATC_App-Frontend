@@ -18,6 +18,8 @@ export default function EditSubtorneo() {
 
     const [IsLoadingForms, setIsLoadingForms] = useState(false)
     const [IsLoadingMembers, setIsLoadingMembers] = useState(false)
+    const [IsLoadingAddingGroups, setIsLoadingAddingGroups] = useState(false)
+    const [IsDeletingGroup, setIsDeletingGroup] = useState(false)
 
     const [NumberOfGroups, setNumberOfGroups] = useState([])
 
@@ -83,6 +85,7 @@ export default function EditSubtorneo() {
 
       const addGrupo = async (e) =>{
         e.preventDefault();
+        setIsLoadingAddingGroups(true)
         try {
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/idsubtorneo=${params.idSubtorneo}`)
             const result = await axios.post(`http://localhost:4000/api/addGrupo/idsubtorneo=${params.idSubtorneo}/numberOfGroups=${NumberOfGroups}`,
@@ -90,6 +93,26 @@ export default function EditSubtorneo() {
                 idSubTorneo: params.idSubtorneo,
             })
             console.log(result.data);
+            setIsLoadingAddingGroups(false)
+            window.location.reload();
+        } catch (error) {
+            
+        }
+      }
+
+
+      const DeleteGrupo = async (e, id_grupo) =>{
+        e.preventDefault();
+        setIsDeletingGroup(true)
+        try {
+            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/idsubtorneo=${params.idSubtorneo}`)
+            const result = await axios.delete(`http://localhost:4000/api/deleteGrupo/idGrupo=${id_grupo}`,
+            {
+                idSubTorneo: params.idSubtorneo,
+            })
+            console.log(result.data);
+            setIsDeletingGroup(false)
+            window.location.reload();
         } catch (error) {
             
         }
@@ -198,7 +221,6 @@ export default function EditSubtorneo() {
 
   return (
     <div className="editTorneoWrapper">
-
         <div className="main_editTorneo_container">
             <div className="EditTorneo_form_container">
                 <h3>Editar competencia</h3>
@@ -246,6 +268,14 @@ export default function EditSubtorneo() {
                         <label htmlFor="numberOfGroups">Numero de grupos</label>
                         <input type="number" id="numberOfGroups" onChange={(e)=>setNumberOfGroups(e.target.value)} required/>
                     </div>
+                    {IsLoadingAddingGroups &&
+                    <RotatingLines
+                        strokeColor="green"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="35"
+                        visible={true}/>
+                    }           
                     <div className="btn_create_group_container">
                         <button type="submit" className="btn_create_group">Crear</button>
                     </div>
@@ -280,6 +310,7 @@ export default function EditSubtorneo() {
                             </div>
                             <div>
                                 <button type="submit" className='btnAddGroupPlayer'>Agregar Jugagdor</button>
+                                <button className='btnDeleteGroup' onClick={(e)=> DeleteGrupo(e,g.id_grupo)}>Eliminar Grupo</button>
                             </div>
                         </form>
                     

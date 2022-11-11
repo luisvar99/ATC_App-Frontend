@@ -12,7 +12,7 @@ export default function NavBar() {
                 <i className="fa fa-caret-down"></i>
             </button>
             <div className="dropdown-content">
-                <Link to="/">Reservas</Link>
+                <Link to="/Reservaciones">Reservas</Link>
                 <Link to="/torneos">Torneos</Link>
             </div>
         </div> 

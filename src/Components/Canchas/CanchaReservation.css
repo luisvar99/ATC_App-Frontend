@@ -1,3 +1,16 @@
 .reservation_table_container{
     width:50%;
 }
+
+.reservation_table td{
+    border-color: black;
+}
+
+.reservation_table td:hover{
+    cursor: pointer;
+}
+
+.link_for_reservate{
+    display:inline-block;
+    padding: 0 100%;
+}
