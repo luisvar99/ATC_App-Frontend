@@ -38,7 +38,7 @@ export default function CanchaReservation() {
     if(type===1){
       navigate("/")
     }else if(type===2){
-      navigate(`/MakeReservation/idCancha=${params.idCancha}/horario=${idHorario}`)
+      navigate(`/MakeReservation/idCancha=${params.idCancha}/idHorario=${idHorario}`)
     }else{
       alert("Error")
     }
@@ -88,16 +88,26 @@ useEffect(() => {
       <div className="">
         <div className="reservation_table_container">
           <table className="reservation_table">
+            <thead>
+              <tr>
+                <td>Hora</td>
+                <td>Descripcion</td>
+              </tr>
+            </thead>
             <tbody>
                 {
                   Horarios.map((h, index)=>(
                   <tr key={index}>
                   <td>{h.inicio}</td>
                   {
-                    Reservaciones.find(r => r.id_horario === h.id_horario) ?
+                    Reservaciones.find(r => r.id_horario === h.id_horario)!== undefined ?
                     <td style={{backgroundColor:"yellow"}} key={index} onClick={()=>HandleReservation(1, h.id_horario)}><Reservation idHorario={h.id_horario}/></td>
                     :
-                    <td style={{backgroundColor:"#0b7037"}} key={index} onClick={()=>HandleReservation(2,h.id_horario)}></td>
+                      new Date().toLocaleTimeString() > h.hora_inicio ?
+                      <td style={{backgroundColor:"#0b7037", cursor:"not-allowed"}} key={index}><strong>No Disponible</strong></td>
+                    :
+                      <td style={{backgroundColor:"#0b7037"}} key={index} onClick={()=>HandleReservation(2,h.id_horario)}><strong>Libre</strong></td>
+
                   }
                   {/* {
                     Reservaciones.map((r, index)=>(

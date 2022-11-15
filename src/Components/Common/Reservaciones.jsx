@@ -30,9 +30,9 @@ export default function Reservaciones() {
             <h3>Tennis</h3>
             <div className="canchas_container">
                 {
-                    Canchas.map((cancha)=>(
-                        <Link class="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}`}>
-                            <div class="img_cancha_container">
+                    Canchas.map((cancha, index)=>(
+                        <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}`}>
+                            <div className="img_cancha_container">
                                 <img src="https://img.freepik.com/vector-premium/cancha-tenis-vista-superior_97886-10983.jpg" alt="" />
                                 <h4>{cancha.nombre_cancha}</h4>
                             </div>

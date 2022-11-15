@@ -102,7 +102,7 @@ function App() {
       </Routes>
 
       <Routes>
-        <Route path="/MakeReservation/idCancha=:idCancha/horario=:idHorario" element={<MakeReservation/>}/>      
+        <Route path="/MakeReservation/idCancha=:idCancha/idHorario=:idHorario" element={<MakeReservation/>}/>      
       </Routes>
       
   </BrowserRouter>

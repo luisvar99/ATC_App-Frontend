@@ -1,17 +1,72 @@
 .make_reservation_main_container{
     background-color:#F8F8F8;
+    font-size: 1.2rem
 }
 
-/* .make_reservation_second_main_container{
+ .make_reservation_second_main_container{
 
 }
 
 .make_reservation_form_container{
-
+    display: flex;
+    align-items:center;
+    flex-direction: column;
 }
 .make_reservation_form{
+    width: 30%;
+    border: 2px solid #0D8641;
+    border-radius: 3px;
+    padding: 2rem;
+}
+.make_reservation_form form{
+    display: flex;
+    justify-content: space-between;
 }
 
 .select_container{
-    width: 100px
-} */
+    width: 50%
+}
+
+#horaInicio, #horaFin{
+    width: 20%;
+    height: 10%;
+    margin-left: 0.5rem;
+    padding: 0.2rem;
+    margin-bottom: 1rem;
+    margin-top: 0.3rem;
+    font-size: 1rem
+}
+
+.btn_make_reservation{
+    width: 50%;
+    background-color: #0D8641;
+    padding: 0.6rem 0;
+    border: solid 1px #084e26;
+    border-radius: 5px;
+    margin-top: .5rem;
+    color: white;
+    font-size: 18px;
+}
+
+.btn_make_reservation:hover{
+    background-color: #0d6b36;
+    cursor: pointer;
+
+}
+
+.horasReserva{
+    display: flex;
+    flex-direction: column;
+}
+
+.nombreCancha{
+    width: 50%;
+    background-color: #3b719f;
+    padding: 0.6rem 0;
+    border: none;
+    border-radius: 5px;
+    margin-top: .5rem;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+}
