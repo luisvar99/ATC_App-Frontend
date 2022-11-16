@@ -23,8 +23,9 @@ import EditSubtorneo from './Components/Admin/EditSubtorneo';
 /* import PrivateRoutes from './Components/PrivateRoutes/PrivateRoutes';
 import UserContext from './Components/Context/UserContext'; */
 import Reservaciones from './Components/Common/Reservaciones';
-import CanchaReservation from './Components/Canchas/CanchaReservation';
-import MakeReservation from './Components/Canchas/MakeReservation';
+import TennisReservation from './Components/Canchas/TennisReservation';
+import TennisReservationForm from './Components/Canchas/TennisReservationForm';
+import ReservationDetails from './Components/Reservations/ReservationDetails';
 
 function App() {
   return (
@@ -98,11 +99,15 @@ function App() {
       </Routes>
       
       <Routes>
-        <Route path="/Reservaciones/tennis/idCancha=:idCancha" element={<CanchaReservation/>}/>      
+        <Route path="/Reservaciones/tennis/idCancha=:idCancha/:ano-:mes-:dia" element={<TennisReservation/>}/>      
+      </Routes>
+ 
+      <Routes>
+        <Route path="/MakeReservation/idCancha=:idCancha/idHorario=:idHorario" element={<TennisReservationForm/>}/>      
       </Routes>
 
       <Routes>
-        <Route path="/MakeReservation/idCancha=:idCancha/idHorario=:idHorario" element={<MakeReservation/>}/>      
+        <Route path="/ReservationDetails/idReserva=:idReserva" element={<ReservationDetails/>}/>      
       </Routes>
       
   </BrowserRouter>

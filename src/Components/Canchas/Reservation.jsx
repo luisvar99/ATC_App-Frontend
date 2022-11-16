@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { RotatingLines } from  'react-loader-spinner'
+import {Link} from 'react-router-dom'
+
 
 export default function Reservation({idHorario}) {
 
-    const [Username, setUsername] = useState("")
+    const [OwnerName, setOwnerName] = useState("")
+    const [OwnerLastName, setOwnerLastName] = useState("")
+    const [IdReserva, setIdReserva] = useState(0)
     const [LoadingReserva, setLoadingReserva] = useState(false)
 
     const GetReservacionDetails = async () => {
         try {
             setLoadingReserva(true)
-            const result = await axios.get(`http://localhost:4000/api/GetReservaDetails/${idHorario}`);
-            setUsername(result.data[0].username);
+            const result = await axios.get(`http://localhost:4000/api/GetReservaOwner/${idHorario}`);
+            setOwnerName(result.data[0].nombres);
+            setOwnerLastName(result.data[0].apellidos);
+            setIdReserva(result.data[0].id_reserva);
             console.log("result.data: " + JSON.stringify(result.data[0]));
             setLoadingReserva(false)
         } catch (error) {
@@ -24,6 +30,7 @@ export default function Reservation({idHorario}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
+
   return (
     <>
 
@@ -35,7 +42,7 @@ export default function Reservation({idHorario}) {
           width="35"
           visible={true}/>
           :
-          <p style={{padding: "0", margin: "0"}}>Reservado por: {Username}</p> 
+          <Link style={{padding: "0", margin: "0", textDecoration:"none"}} to={`/ReservationDetails/idReserva=${IdReserva}`}><p style={{padding: "0", margin: "0", color: "black"}}>{OwnerName} {OwnerLastName}</p></Link>
         }
     </>
   )
