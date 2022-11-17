@@ -8,7 +8,10 @@ export default function Reservation({idHorario}) {
 
     const [OwnerName, setOwnerName] = useState("")
     const [OwnerLastName, setOwnerLastName] = useState("")
+    const [OwnerAccion, setOwnerAccion] = useState(0)
     const [IdReserva, setIdReserva] = useState(0)
+    const [IdCancha, setIdCancha] = useState(0)
+    const [Fecha, setFecha] = useState(new Date().toLocaleDateString('en-US'))
     const [LoadingReserva, setLoadingReserva] = useState(false)
 
     const GetReservacionDetails = async () => {
@@ -18,7 +21,10 @@ export default function Reservation({idHorario}) {
             setOwnerName(result.data[0].nombres);
             setOwnerLastName(result.data[0].apellidos);
             setIdReserva(result.data[0].id_reserva);
-            console.log("result.data: " + JSON.stringify(result.data[0]));
+            setOwnerAccion(result.data[0].accion);
+            setIdCancha(result.data[0].id_cancha);
+            setFecha(result.data[0].fecha);
+            console.log("Reserva Owner: " + JSON.stringify(result.data[0]));
             setLoadingReserva(false)
         } catch (error) {
             alert(error.message)
@@ -42,7 +48,7 @@ export default function Reservation({idHorario}) {
           width="35"
           visible={true}/>
           :
-          <Link style={{padding: "0", margin: "0", textDecoration:"none"}} to={`/ReservationDetails/idReserva=${IdReserva}`}><p style={{padding: "0", margin: "0", color: "black"}}>{OwnerName} {OwnerLastName}</p></Link>
+          <Link style={{padding: "0", margin: "0", textDecoration:"none"}} to={`/ReservationDetails/idReserva=${IdReserva}/cancha=${IdCancha}`}><p style={{padding: "0", margin: "0", color: "black"}}>{OwnerAccion} - {OwnerName} {OwnerLastName}</p></Link>
         }
     </>
   )

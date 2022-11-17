@@ -20,6 +20,7 @@ export default function ReservationDetails() {
     const [InvitadoDos, setInvitadoDos] = useState("")
     
     const [IsLoadingReservation, setIsLoadingReservation] = useState(false)
+    const [DeletingReservation, setDeletingReservation] = useState(false)
 
     const navigate = useNavigate();
     const params = useParams();
@@ -46,7 +47,7 @@ export default function ReservationDetails() {
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
           response.map((user) => {
-          return arr.push({label: user.username, user_id: user.id});
+          return arr.push({label: user.accion+ ' - ' + user.username, user_id: user.id});
         });
           setUsers(arr)
         } catch (error) {
@@ -57,7 +58,7 @@ export default function ReservationDetails() {
       const GetReservationDetails = async () => {
 
         try { 
-          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
+          setIsLoadingReservation(true)
           const result = await axios.get(`http://localhost:4000/api/getReservaDetails/${params.idReserva}`)
           setReservationDetails(result.data)
           setUserOne(result.data[0].invitados)
@@ -72,6 +73,7 @@ export default function ReservationDetails() {
           console.log(result.data[1].invitados);
           console.log("Reservation Found: " + JSON.stringify(result.data));
           
+          setIsLoadingReservation(false)
         }catch (error) {
 
         }
@@ -96,6 +98,18 @@ export default function ReservationDetails() {
           
         }
       }
+      const DeleteReservation = async (idReservation) => {
+
+        try { 
+          setDeletingReservation(true)
+          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
+          const result = await axios.delete(`http://localhost:4000/api/deleteReserva/${idReservation}`)
+          setDeletingReservation(false)
+          navigate(-1)
+        } catch (error) {
+          alert(error.message)
+        }
+      }
       
       useEffect(() => {
         GetReservationDetails();
@@ -108,18 +122,38 @@ export default function ReservationDetails() {
     <div className="make_reservation_main_container">
         <div className="make_reservation_second_main_container">
             <div className="make_reservation_form_container">
-              <h3>Nueva reservacion</h3>
+              <h3>Detalles de Reservacion</h3>
+              {IsLoadingReservation ? 
+              <RotatingLines
+                strokeColor="green"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="30"
+                visible={true}
+              />
+              :
+              <>
                 <div className="make_reservation_form">
                   <form onSubmit={UpdateReservation}>
                       <div className='modalidad_reservation'>
                         
                         
                         <p>Modalidad</p>
+                        {
+                          ReservationDetails.length===2 ?
+                        <input checked type="radio" id="modalidad" value="single" name="modalidad" onChange={()=> setIsDobles(false)} required/>
+                        :
                         <input type="radio" id="modalidad" value="single" name="modalidad" onChange={()=> setIsDobles(false)} required/>
+                        }
                         <label htmlFor="singles">Singles</label>
                         <br />
                         
+                        { 
+                        ReservationDetails.length>2 ?
+                        <input checked type="radio" id="modalidad" value="dobles" name="modalidad" onChange={()=> setIsDobles(true)} required/>
+                        :
                         <input type="radio" id="modalidad" value="dobles" name="modalidad" onChange={()=> setIsDobles(true)} required/>
+                        }
                         <label htmlFor="dobles">Dobles</label>
                         <br />
                         <br />
@@ -128,29 +162,31 @@ export default function ReservationDetails() {
                         <input type="text" id="horaInicio" value={HorarioInicio} readOnly/>
                         <label htmlFor="horaFin">Hora Fin</label>
                         <input type="text" id="horaFin" value={HorarioFin} readOnly/>
-
-                      </div>
-                      {IsLoadingReservation && <RotatingLines
-                          strokeColor="green"
-                          strokeWidth="5"
-                          animationDuration="0.75"
-                          width="30"
-                          visible={true}
-                        />
+                        {
+                          DeletingReservation &&
+                            <RotatingLines
+                              strokeColor="green"
+                              strokeWidth="5"
+                              animationDuration="0.75"
+                              width="30"
+                              visible={true}
+                              />
                         }
+                      </div>
+                      
 
                       { 
                         parseInt(IdSocio) === parseInt(sessionStorage.getItem('userId')) &&
                         <>
                           <button className='btn_make_reservation' type="submit">Actualizar</button>
-                          <button className='btn_make_reservation' type="submit">Eliminar</button>
+                          <button disabled onClick={()=> DeleteReservation(params.idReserva)} className='btn_make_reservation'>Eliminar</button>
                         </>
                       }
                       </div>
                     <div className="select_container">
                       <p>Participantes</p>
                       {
-                        InvitadoUno!="" &&
+                        InvitadoUno!=="" &&
                         <Select 
                           /* value={Users} */
                           onChange={(item) => {
@@ -183,6 +219,8 @@ export default function ReservationDetails() {
                     </div>
                   </form>
                 </div>
+                </>
+                  }
             </div>
         </div>
     </div>

@@ -103,11 +103,11 @@ function App() {
       </Routes>
  
       <Routes>
-        <Route path="/MakeReservation/idCancha=:idCancha/idHorario=:idHorario" element={<TennisReservationForm/>}/>      
+        <Route path="/MakeReservation/idCancha=:idCancha/idHorario=:idHorario/:ano-:mes-:dia" element={<TennisReservationForm/>}/>      
       </Routes>
 
       <Routes>
-        <Route path="/ReservationDetails/idReserva=:idReserva" element={<ReservationDetails/>}/>      
+        <Route path="/ReservationDetails/idReserva=:idReserva/cancha=:idCancha" element={<ReservationDetails/>}/>      
       </Routes>
       
   </BrowserRouter>

@@ -14,3 +14,20 @@
     display:inline-block;
     padding: 0 100%;
 }
+
+#calendar{
+    padding: 0.5rem;
+    font-size:1.2rem;
+    margin-left: 0.75rem;
+}
+
+.reservation_calendar{
+    display: flex;
+    align-items:center;
+    justify-content:flex-start;
+    margin: 2rem 0rem;
+}
+
+.Calendar_table_container{
+    margin-left: 1rem;
+}

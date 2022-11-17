@@ -7,10 +7,11 @@ import axios from 'axios'
 export default function Reservaciones() {
 
     const [Canchas, setCanchas] = useState([])
+    const [Fecha, setFecha] = useState(new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate())
 
     useEffect(() => {
         GetAllCanchas();
-        console.log("Canchas UseEffect: " + Canchas);
+        console.log("Fecha: " + Fecha);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[] )
     
@@ -31,7 +32,7 @@ export default function Reservaciones() {
             <div className="canchas_container">
                 {
                     Canchas.map((cancha, index)=>(
-                        <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`}>
+                        <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}`}>
                             <div className="img_cancha_container">
                                 <img src="https://img.freepik.com/vector-premium/cancha-tenis-vista-superior_97886-10983.jpg" alt="" />
                                 <h4>{cancha.nombre_cancha}</h4>

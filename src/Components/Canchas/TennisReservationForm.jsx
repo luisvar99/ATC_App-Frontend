@@ -84,13 +84,13 @@ export default function TennisReservationForm() {
             idCancha: params.idCancha,
             idHorario: params.idHorario,
             idSocio: sessionStorage.getItem('userId'),
-            fecha: new Date().toLocaleDateString('en-US'),
+            fecha: params.ano+'/'+params.mes+'/'+params.dia,
             id_inv_uno: UserOne,
             id_inv_dos: UserTwo
           })
           setIsLoadingReservation(false)
           console.log("CreateReservation-> " + JSON.stringify(result.data));
-          navigate(`/Reservaciones/tennis/idCancha=${params.idCancha}`)
+          navigate(-1)
         } catch (error) {
           
         }

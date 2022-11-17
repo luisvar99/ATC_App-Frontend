@@ -1,6 +1,7 @@
 .make_reservation_main_container{
     background-color:#F8F8F8;
-    font-size: 1.2rem
+    font-size: 1.2rem;
+    height: 100vh
 }
 
  .make_reservation_second_main_container{

@@ -12,6 +12,8 @@ export default function CanchaReservation() {
 
   const [Horarios, setHorarios] = useState([])
   const [Reservaciones, setReservaciones] = useState([])
+  const [Fecha, setFecha] = useState(params.mes+'/'+params.dia+'/'+params.ano)
+
 
   const [IdReserva, setIdReserva] = useState(0)
 
@@ -41,52 +43,43 @@ export default function CanchaReservation() {
 }
 
   const HandleReservation = async (idHorario) => {
-  navigate(`/MakeReservation/idCancha=${params.idCancha}/idHorario=${idHorario}`)
+    const dia = params.dia;
+    const mes = params.mes;
+    const ano = params.ano;
+    const fecha = ano+'-'+mes+'-'+dia;
+  navigate(`/MakeReservation/idCancha=${params.idCancha}/idHorario=${idHorario}/${fecha}`)
 
+}
+
+const HandleCanlendarChange = async (e) => {
+  navigate(`/Reservaciones/tennis/idCancha=${params.idCancha}/${e.target.value}`);
+  window.location.reload();
 }
 
 
 useEffect(() => {
   GetHorarios();
   GetCanchaReservaciones();
+  /* console.log("==========================================");  
+  console.log(new Date().toLocaleString('en-US') + ' -- ' + new Date(Fecha + ', ' + new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds()).toLocaleString('en-US'));
+  console.log( (new Date() - new Date(Fecha+' , '+ new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds())) / (1000 * 60 * 60) );
+   console.log(((new Date() - new Date(Fecha + ', 13:00:00')) / (1000 * 60 * 60)<= -24));
+
+ console.log(new Date().toLocaleString('en-US') + ' -- ' + new Date(Fecha + ', 13:00 ').toLocaleString());
+  console.log( (new Date() - new Date(Fecha+' ,  20:55') ) / (1000 * 60 * 60) ); */
 // eslint-disable-next-line react-hooks/exhaustive-deps
 },[])
 
   return (
-    <>
-    {/* <div className="cancha_reservation_main_container">
-      <div className="">
-        <select id=""></select>
-        <div className="reservation_table_container">
-          <table>
-            <thead>
-                <tr>
-                  <td>Socio</td>
-                  <td>Hora Inicio</td>
-                  <td>Hora Fin</td>
-                </tr>
-            </thead>
-            <tbody>
-                  {
-                    Reservaciones.map((r, index)=>(
-                      <tr>
-                        <td >{}</td>
-                        <td key={index}>{r.username}</td>
-                        <td>{r.inicio}</td>
-                        <td>{r.fin}</td>
-                      </tr>
-                      ))
-                    } 
-                
-            </tbody>
-          </table>
-          
-        </div>
-      </div>
-    </div> */}
+    
 
     <div className="cancha_reservation_main_container">
-      <div className="">
+      <div className="Calendar_table_container">
+          <p>Fecha: {params.dia}-{params.mes}-{params.ano}</p>
+        <div className="reservation_calendar">
+            <label htmlFor="calendar">Cambiar fecha</label>
+            <input type="date" id="calendar" onChange={(e)=>HandleCanlendarChange(e)}/>
+        </div>
         <div className="reservation_table_container">
           <table className="reservation_table">
             <thead>
@@ -104,7 +97,7 @@ useEffect(() => {
                     Reservaciones.find(r => r.id_horario === h.id_horario)!== undefined ?
                     <td style={{backgroundColor:"yellow"}} key={index}><Reservation idHorario={h.id_horario}/></td>
                     :
-                      new Date().toLocaleTimeString() > h.hora_inicio ?
+                      ((((new Date() - new Date(Fecha + ', ' + h.hora_inicio)) / (1000 * 60 * 60)>=0)) || (((new Date() - new Date(Fecha + ', ' + h.hora_inicio)) / (1000 * 60 * 60)<= -24)) ) ?
                       <td style={{backgroundColor:"#0b7037", cursor:"not-allowed"}} key={index}><strong>No Disponible</strong></td>
                     :
                       <td style={{backgroundColor:"#0b7037"}} key={index} onClick={()=>HandleReservation(h.id_horario)}><strong>Libre</strong></td>
@@ -125,6 +118,6 @@ useEffect(() => {
         </div>
       </div>
     </div>
-    </>
+    
   )
 }
