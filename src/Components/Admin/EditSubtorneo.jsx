@@ -118,6 +118,24 @@ export default function EditSubtorneo() {
         }
       }
 
+
+      const DeleteSubTorneoGroupParticipant = async (e, id_grupo, userId) =>{
+        e.preventDefault();
+        setIsDeletingGroup(true)
+        try {
+            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/idsubtorneo=${params.idSubtorneo}`)
+            const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoGroupParticipant/idGrupo=${id_grupo}/idUser=${userId}`,
+            {
+                idSubTorneo: params.idSubtorneo,
+            })
+            console.log(result.data);
+            setIsDeletingGroup(false)
+            window.location.reload();
+        } catch (error) {
+            
+        }
+      }
+
       const addGroupMember = async (e,id_grupo) =>{
         e.preventDefault();
         if(IdGroupMember===""){
@@ -167,49 +185,6 @@ export default function EditSubtorneo() {
         }
       }
 
-      /* const RandomizeArray = async ()=> {
-        let currentIndex = Participants.length,  randomIndex;
-
-        // While there remain elements to shuffle.
-        setAuxArray(Participants)
-        while (currentIndex !== 0) {
-      
-          // Pick a remaining element.
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex--;
-      
-          // And swap it with the current element.
-          [AuxArray[currentIndex], AuxArray[randomIndex]] = [AuxArray[randomIndex], AuxArray[currentIndex]];
-        }
-      
-        console.log("Random Array: " + JSON.stringify(AuxArray));
-        MakeGroups(AuxArray, 4);
-      } */
-
-    /* const MakeGroups = (data, chunkSize)=>{
-    var shuffled = [...data]; //make a copy so that we don't mutate the original array
-    
-    //shuffle the elements
-    for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    
-    //split the shuffled version by the chunk size
-    for (var i=0; i<shuffled.length; i+=chunkSize) {
-        AuxArrayTwo.push(shuffled.slice(i,i+chunkSize));
-    }
-     console.log("Groups: "+ JSON.stringify(AuxArrayTwo));
-     setGroups(AuxArrayTwo);
-    } */
-
-    /* const ChangeNumberOfGroups = (groups) => {
-        setNumberOfGroups(current => []);
-        for (let index = 0; index < groups; index++) {
-            setNumberOfGroups(current => [...current, index]);         
-        }
-        console.log(NumberOfGroups);
-    } */
 
     useEffect(() => {
         GetSubtorneoById();
@@ -352,7 +327,7 @@ export default function EditSubtorneo() {
                       :
                       <td>{gm.nombre_grupo}</td>
                   }  
-                                <td><button /* onClick={()=> DeleteSubTorneoParticipant()} */ className="editTorneoDeleteParticipant">Eliminar</button></td>
+                                <td><button onClick={(e)=> DeleteSubTorneoGroupParticipant(e, gm.id_grupo, gm.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
                             </tr>
                             ))
                         }

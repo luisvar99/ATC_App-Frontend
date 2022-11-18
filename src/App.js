@@ -2,6 +2,8 @@ import {BrowserRouter,
   Routes,
   Route} 
   from 'react-router-dom'
+  
+import React, {useState } from 'react'
 
 import './App.css';
 import Login from './Components/Auth/Login';
@@ -26,88 +28,63 @@ import Reservaciones from './Components/Common/Reservaciones';
 import TennisReservation from './Components/Canchas/TennisReservation';
 import TennisReservationForm from './Components/Canchas/TennisReservationForm';
 import ReservationDetails from './Components/Reservations/ReservationDetails';
+import ManageUsers from './Components/Admin/ManageUsers';
+import AddUser from './Components/Admin/AddUser';
+import PrivateRoutes from './Components/PrivateRoutes/PrivateRoutes';
+
 
 function App() {
+  
   return (
-
   <BrowserRouter>
     <NavBar/>
       <Routes>
         <Route path="/" exact element={<Login/>}/>      
-      </Routes>
       
-      <Routes>
         <Route path="/signup" element={<SignUp/>}/>      
-      </Routes>
 
-      <Routes>
-        {/* <Route element={<PrivateRoutes/>}>       */}
-          <Route path="/home" element={<Home/>}/> 
-        {/* </Route>   */}   
-      </Routes>
+          <Route path="/home" 
+          element={
+            <PrivateRoutes user={sessionStorage.getItem('userId')}>
+                <Home/>
+            </PrivateRoutes>
+          }/> 
 
-      <Routes>
         <Route path="/admin" element={<AdminDashboard/>}/>       
-      </Routes>
 
-      <Routes>
         <Route path="/admin/manageCanchas" element={<ManageCanchas/>}/>      
-      </Routes>
 
-      <Routes>
         <Route path="/admin/manageCanchas/addCancha" element={<AddCanchas/>}/>      
-      </Routes>
 
-      <Routes>
         <Route path="/admin/manageCanchas/editCancha/id=:idCancha" element={<EditCancha/>}/>      
-      </Routes>
       
-      <Routes>
         <Route path="/torneos" element={<TorneosDashboard/>}/>      
-      </Routes>
 
-      <Routes>
         <Route path="/torneos/:nombreTorneo/id=:idTorneo" element={<TorneoDetails/>}/>      
-      </Routes>
       
-      <Routes>
         <Route path="/admin/manageTorneos" element={<ManageTorneos/>}/>      
-      </Routes>
      
-      <Routes>
         <Route path="/admin/manageTorneos/addTorneo" element={<AddTorneo/>}/>      
-      </Routes>
 
-      <Routes>
         <Route path="/admin/manageTorneos/editTorneo/id=:idTorneo" element={<EditTorneo/>}/>      
-      </Routes>
       
-      <Routes>
         <Route path="/admin/manageTorneos/addCompetencia/:nombreTorneo/idTorneo=:idTorneo" element={<AddSubTorneo/>}/>      
-      </Routes>
 
-      <Routes>
         <Route path="/torneos/:nombreTorneo/id=:idTorneo/subtorneos/:categoria/id=:idSubTorneo/modalidad=:modalidad" element={<SubtorneoDetails/>}/>      
-      </Routes>
 
-      <Routes>
         <Route path="/admin/manageTorneos/editTorneo/id=:idTorneo/editSubtorneo/id=:idSubtorneo" element={<EditSubtorneo/>}/>      
-      </Routes>
 
-      <Routes>
         <Route path="/Reservaciones" element={<Reservaciones/>}/>      
-      </Routes>
       
-      <Routes>
         <Route path="/Reservaciones/tennis/idCancha=:idCancha/:ano-:mes-:dia" element={<TennisReservation/>}/>      
-      </Routes>
  
-      <Routes>
         <Route path="/MakeReservation/idCancha=:idCancha/idHorario=:idHorario/:ano-:mes-:dia" element={<TennisReservationForm/>}/>      
-      </Routes>
 
-      <Routes>
         <Route path="/ReservationDetails/idReserva=:idReserva/cancha=:idCancha" element={<ReservationDetails/>}/>      
+
+        <Route path="/admin/manageUsuarios" element={<ManageUsers/>}/>      
+
+        <Route path="/admin/addNewUser" element={<AddUser/>}/>      
       </Routes>
       
   </BrowserRouter>

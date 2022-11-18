@@ -1,0 +1,43 @@
+.add_user_btn{
+    width: 19.3%;
+    background-color: #0D8641;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    /* margin-top: 4rem; */
+}
+
+.Add_userform_container{
+    border: 3px #CED4DA solid;
+    border-radius: 5px;
+    padding: 2rem;
+    
+}
+
+.Add_userform_container input{
+    padding: 0.3rem;
+    
+}
+
+.left_right_side_container{
+    display: flex;
+    column-gap: 2rem;
+}
+
+.btn_addCancha_container a{
+    width: 100%;
+    background-color: #0D8641;
+    padding: 0.6rem 0;
+    border: none;
+    border-radius: 5px;
+    margin-top: .5rem;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
