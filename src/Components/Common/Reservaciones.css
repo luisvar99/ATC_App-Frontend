@@ -34,3 +34,13 @@
     text-decoration: none;
     color: white;
 }
+
+.rectangle {
+    height: 9rem;
+    width: 18rem;
+    background-color: rgb(28, 122, 230);
+  }
+
+  .nombrecanchapadel{
+    color: black;
+  }

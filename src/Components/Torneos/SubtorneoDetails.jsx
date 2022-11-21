@@ -24,7 +24,10 @@ export default function SubtorneoDetails() {
 
   const params = useParams();
 
-    const inscripcion = async () => {
+  const inscripcion = async () => {
+    if(MyParejaId===0 && params.modalidad === "Dobles"){
+      alert("Debe seleccionar una pareja para el proceso de inscripción")
+    }else{
       const duplicateInscriptionSingles = Participants.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
       const duplicateInscriptionParejas = Parejas.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
       if(duplicateInscriptionSingles !== undefined || duplicateInscriptionParejas !== undefined){
@@ -47,6 +50,7 @@ export default function SubtorneoDetails() {
         window.location.reload();
       }
     }
+  }
 
     const inscripcionPareja = async () => {
       const duplicateInscription = Participants.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
@@ -111,7 +115,7 @@ export default function SubtorneoDetails() {
           //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
           const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubTorneo}`)
           setGroupsMembers(result.data);
-          console.log(result.data);
+          console.log("Miembros de los Grupos: " + result.data);
           setIsLoadingMembers(false)
       } catch (error) {
         console.log("Error: " + error.message);
@@ -150,9 +154,8 @@ export default function SubtorneoDetails() {
       GetTorneoinfo();
       GetNumberOfParticipants();
       GetSubtorneoinfo();
-      if(GroupsMembers.length>0){
-        GetGruposMembers();
-      }
+      GetGruposMembers();
+      
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
@@ -172,9 +175,9 @@ export default function SubtorneoDetails() {
               <select id="myPareja" onChange={(e)=> setMyParejaId(e.target.value)} required>
                 {
                   Users.length===0 ?
-                  <option value="">Cargando Usuarios...</option>
+                  <option value="0">Cargando Usuarios...</option>
                   :
-                  <option value="">---Seleccione un usuario---</option>
+                  <option value="0">---Seleccione un usuario---</option>
                 }
                 {
                   Users.map((u, index)=>(
@@ -194,7 +197,7 @@ export default function SubtorneoDetails() {
             Cantidad_personas-NumberOfParticipants>0 && params.modalidad==="Singles" ?
             <button onClick={inscripcion} className="btn_inscripcion">Inscribirme</button>
             :
-            Users.length!==0 &&
+            (Users.length!==0 && Cantidad_personas-NumberOfParticipants>0) &&
             <button onClick={inscripcion} className="btn_inscripcion">Inscribir Pareja</button>
           }
           {IsLoading && <RotatingLines

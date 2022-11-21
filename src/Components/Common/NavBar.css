@@ -3,11 +3,14 @@ body {
   }
   
   .navbar {
+    display:flex;
+    justify-content:flex-start;
+    align-items: center;
     overflow: hidden;
     background-color: #333;
   }
   
-  .navbar a {
+  .navbar a , .logout_btn{
     float: left;
     font-size: 16px;
     color: white;
@@ -32,8 +35,12 @@ body {
     margin: 0;
   }
   
-  .navbar a:hover, .dropdown:hover .dropbtn {
+  .navbar a:hover, .dropdown:hover .dropbtn, .logout_btn:hover {
     background-color: #0D8641;
+  }
+
+  .logout_btn:hover{
+    cursor: pointer;
   }
   
   .dropdown-content {
@@ -61,3 +68,8 @@ body {
   .dropdown:hover .dropdown-content {
     display: block;
   }
+
+.logout_btn{
+  background: none;
+  border: none;
+}

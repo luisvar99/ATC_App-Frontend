@@ -65,6 +65,22 @@ export default function EditSubtorneo() {
         }
     }
 
+
+    const PublishGroups = async (e) =>{
+            try {
+                //await axios.put(`https://atcbackend.herokuapp.com/api/editSubTorneo/${params.idSubtorneo}`,
+                await axios.put(`http://localhost:4000/api/publishGroups/${params.idTorneo}`,
+                {
+                    isPublicado: 1
+                })
+                setConfirmation("Se ha editado la competencia correctamente")
+            } catch (error) {
+                setConfirmation("Ha ocurrido un error")
+                alert(error.message);
+            }
+        
+    }
+
     const getSubTournamentParticipants = async () => {
 
         const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSubTorneosParticipants/${params.idSubtorneo}`)
@@ -91,6 +107,7 @@ export default function EditSubtorneo() {
             const result = await axios.post(`http://localhost:4000/api/addGrupo/idsubtorneo=${params.idSubtorneo}/numberOfGroups=${NumberOfGroups}`,
             {
                 idSubTorneo: params.idSubtorneo,
+                isPublicado: 0
             })
             console.log(result.data);
             setIsLoadingAddingGroups(false)
@@ -292,47 +309,47 @@ export default function EditSubtorneo() {
                     
                         )) }
                 </div>
+
+
                 <div className="groupsMembers_container">
-                    
-                    <table className="subtorneo_details_table">
+                {
+                    IsLoadingMembers ? 
+                <RotatingLines
+                strokeColor="green"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="35"
+                visible={true}
+                
+                />
+                
+                  :
+                <>
+                  
+                  
+                  <table className="subtorneo_details_table">
                         <thead>
                             <tr className="table_headers">
                                 <th>Usuario</th>
                                 <th>Grupo</th>
+                                <th>Accion</th>
                             </tr>
                         </thead>
                         <tbody>
                        { 
                         GroupsMembers.map((gm,index)=>(
                             <tr key={index}>
-                                {
-                    IsLoadingMembers ? 
-                    <td><RotatingLines
-                      strokeColor="green"
-                      strokeWidth="5"
-                      animationDuration="0.75"
-                      width="35"
-                      visible={true}/></td>
-                      :
-                      <td>{gm.username}</td>
-                  }
-                  {
-                    IsLoadingMembers ? 
-                    <td><RotatingLines
-                      strokeColor="green"
-                      strokeWidth="5"
-                      animationDuration="0.75"
-                      width="35"
-                      visible={true}/></td>
-                      :
-                      <td>{gm.nombre_grupo}</td>
-                  }  
+                                <td>{gm.username}</td>
+                                <td>{gm.nombre_grupo}</td>
                                 <td><button onClick={(e)=> DeleteSubTorneoGroupParticipant(e, gm.id_grupo, gm.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
                             </tr>
                             ))
                         }
                         </tbody>
                     </table>
+                <button onClick={PublishGroups} className="publishGrups_btn">Publicar Grupos</button>
+                </>
+                }
                 </div>
                 
                        
