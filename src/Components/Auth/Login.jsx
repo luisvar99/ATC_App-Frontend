@@ -29,14 +29,22 @@ export default function Login() {
             //console.log(logged.loggedIn.data);
             if(logged.data.loggedIn===true){
                 sessionStorage.setItem('userId', logged.data.id)
-                navigate("/home")
+                sessionStorage.setItem('userRole', logged.data.role)
+                console.log("ROLE DESDE LOGIN " + sessionStorage.getItem('userRole'));
+                if(sessionStorage.getItem('userRole')==="ADMIN"){
+                    navigate("/admin")
+                }else{
+                    navigate("/home")
+                }
             }else{
                 alert("Ha ocurrido un error")
+                setIsLoading(false)
             }
             //setConfirmation("Se ha agregado la cancha correctamente")
         } catch (error) {
             //setConfirmation("Ha ocurrido un error")
             alert(error.message);
+            setIsLoading(false)
         }
     }
 

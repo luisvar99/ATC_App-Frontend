@@ -15,7 +15,8 @@ export default function ManageCanchas() {
     
     const GetAllCanchas = async () => {
         try {
-            const result = await axios.get('https://atcbackend.herokuapp.com/api/getAllCanchas');
+            //const result = await axios.get('https://atcbackend.herokuapp.com/api/getAllCanchas');
+            const result = await axios.get('http://localhost:4000/api/getAllCanchas');
             setCanchas(result.data);
             console.log("result.data: " + JSON.stringify(result.data));
         } catch (error) {

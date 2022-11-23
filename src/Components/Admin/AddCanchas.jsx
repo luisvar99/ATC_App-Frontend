@@ -66,7 +66,7 @@ export default function AddCanchas() {
                 <p style={{fontSize:"14px"}}>{Confirmation}</p>
                 <div className="btn_addCancha_container">
                     <button type="submit">Agregar</button>
-                    <button type="submit"><Link to="/admin/manageCanchas" className="link_go_back">Volver</Link></button>
+                    <Link to="/admin/manageCanchas" className="link_go_back">Volver</Link>
                 </div>
             </form>
         </div>

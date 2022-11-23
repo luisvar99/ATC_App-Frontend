@@ -9,14 +9,17 @@ import { RotatingLines } from  'react-loader-spinner'
 
 
 export default function SubtorneoDetails() {
+
   const [Participants, setParticipants] = useState([])
   const [Users, setUsers] = useState([])
   const [Parejas, setParejas] = useState([])
   const [GroupsMembers, setGroupsMembers] = useState([])
+  const [StatusGroups, setStatusGroups] = useState(0)
 
   const [IsLoading, setIsLoading] = useState(false)
   const [IsLoadingMembers, setIsLoadingMembers] = useState(false)
   const [IsLoadingParejas, setIsLoadingParejas] = useState(false)
+
 
   const [NumberOfParticipants, setNumberOfParticipants] = useState(0)
   const [Cantidad_personas, setCantidad_personas] = useState(0)
@@ -92,7 +95,8 @@ export default function SubtorneoDetails() {
 
     const GetNumberOfParticipants = async () => {
       try {
-        const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetNumberOfParticipants/${params.idSubTorneo}`)
+        //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetNumberOfParticipants/${params.idSubTorneo}`)
+        const result = await axios.get(`http://localhost:4000/api/GetNumberOfParticipants/${params.idSubTorneo}`)
         //console.log(result.data);
         setNumberOfParticipants(result.data[0].number_of_participants)
       } catch (error) {
@@ -101,7 +105,8 @@ export default function SubtorneoDetails() {
     }
     const GetSubtorneoinfo = async () => {
       try {
-        const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
+        //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
+        const result = await axios.get(`http://localhost:4000/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
         setCantidad_personas(result.data[0].cantidad_personas)
       } catch (error) {
@@ -115,7 +120,8 @@ export default function SubtorneoDetails() {
           //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
           const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubTorneo}`)
           setGroupsMembers(result.data);
-          console.log("Miembros de los Grupos: " + result.data);
+          setStatusGroups(result.data[0].isPublicado);
+          console.log("Miembros de los Grupos: " + JSON.stringify(result.data));
           setIsLoadingMembers(false)
       } catch (error) {
         console.log("Error: " + error.message);
@@ -277,7 +283,7 @@ export default function SubtorneoDetails() {
       {
       <div className="table_container">
         <p>Grupos</p>
-          {GroupsMembers.length===0 ?
+          {(GroupsMembers.length===0 || parseInt(StatusGroups)===0) ?
           <h4>Los grupos no se encuentran disponibles en este momento</h4>
           :
         

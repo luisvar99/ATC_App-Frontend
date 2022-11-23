@@ -16,4 +16,33 @@
     margin-top: 2rem;
 }
 
+.search_users_by_name{
+    padding: 0.3rem;
+}
+
+.search_users_by_nameBtn{
+    background-color:#0B7037;
+    padding: 0.4rem 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius:5px;
+    border: #4F4F4F solid 1px;
+    color: white;
+}
+
+.search_users_by_nameBtn:hover, .cancel_btn:hover{
+    cursor: pointer;
+}
+
+.cancel_btn{
+    background-color:#E5E5E5;
+    padding: 0.4rem 1rem;
+    border: #4F4F4F solid 1px;
+    font-size: 0.85rem;
+    border-radius:5px;
+}
+
+#add_user_btn{
+    font-size:1.1rem;
+}
 

@@ -106,7 +106,7 @@ export default function AddUser() {
 
                 <div className="btn_addCancha_container">
                     <button type="submit">Agregar</button>
-                    <Link to="/admin/manageCanchas" className="link_go_back">Volver</Link>
+                    <Link to="/admin/manageUsuarios" className="link_go_back">Volver</Link>
                 </div>
 
             </form>

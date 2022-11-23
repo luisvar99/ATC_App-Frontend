@@ -33,7 +33,8 @@ export default function EditSubtorneo() {
 
     const GetSubtorneoById = async (e) =>{
         try {
-            const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubtorneo}`)
+            //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubtorneo}`)
+            const result = await axios.get(`http://localhost:4000/api/GetSingleSubTorneoById/${params.idSubtorneo}`)
             setName(result.data[0].nombre)
             setCantidad_personas(result.data[0].cantidad_personas)
             setId_torneo(result.data[0].id_torneo)
@@ -83,14 +84,16 @@ export default function EditSubtorneo() {
 
     const getSubTournamentParticipants = async () => {
 
-        const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSubTorneosParticipants/${params.idSubtorneo}`)
+        //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSubTorneosParticipants/${params.idSubtorneo}`)
+        const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubtorneo}`)
         setParticipants(result.data);
         //console.log(result.data);
       }
 
       const DeleteSubTorneoParticipant = async (id_subtorneo, user_id)=>{
         try {
-            const result = await axios.delete(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/user=${user_id}/${id_subtorneo}`);
+            //const result = await axios.delete(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/user=${user_id}/${id_subtorneo}`);
+            const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoParticipant/user=${user_id}/${id_subtorneo}`);
             const filter = Participants.filter(p => p.id !== user_id )
             //console.log(result.data);
             setParticipants(filter);
@@ -195,7 +198,7 @@ export default function EditSubtorneo() {
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
             const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubtorneo}`)
             setGroupsMembers(result.data);
-            console.log(result.data);
+            console.log("GroupsMembers: " + result.data);
             setIsLoadingMembers(false)
         } catch (error) {
             
@@ -279,12 +282,15 @@ export default function EditSubtorneo() {
             <div className="addGroupPlayerContainer">
             {
                 IsLoadingForms ? 
+                    <>
+                    <p>Cargando...</p>
                     <RotatingLines
                         strokeColor="green"
                         strokeWidth="5"
                         animationDuration="0.75"
                         width="35"
                         visible={true}/>
+                    </>
                         : 
                     
                         Groups.map((g, index)=>(
@@ -314,14 +320,16 @@ export default function EditSubtorneo() {
                 <div className="groupsMembers_container">
                 {
                     IsLoadingMembers ? 
-                <RotatingLines
-                strokeColor="green"
-                strokeWidth="5"
-                animationDuration="0.75"
-                width="35"
-                visible={true}
-                
-                />
+                <>
+                    <p>Cargando...</p>
+                    <RotatingLines
+                    strokeColor="green"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="35"
+                    visible={true}
+                    />
+                </>
                 
                   :
                 <>
@@ -339,7 +347,7 @@ export default function EditSubtorneo() {
                        { 
                         GroupsMembers.map((gm,index)=>(
                             <tr key={index}>
-                                <td>{gm.username}</td>
+                                <td>{gm.accion} - {gm.nombres} {gm.apellidos}</td>
                                 <td>{gm.nombre_grupo}</td>
                                 <td><button onClick={(e)=> DeleteSubTorneoGroupParticipant(e, gm.id_grupo, gm.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
                             </tr>

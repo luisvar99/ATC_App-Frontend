@@ -11,10 +11,10 @@ import './EditTorneo.css'
 export default function EditTorneo() {
 
   const [Name, setName] = useState("")
-  const [Inicio_inscripcion, setInicio_inscripcion] = useState()
-  const [Fin_inscripcion, setFin_inscripcion] = useState()
-  const [Inicio_torneo, setInicio_torneo] = useState()
-  const [Fin_torneo, setFin_torneo] = useState()
+  const [Inicio_inscripcion, setInicio_inscripcion] = useState("")
+  const [Fin_inscripcion, setFin_inscripcion] = useState("")
+  const [Inicio_torneo, setInicio_torneo] = useState("")
+  const [Fin_torneo, setFin_torneo] = useState("")
   const [Description, setDescription] = useState("")
   const [Category, setCategory] = useState(0)
   const [Modalidad, setModalidad] = useState(0)
