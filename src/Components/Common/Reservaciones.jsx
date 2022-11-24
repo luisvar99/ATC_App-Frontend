@@ -8,6 +8,7 @@ export default function Reservaciones() {
 
     const [CanchasTennis, setCanchasTennis] = useState([])
     const [CanchasPadel, setCanchasPadel] = useState([])
+    const [StatusCancha, setStatusCancha] = useState(0)
     const [Fecha, setFecha] = useState(new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate())
 
     useEffect(() => {
@@ -44,12 +45,15 @@ export default function Reservaciones() {
             <div className="canchas_container">
                 {
                     CanchasTennis.map((cancha, index)=>(
-                        <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}`}>
+                    <>  
+  
+                            <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}`}>
                             <div className="img_cancha_container">
                                 <img src="https://img.freepik.com/vector-premium/cancha-tenis-vista-superior_97886-10983.jpg" alt="" />
                                 <h4>{cancha.nombre_cancha}</h4>
                             </div>
                         </Link>
+                    </>
                     ))
                 }
             </div>
@@ -59,12 +63,18 @@ export default function Reservaciones() {
                 <div className="canchas_container">
                     {
                         CanchasPadel.map((cancha, index)=>(
-                            <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}`}>
-                                    <div className="img_cancha_container">
-                                        <div class="rectangle"></div>
-                                        <h4 className='nombrecanchapadel'>{cancha.nombre_cancha}</h4>
-                                    </div>
-                            </Link>
+                                <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}`} style={{pointerEvents: parseInt(cancha.estatus_cancha)===0 ? "none" : "auto"}}>
+                                        <div className="img_canchaPadel_container">
+                                            <div class="rectangle">
+                                                <div className='cancha_lines'>
+                                                    <div className='cancha_lines_two'>
+                                                        <div className='cancha_lines_three'></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h4 className='nombrecanchapadel'>{cancha.nombre_cancha} {parseInt(cancha.estatus_cancha) ===0 && "(en mantenimiento)"}</h4>
+                                        </div>
+                                </Link>
                         ))
                     }
                 </div>

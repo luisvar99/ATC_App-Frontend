@@ -34,6 +34,8 @@ import NotFoundPage from './Components/Common/NotFoundPage';
 
 
 function App() {
+
+  console.log("Desde App: " + sessionStorage.getItem('userRole'));
   
   return (
   <BrowserRouter>
@@ -45,14 +47,14 @@ function App() {
 
           <Route path="/home" 
           element={
-            <PrivateRoutes user={sessionStorage.getItem('userId')}>
+            <PrivateRoutes>
                 <Home/>
             </PrivateRoutes>
           }/> 
 
           <Route path="/admin" 
           element={
-            <AdminPrivateRoutes user={sessionStorage.getItem('userRole')}>
+            <AdminPrivateRoutes>
                 <AdminDashboard/>
             </AdminPrivateRoutes>
           }/>
@@ -61,7 +63,7 @@ function App() {
 
         <Route path="/admin/manageCanchas" 
           element={
-            <AdminPrivateRoutes user={sessionStorage.getItem('userRole')}>
+            <AdminPrivateRoutes >
                 <ManageCanchas/>
             </AdminPrivateRoutes>
           }/>     
@@ -70,7 +72,7 @@ function App() {
 
         <Route path="/admin/manageCanchas/addCancha" 
           element={
-            <AdminPrivateRoutes user={sessionStorage.getItem('userRole')}>
+            <AdminPrivateRoutes >
                 <AddCanchas/>
             </AdminPrivateRoutes>
           }/>     
@@ -80,7 +82,7 @@ function App() {
         
         <Route path="/admin/manageCanchas/editCancha/id=:idCancha" 
           element={
-            <AdminPrivateRoutes user={sessionStorage.getItem('userRole')}>
+            <AdminPrivateRoutes >
                 <EditCancha/>
             </AdminPrivateRoutes>
           }/>    
@@ -89,7 +91,7 @@ function App() {
 
         <Route path="/torneos/:nombreTorneo/id=:idTorneo" 
           element={
-            <PrivateRoutes user={sessionStorage.getItem('userId')}>
+            <PrivateRoutes>
                 <TorneoDetails/>
             </PrivateRoutes>
           }/>      
@@ -98,7 +100,7 @@ function App() {
 
         <Route path="/admin/manageTorneos" 
           element={
-            <AdminPrivateRoutes user={sessionStorage.getItem('userRole')}>
+            <AdminPrivateRoutes>
                 <ManageTorneos/>
             </AdminPrivateRoutes>
           }/>     
@@ -107,7 +109,7 @@ function App() {
 
         <Route path="/admin/manageTorneos/addTorneo" 
           element={
-            <AdminPrivateRoutes user={sessionStorage.getItem('userRole')}>
+            <AdminPrivateRoutes>
                 <AddTorneo/>
             </AdminPrivateRoutes>
           }/>  
@@ -116,7 +118,7 @@ function App() {
 
         <Route path="/admin/manageTorneos/editTorneo/id=:idTorneo" 
           element={
-            <AdminPrivateRoutes user={sessionStorage.getItem('userRole')}>
+            <AdminPrivateRoutes>
                 <EditTorneo/>
             </AdminPrivateRoutes>
           }/>      
@@ -125,16 +127,16 @@ function App() {
       
         <Route path="/admin/manageTorneos/addCompetencia/:nombreTorneo/idTorneo=:idTorneo" 
           element={
-            <AdminPrivateRoutes user={sessionStorage.getItem('userRole')}>
+            <AdminPrivateRoutes>
                 <AddSubTorneo/>
             </AdminPrivateRoutes>
           }/>
 
         {/* <Route path="/admin/manageTorneos/addCompetencia/:nombreTorneo/idTorneo=:idTorneo" element={<AddSubTorneo/>}/> */}      
 
-        <Route path="/admin/manageTorneos/editTorneo/id=:idTorneo/editSubtorneo/id=:idSubtorneo" 
+        <Route path="/admin/manageTorneos/editTorneo/id=:idTorneo/editSubtorneo/id=:idSubtorneo/modalidad=:modalidad" 
           element={
-            <AdminPrivateRoutes user={sessionStorage.getItem('userRole')}>
+            <AdminPrivateRoutes>
                 <EditSubtorneo/>
             </AdminPrivateRoutes>
           }/>
@@ -143,7 +145,7 @@ function App() {
 
         <Route path="/admin/manageUsuarios" 
           element={
-            <AdminPrivateRoutes user={sessionStorage.getItem('userRole')}>
+            <AdminPrivateRoutes>
                 <ManageUsers/>
             </AdminPrivateRoutes>
           }/>
@@ -152,7 +154,7 @@ function App() {
 
         <Route path="/admin/addNewUser" 
           element={
-            <AdminPrivateRoutes user={sessionStorage.getItem('userRole')}>
+            <AdminPrivateRoutes>
                 <AddUser/>
             </AdminPrivateRoutes>
           }/>     
@@ -161,7 +163,7 @@ function App() {
         
         <Route path="/torneos" 
           element={
-            <PrivateRoutes user={sessionStorage.getItem('userId')}>
+            <PrivateRoutes>
                 <TorneosDashboard/>
             </PrivateRoutes>
           }/> 
@@ -170,7 +172,7 @@ function App() {
 
         <Route path="/torneos/:nombreTorneo/id=:idTorneo/subtorneos/:categoria/id=:idSubTorneo/modalidad=:modalidad" 
           element={
-            <PrivateRoutes user={sessionStorage.getItem('userId')}>
+            <PrivateRoutes>
                 <SubtorneoDetails/>
             </PrivateRoutes>
           }/> 
@@ -179,7 +181,7 @@ function App() {
 
         <Route path="/Reservaciones" 
           element={
-            <PrivateRoutes user={sessionStorage.getItem('userId')}>
+            <PrivateRoutes>
                 <Reservaciones/>
             </PrivateRoutes>
           }/> 
@@ -189,7 +191,7 @@ function App() {
 
         <Route path="/Reservaciones/tennis/idCancha=:idCancha/:ano-:mes-:dia" 
           element={
-            <PrivateRoutes user={sessionStorage.getItem('userId')}>
+            <PrivateRoutes>
                 <TennisReservation/>
             </PrivateRoutes>
           }/> 
@@ -198,7 +200,7 @@ function App() {
  
         <Route path="/MakeReservation/idCancha=:idCancha/idHorario=:idHorario/:ano-:mes-:dia" 
           element={
-            <PrivateRoutes user={sessionStorage.getItem('userId')}>
+            <PrivateRoutes>
                 <TennisReservationForm/>
             </PrivateRoutes>
           }/> 
@@ -207,7 +209,7 @@ function App() {
 
         <Route path="/ReservationDetails/idReserva=:idReserva/cancha=:idCancha" 
           element={
-            <PrivateRoutes user={sessionStorage.getItem('userId')}>
+            <PrivateRoutes>
                 <ReservationDetails/>
             </PrivateRoutes>
           }/>

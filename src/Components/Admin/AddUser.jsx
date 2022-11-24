@@ -15,20 +15,19 @@ export default function AddUser() {
     const [Sexo, setSexo] = useState("")
     const [Contrasena, setContrasena] = useState("")
     const [User, setUser] = useState("")
+    const [Role, setRole] = useState("")
 
     const [Confirmation, setConfirmation] = useState("")
 
     useEffect(() => {
-      
-    }, [])
+      console.log(Role);
+    }, [Role])
     
     const AddNewUser = async (e) =>{
         e.preventDefault();
-        if(Sexo==="empty"){
-            setConfirmation("Seleccione un Genero")
+        if(Sexo==="empty" || Role==="empty"){
+            setConfirmation("Complete todos los campos")
         }else{
-
-        
             setConfirmation("Agregando Usuario")
             try {
                 await axios.post('http://localhost:4000/api/addUser',
@@ -41,7 +40,8 @@ export default function AddUser() {
                     accion: Accion,
                     fecha_nacimiento: FNacimiento,
                     correo_electronico: Correo,
-                    sexo: Sexo
+                    sexo: Sexo,
+                    role:Role
                 })
                 setConfirmation("Se ha agregado el usuario correctamente")
             } catch (error) {
@@ -74,6 +74,14 @@ export default function AddUser() {
                         <label htmlFor="nameCancha">Cedula</label>
                         <input type="text" id="name" onChange={(e)=>setCedula(e.target.value)} required/>
                     </div>
+                    <div className="name_input_container">
+                        <label htmlFor="sexo">Sexo</label>
+                        <select id="sexo" onChange={(e)=>setSexo(e.target.value)} required>
+                            <option value="empty">----Seleccione una opcion----</option>
+                            <option value="0">Masculino</option>
+                            <option value="1">Femenino</option>
+                        </select>
+                    </div>
                 </div>
                 <div className="right_side_container">
                     <div className="name_input_container">
@@ -93,11 +101,11 @@ export default function AddUser() {
                         <input type="date" id="name" onChange={(e)=>setFNacimiento(e.target.value)} required/>
                     </div>
                     <div className="name_input_container">
-                        <label htmlFor="sexo">Sexo</label>
-                        <select id="sexo" onChange={(e)=>setSexo(e.target.value)} required>
+                        <label htmlFor="sexo">Rol</label>
+                        <select id="sexo" onChange={(e)=>setRole(e.target.value)} required>
                             <option value="empty">----Seleccione una opcion----</option>
-                            <option value="0">Masculino</option>
-                            <option value="1">Femenino</option>
+                            <option value="ADMIN">Administrador</option>
+                            <option value="USER">Usuario Regular</option>
                         </select>
                     </div>
                     <p style={{fontSize:"14px"}}>{Confirmation}</p>

@@ -76,7 +76,7 @@ export default function SubtorneoDetails() {
 
       const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
       setParticipants(result.data);
-      console.log("getSubTournamentParticipants: " + result.data);
+      console.log("getSubTournamentParticipants: " + JSON.stringify(result.data));
     }
 
     const getParejas = async () => {
@@ -119,9 +119,13 @@ export default function SubtorneoDetails() {
           setIsLoadingMembers(true)
           //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
           const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubTorneo}`)
-          setGroupsMembers(result.data);
-          setStatusGroups(result.data[0].isPublicado);
           console.log("Miembros de los Grupos: " + JSON.stringify(result.data));
+          setGroupsMembers(result.data);
+
+          if(result.data.length>0){
+            setStatusGroups(result.data[0].isPublicado);
+          }
+
           setIsLoadingMembers(false)
       } catch (error) {
         console.log("Error: " + error.message);
@@ -189,7 +193,7 @@ export default function SubtorneoDetails() {
                   Users.map((u, index)=>(
                     
                       u.id !== parseInt(sessionStorage.getItem('userId')) &&
-                      <option key={index} value={u.id}>{u.username}</option>
+                      <option key={index} value={u.id}>{u.accion} - {u.nombres} {u.apellidos}</option>
                     
                     ))
                   }

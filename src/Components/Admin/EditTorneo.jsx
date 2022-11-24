@@ -17,7 +17,7 @@ export default function EditTorneo() {
   const [Fin_torneo, setFin_torneo] = useState("")
   const [Description, setDescription] = useState("")
   const [Category, setCategory] = useState(0)
-  const [Modalidad, setModalidad] = useState(0)
+  const [Modalidad, setModalidad] = useState()
   const [Competencias, setCompetencias] = useState([])
   const [Participants, setParticipants] = useState([])
 
@@ -35,7 +35,8 @@ export default function EditTorneo() {
 
     const GetTorneoById = async (e) =>{
       try {
-          const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSingleTorneo/${params.idTorneo}`)
+          //const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSingleTorneo/${params.idTorneo}`)
+          const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
           setName(result.data[0].nombre_torneo)
           setInicio_torneo(moment(result.data[0].fecha_inicio).format('YYYY-MM-DD'))
           setFin_torneo(moment(result.data[0].fecha_fin).format('YYYY-MM-DD'))
@@ -44,6 +45,7 @@ export default function EditTorneo() {
           setCategory(result.data[0].id_categoria)
           setDescription(result.data[0].descripcion)
           setModalidad(result.data[0].modalidad)
+          console.log("result.data[0].modalidad: " + result.data[0].modalidad);
 
           //console.log("RESULT: " + JSON.stringify(result.data));
           
@@ -60,7 +62,8 @@ const EditTorneo = async (e) =>{
     }else{
         setConfirmation("Actualizando Torneo...")
         try {
-            const editResult = await axios.put(`https://atcbackend.herokuapp.com/api/editTorneo/${params.idTorneo}`,
+            //const editResult = await axios.put(`https://atcbackend.herokuapp.com/api/editTorneo/${params.idTorneo}`,
+            const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.idTorneo}`,
             {
               nombre_torneo: Name,
               fecha_inicio: Inicio_torneo,
@@ -71,7 +74,7 @@ const EditTorneo = async (e) =>{
               descripcion: Description,
               modalidad: Modalidad
             })
-            //console.log(editResult.data);
+            console.log(editResult.data);
             setConfirmation("Se ha actualizado el torneo correctamente")
         } catch (error) {
             setConfirmation("Ha ocurrido un error")
@@ -83,7 +86,8 @@ const EditTorneo = async (e) =>{
 
 const GetCompetencias = async () => {
     try {
-      const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSubTorneoByTorneoId/${params.idTorneo}`)
+      //const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSubTorneoByTorneoId/${params.idTorneo}`)
+      const result = await axios.get(`http://localhost:4000/api/getSubTorneoByTorneoId/${params.idTorneo}`)
       setCompetencias(result.data);
     } catch (error) {
       
@@ -93,7 +97,8 @@ const GetCompetencias = async () => {
 
 const DeleteCompetencia = async (id) => {
     try {
-        const result = await axios.delete(`https://atcbackend.herokuapp.com/api/deleteSubTorneo/${id}`);
+        //const result = await axios.delete(`https://atcbackend.herokuapp.com/api/deleteSubTorneo/${id}`);
+        const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneo/${id}`);
         const filter = Competencias.filter(e => e.id_subtorneo !== id)
         console.log(result.data);
         setCompetencias(filter);
@@ -102,12 +107,6 @@ const DeleteCompetencia = async (id) => {
     }
 }
 
-const getSubTournamentParticipants = async () => {
-
-    const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
-    setParticipants(result.data);
-    //console.log(result.data);
-  }
   return (
     <div className="main_editTorneo_container">
         <div className="torneo_subTorneo_container">
@@ -128,7 +127,7 @@ const getSubTournamentParticipants = async () => {
                             <tr key={comp.id_subtorneo}>
                                 <td>{comp.nombre}</td>
                                 <td>{comp.cantidad_personas}</td>
-                                <td><button className="editCanchaBtn"><Link to={`editSubtorneo/id=${comp.id_subtorneo}`}>Detalles</Link></button></td>
+                                <td><button className="editCanchaBtn"><Link to={`editSubtorneo/id=${comp.id_subtorneo}/modalidad=${Modalidad}`}>Detalles</Link></button></td>
                                 <td><button className="deleteCanchaBtn" onClick={(e) => DeleteCompetencia(comp.id_subtorneo)}>Eliminar</button></td>
                             </tr>
                             ))
@@ -173,7 +172,7 @@ const getSubTournamentParticipants = async () => {
                             </select>
                         </div>
                         <div className="category_input_container">
-                        <label htmlFor="categoryCancha">Categoria</label>
+                        <label htmlFor="categoryCancha">Modalidad</label>
                             <select value={Modalidad} id="ecategoryCancha" className="" onChange={(e)=>setModalidad(e.target.value)}>
                                 <option value="">---Seleccione una Categoria---</option>
                                 <option value="Singles">Singles</option>

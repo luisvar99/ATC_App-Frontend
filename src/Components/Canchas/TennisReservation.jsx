@@ -97,7 +97,7 @@ useEffect(() => {
                     Reservaciones.find(r => r.id_horario === h.id_horario)!== undefined ?
                     <td style={{backgroundColor:"yellow"}} key={index}><Reservation idHorario={h.id_horario}/></td>
                     :
-                      ((((new Date() - new Date(Fecha + ', ' + h.hora_inicio)) / (1000 * 60 * 60)>=0)) || (((new Date() - new Date(Fecha + ', ' + h.hora_inicio)) / (1000 * 60 * 60)<= -24)) ) ?
+                      ((((new Date() - new Date(Fecha + ', ' + h.hora_inicio)) / (1000 * 60 * 60)>=0)) || (((new Date() - new Date(Fecha + ', ' + h.hora_inicio)) / (1000 * 60 * 60)<= -48)) ) ?
                       <td style={{backgroundColor:"#0b7037", cursor:"not-allowed"}} key={index}><strong>No Disponible</strong></td>
                     :
                       <td style={{backgroundColor:"#0b7037"}} key={index} onClick={()=>HandleReservation(h.id_horario)}><strong>Libre</strong></td>

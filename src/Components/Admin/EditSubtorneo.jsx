@@ -12,6 +12,11 @@ export default function EditSubtorneo() {
     const [Name, setName] = useState("")
     const [Cantidad_personas, setCantidad_personas] = useState(0)
     const [Id_torneo, setId_torneo] = useState(0)
+    const [Modalidad, setModalidad] = useState("")
+    /* const [Parejas, setParejas] = useState([]) */
+    const [IsLoadingParejas, setIsLoadingParejas] = useState(false)
+
+
     const [Participants, setParticipants] = useState([])
     const [Groups, setGroups] = useState([])
     const [GroupsMembers, setGroupsMembers] = useState([])
@@ -19,6 +24,7 @@ export default function EditSubtorneo() {
     const [IsLoadingForms, setIsLoadingForms] = useState(false)
     const [IsLoadingMembers, setIsLoadingMembers] = useState(false)
     const [IsLoadingAddingGroups, setIsLoadingAddingGroups] = useState(false)
+    const [IsLoadingParticipants, setIsLoadingParticipants] = useState(false)
     const [IsDeletingGroup, setIsDeletingGroup] = useState(false)
 
     const [NumberOfGroups, setNumberOfGroups] = useState([])
@@ -38,6 +44,7 @@ export default function EditSubtorneo() {
             setName(result.data[0].nombre)
             setCantidad_personas(result.data[0].cantidad_personas)
             setId_torneo(result.data[0].id_torneo)
+            setModalidad(result.data[0].modalidad)
             //console.log("RESULT: " + JSON.stringify(result.data));
             
         } catch (error) {
@@ -83,11 +90,25 @@ export default function EditSubtorneo() {
     }
 
     const getSubTournamentParticipants = async () => {
-
+        setIsLoadingParticipants(true)
         //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSubTorneosParticipants/${params.idSubtorneo}`)
         const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubtorneo}`)
         setParticipants(result.data);
-        //console.log(result.data);
+        setIsLoadingParticipants(false)
+        console.log("Participantes: " + JSON.stringify(result.data)); 
+      }
+
+      const getParejas = async () => {
+        try {
+            setIsLoadingParticipants(true)
+            const result = await axios.get(`http://localhost:4000/api/getSubtorneoParejas/${params.idSubtorneo}`)
+            setParticipants(result.data);
+            setIsLoadingParticipants(false)
+          console.log("Parejas: " + JSON.stringify(result.data)); 
+        } catch (error) {
+          console.log("Error: " + error.message);
+        }
+  
       }
 
       const DeleteSubTorneoParticipant = async (id_subtorneo, user_id)=>{
@@ -198,7 +219,7 @@ export default function EditSubtorneo() {
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
             const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubtorneo}`)
             setGroupsMembers(result.data);
-            console.log("GroupsMembers: " + result.data);
+            //console.log("GroupsMembers: " + result.data);
             setIsLoadingMembers(false)
         } catch (error) {
             
@@ -208,7 +229,12 @@ export default function EditSubtorneo() {
 
     useEffect(() => {
         GetSubtorneoById();
-        getSubTournamentParticipants();
+        console.log(params.modalidad);
+        if(params.modalidad.trim()==="Dobles"){
+            getParejas();
+          }else{
+            getSubTournamentParticipants();
+          }
         GetSubtorneoGrupos();
         GetGruposMembers();
     },[])
@@ -235,26 +261,55 @@ export default function EditSubtorneo() {
                     </div>
                 </form>
             </div>
-            <div className="subtorneo_details_table_container">
-                <table className="subtorneo_details_table">
-                    <thead>
-                        <tr className="table_headers">
-                            <th>Participantes</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                        <tbody>
-                            {
-                                Participants.map((participant, index)=>(
-                                    <tr key={index}>
-                                    <td>{participant.username}</td>
-                                    <td><button onClick={()=> DeleteSubTorneoParticipant(participant.id_subtorneo, participant.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
-                                </tr>
-                                ))
-                            }
-                        </tbody>
-                </table>
-            </div>
+            {
+                IsLoadingParticipants ?
+                <>
+                    <RotatingLines
+                        strokeColor="green"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="35"
+                        visible={true}/>
+                </>
+                    :
+                    <div className="subtorneo_details_table_container">
+                    <table className="subtorneo_details_table">
+                        <thead>
+                            <tr className="table_headers">
+                                <th>Participantes</th>
+                                {params.modalidad==="Dobles" &&<th>Numero de Pareja</th>}
+                                <th></th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                                {
+                                    Participants.length===0 ?
+                                    <>
+                                    <tr>
+                                        <td>
+                                            
+                                            <RotatingLines
+                                            strokeColor="green"
+                                            strokeWidth="5"
+                                            animationDuration="0.75"
+                                            width="35"
+                                            visible={true}/>
+                                        </td>
+                                    </tr>
+                                    </>
+                                    :
+                                    Participants.map((participant, index)=>(
+                                        <tr key={index}>
+                                        <td>{participant.username}</td>
+                                        <td>{params.modalidad.trim()==="Dobles" && (participant.id_pareja)}</td>
+                                        <td><button onClick={()=> DeleteSubTorneoParticipant(participant.id_subtorneo, participant.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
+                                    </tr>
+                                    ))
+                                }
+                            </tbody>
+                    </table>
+                </div>
+            }
         <div className="groups_container">
             <div className="form_create_group_container">
             <h3>Crear Grupos</h3>
@@ -278,7 +333,10 @@ export default function EditSubtorneo() {
             </div>
         </div>
         </div>
-                    
+
+         <br />
+         <br />
+        <hr/>
             <div className="addGroupPlayerContainer">
             {
                 IsLoadingForms ? 
@@ -316,7 +374,9 @@ export default function EditSubtorneo() {
                         )) }
                 </div>
 
-
+        <br />
+        <br />
+        <hr/>
                 <div className="groupsMembers_container">
                 {
                     IsLoadingMembers ? 
@@ -334,8 +394,10 @@ export default function EditSubtorneo() {
                   :
                 <>
                   
-                  
-                  <table className="subtorneo_details_table">
+                  { GroupsMembers.length>0 &&
+                  <>
+                    <Link to={`/createSubtorneoMatches/${params.idSubtorneo}`} className="crear_enfrentamientos_btn">Crear Enfrentamientos</Link>
+                    <table className="subtorneo_details_table">
                         <thead>
                             <tr className="table_headers">
                                 <th>Usuario</th>
@@ -355,7 +417,9 @@ export default function EditSubtorneo() {
                         }
                         </tbody>
                     </table>
-                <button onClick={PublishGroups} className="publishGrups_btn">Publicar Grupos</button>
+                    <button onClick={PublishGroups} className="publishGrups_btn">Publicar Grupos</button>
+                </>
+                }
                 </>
                 }
                 </div>
