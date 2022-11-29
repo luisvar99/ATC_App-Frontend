@@ -219,7 +219,7 @@ export default function EditSubtorneo() {
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
             const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubtorneo}`)
             setGroupsMembers(result.data);
-            //console.log("GroupsMembers: " + result.data);
+            console.log("GroupsMembers: " + JSON.stringify(result.data));
             setIsLoadingMembers(false)
         } catch (error) {
             
@@ -396,13 +396,14 @@ export default function EditSubtorneo() {
                   
                   { GroupsMembers.length>0 &&
                   <>
-                    <Link to={`/createSubtorneoMatches/${params.idSubtorneo}`} className="crear_enfrentamientos_btn">Crear Enfrentamientos</Link>
+                    <Link to={`/createSubtorneoMatches/${params.idSubtorneo}`} className="crear_enfrentamientos_btn">Enfrentamientos</Link>
                     <table className="subtorneo_details_table">
                         <thead>
                             <tr className="table_headers">
                                 <th>Usuario</th>
                                 <th>Grupo</th>
-                                <th>Accion</th>
+                                {params.modalidad==="Dobles" &&<th>Id de Pareja</th>}
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -411,6 +412,7 @@ export default function EditSubtorneo() {
                             <tr key={index}>
                                 <td>{gm.accion} - {gm.nombres} {gm.apellidos}</td>
                                 <td>{gm.nombre_grupo}</td>
+                                { params.modalidad==="Dobles" && <td>{gm.id_pareja}</td>}
                                 <td><button onClick={(e)=> DeleteSubTorneoGroupParticipant(e, gm.id_grupo, gm.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
                             </tr>
                             ))

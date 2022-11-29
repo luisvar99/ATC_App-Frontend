@@ -31,6 +31,7 @@ import AddUser from './Components/Admin/AddUser';
 import PrivateRoutes from './Components/PrivateRoutes/PrivateRoutes';
 import AdminPrivateRoutes from './Components/PrivateRoutes/AdminPrivateRoutes';
 import NotFoundPage from './Components/Common/NotFoundPage';
+import SubtorneoMatches from './Components/Admin/SubtorneoMatches';
 
 
 function App() {
@@ -156,6 +157,13 @@ function App() {
           element={
             <AdminPrivateRoutes>
                 <AddUser/>
+            </AdminPrivateRoutes>
+          }/>     
+
+        <Route path="/createSubtorneoMatches/:idSubtorneo" 
+          element={
+            <AdminPrivateRoutes>
+                <SubtorneoMatches/>
             </AdminPrivateRoutes>
           }/>     
 

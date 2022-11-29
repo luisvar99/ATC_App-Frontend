@@ -57,8 +57,8 @@ export default function ManageTorneos() {
                 </thead>
                     <tbody>
                         {
-                            Torneos.map((torneo)=>(
-                            <tr key={torneo.id_cancha}>
+                            Torneos.map((torneo, index)=>(
+                            <tr key={index}>
                                 <td>{torneo.nombre_torneo}</td>
                                 <td>{torneo.id_categoria ==='0' ? 'Tennis' : 'Padel'}</td>
                                 <td>{new Date(torneo.fecha_inicio_inscripcion).toLocaleDateString('es-MX')}</td>
