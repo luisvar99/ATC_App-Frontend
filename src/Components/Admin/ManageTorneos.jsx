@@ -8,6 +8,7 @@ import { RotatingLines } from  'react-loader-spinner'
 export default function ManageTorneos() {
 
     const [Torneos, setTorneos] = useState([])
+    const [LoadingTorneos, setLoadingTorneos] = useState(false)
 
     useEffect(() => {
         GetAllTorneos();
@@ -15,10 +16,12 @@ export default function ManageTorneos() {
     },[] )
     
     const GetAllTorneos = async () => {
+        setLoadingTorneos(true)
         try {
             const result = await axios.get('https://atcbackend.herokuapp.com/api/getAllTorneos');
             setTorneos(result.data);
-            console.log("result.data: " + JSON.stringify(result.data));
+            //console.log("result.data: " + JSON.stringify(result.data));
+            setLoadingTorneos(false)
         } catch (error) {
             alert(error.message)
         }
@@ -41,6 +44,16 @@ export default function ManageTorneos() {
         <Link to='addTorneo' className="linkAddCancha">Agregar nuevo torneo</Link>
         <div className="second_container">
             <h3>Listado de Torneos</h3>
+            {
+            LoadingTorneos ?
+            <RotatingLines
+                strokeColor="green"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="30"
+                visible={true}
+                />
+                :
             <table className="chanchasAdmin_table">
                 <thead>
                     <tr className="table_headers">
@@ -73,6 +86,7 @@ export default function ManageTorneos() {
                         }
                     </tbody>
             </table>
+            }
         </div>
     </div>
     </>

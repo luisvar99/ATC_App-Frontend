@@ -1,0 +1,12 @@
+.createMatch_main_container{
+    display:flex;
+    flex-direction: column;
+}
+
+.matches_container{
+    display:grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 3rem;
+    margin-right: 2rem;
+    margin-top: 1.5rem;
+}
