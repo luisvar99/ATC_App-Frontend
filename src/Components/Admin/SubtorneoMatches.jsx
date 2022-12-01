@@ -65,6 +65,7 @@ export default function SubtorneoMatches() {
                 hora: Hora,
             })
             setIsAddingMatch(false)
+            window.location.reload();
         } catch (error) {
             
         }
@@ -79,59 +80,68 @@ export default function SubtorneoMatches() {
 
   return (
     <div className="createMatch_main_container">
-        <div className="EditTorneo_form_container" style={{marginLeft:"2rem", marginTop:"1.5rem"}}>
+        <div className="addMatch_form_container" style={{marginLeft:"2rem", marginTop:"1.5rem"}}>
                 <h3>Agregar enfrentamiento</h3>
-                <form onSubmit={CreateSubtorneoMatch} className="form_add_canchas" >
-                    <div className="name_input_container">
-                        <label htmlFor="cantPersonas">Jugador No. 1</label>
-                        <select type="number" id="cantPersonas" onChange={(e)=>setId_player_uno(e.target.value)} required>
-                            {
-                                GroupsMembers.map((gm, index)=>(
-                                    <option key={index} value={gm.id}>{gm.accion} - {gm.nombres}</option>
-                                ))
-                            }
-                        </select>
+                <form onSubmit={CreateSubtorneoMatch} className="form_add_matches" >
+                    <div className="add_matches_left_right_side">
+                    
+                    <div className="add_matches_left_side">
+                        <div className="inputs_container">
+                            <label htmlFor="cantPersonas">Jugador No. 1</label>
+                            <select type="number" id="cantPersonas" onChange={(e)=>setId_player_uno(e.target.value)} required>
+                                {
+                                    GroupsMembers.map((gm, index)=>(
+                                        <option key={index} value={gm.id}>{gm.accion} - {gm.nombres} {gm.apellidos}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+
+                        <div className="inputs_container">
+                            <label htmlFor="cantPersonas">Jugador No.2</label>
+                            <select type="number" id="cantPersonas" onChange={(e)=>setId_player_dos(e.target.value)} required>
+                                {
+                                    GroupsMembers.map((gm, index)=>(
+                                        <option key={index} value={gm.id}>{gm.accion} - {gm.nombres} {gm.apellidos}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                        <div className="inputs_container">
+                            <label htmlFor="cantPersonas">Jugador No.3</label>
+                            <select type="number" id="cantPersonas" onChange={(e)=>setId_player_tres(e.target.value)} required>
+                                {
+                                    GroupsMembers.map((gm, index)=>(
+                                        <option key={index} value={gm.id}>{gm.accion} - {gm.nombres} {gm.apellidos}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
                     </div>
 
-                    <div className="name_input_container">
-                        <label htmlFor="cantPersonas">Jugador No.2</label>
-                        <select type="number" id="cantPersonas" onChange={(e)=>setId_player_dos(e.target.value)} required>
-                            {
-                                GroupsMembers.map((gm, index)=>(
-                                    <option key={index} value={gm.id}>{gm.accion} - {gm.nombres}</option>
-                                ))
-                            }
-                        </select>
+                    <div className="add_matches_right_side">
+                        <div className="inputs_container">
+                            <label htmlFor="cantPersonas">Jugador No.4</label>
+                            <select type="number" id="cantPersonas" onChange={(e)=>setId_player_cuatro(e.target.value)} required>
+                                {
+                                    GroupsMembers.map((gm, index)=>(
+                                        <option key={index} value={gm.id}>{gm.accion} - {gm.nombres} {gm.apellidos}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                        <div className="inputs_container">
+                            <label htmlFor="cantPersonas">Fecha</label>
+                            <input type="date" id="cantPersonas" onChange={(e)=>setFecha(e.target.value)} required/>
+                        </div>
+                        <div className="inputs_container">
+                            <label htmlFor="cantPersonas">Hora</label>
+                            <input type="time" id="cantPersonas" onChange={(e)=>setHora(e.target.value)} required/>
+                        </div>
                     </div>
-                    <div className="name_input_container">
-                        <label htmlFor="cantPersonas">Jugador No.3</label>
-                        <select type="number" id="cantPersonas" onChange={(e)=>setId_player_tres(e.target.value)} required>
-                            {
-                                GroupsMembers.map((gm, index)=>(
-                                    <option key={index} value={gm.id}>{gm.accion} - {gm.nombres}</option>
-                                ))
-                            }
-                        </select>
                     </div>
-                    <div className="name_input_container">
-                        <label htmlFor="cantPersonas">Jugador No.4</label>
-                        <select type="number" id="cantPersonas" onChange={(e)=>setId_player_cuatro(e.target.value)} required>
-                            {
-                                GroupsMembers.map((gm, index)=>(
-                                    <option key={index} value={gm.id}>{gm.accion} - {gm.nombres}</option>
-                                ))
-                            }
-                        </select>
-                    </div>
-                    <div className="name_input_container">
-                        <label htmlFor="cantPersonas">Fecha</label>
-                        <input type="date" id="cantPersonas" onChange={(e)=>setFecha(e.target.value)} required/>
-                    </div>
-                    <div className="name_input_container">
-                        <label htmlFor="cantPersonas">Hora</label>
-                        <input type="time" id="cantPersonas" onChange={(e)=>setHora(e.target.value)} required/>
-                    </div>
-                    
+
+
                     <div className="btn_addCancha_container">
                         <button type="submit">Aceptar</button>
                         {IsAddingMatch &&

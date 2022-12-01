@@ -26,6 +26,7 @@ export default function EditSubtorneo() {
     const [IsLoadingAddingGroups, setIsLoadingAddingGroups] = useState(false)
     const [IsLoadingParticipants, setIsLoadingParticipants] = useState(false)
     const [IsDeletingGroup, setIsDeletingGroup] = useState(false)
+    const [IsAddingGroupMember, setIsAddingGroupMember] = useState(false)
 
     const [NumberOfGroups, setNumberOfGroups] = useState([])
 
@@ -182,21 +183,32 @@ export default function EditSubtorneo() {
         if(IdGroupMember===""){
             alert("Por favor seleccione un jugador")
         }else{
+            setIsAddingGroupMember(true)
 
             try {
                 //const result = await axios.post(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/idsubtorneo=${params.idSubtorneo}`)
                 const result = await axios.post(`http://localhost:4000/api/addGrupoMember`,
                 {
                     id_grupo: id_grupo,
-                    user_id: IdGroupMember
+                    user_id: IdGroupMember,
+                    idSubtorneo: params.idSubtorneo
                 })
                 if(result.data.success){
-                    alert(`Se ha agregado el jugador ${IdGroupMember} al grupo ${id_grupo}`)
-                    window.location.reload()
+
+                    setIsAddingGroupMember(false);
+                    window.location.reload();
+
+                }else if(result.data.success===false){
+
+                    setIsAddingGroupMember(false);
+                    alert("Este usuario ya se encuentra inscrito en un grupo");
+
                 }
                 console.log(result.data);
-            } catch (error) {
                 
+            } catch (error) {
+
+                setIsAddingGroupMember(false)
             }
         }
     }
@@ -229,7 +241,7 @@ export default function EditSubtorneo() {
 
     useEffect(() => {
         GetSubtorneoById();
-        console.log(params.modalidad);
+        //console.log(params.modalidad);
         if(params.modalidad.trim()==="Dobles"){
             getParejas();
           }else{
@@ -300,7 +312,7 @@ export default function EditSubtorneo() {
                                     :
                                     Participants.map((participant, index)=>(
                                         <tr key={index}>
-                                        <td>{participant.username}</td>
+                                        <td>{participant.accion} - {participant.nombres} {participant.apellidos}</td>
                                         <td>{params.modalidad.trim()==="Dobles" && (participant.id_pareja)}</td>
                                         <td><button onClick={()=> DeleteSubTorneoParticipant(participant.id_subtorneo, participant.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
                                     </tr>
@@ -355,11 +367,22 @@ export default function EditSubtorneo() {
                     
                         <form key={index} onSubmit={(e)=> addGroupMember(e, g.id_grupo)} className="addGroupPlayerForm">
                             <div className="name_input_container">
-                                <label htmlFor="Integrante">Grupo {index+1}</label>
+                                <div className="label_spinner_container">
+                                    <label htmlFor="Integrante">Grupo {g.numero_grupo}</label>
+                                    {
+                                        IsAddingGroupMember &&
+                                        <RotatingLines
+                                        strokeColor="green"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="30"
+                                        visible={true}/>
+                                    }
+                                </div>
                                 <select type="text" id="Integrante" onChange={(e)=>setIdGroupMember(e.target.value)} required>
                                     <option value="">---Seleccione un Jugador---</option>
                                     {Participants.map((p, index)=>(
-                                        <option key={index} value={p.id}>{p.username}</option>
+                                        <option key={index} value={p.id}>{p.accion} - {p.nombres} {p.apellidos}</option>
                                         ))
                                     }
                                 </select>
@@ -411,7 +434,7 @@ export default function EditSubtorneo() {
                         GroupsMembers.map((gm,index)=>(
                             <tr key={index}>
                                 <td>{gm.accion} - {gm.nombres} {gm.apellidos}</td>
-                                <td>{gm.nombre_grupo}</td>
+                                <td>Grupo {gm.numero_grupo}</td>
                                 { params.modalidad==="Dobles" && <td>{gm.id_pareja}</td>}
                                 <td><button onClick={(e)=> DeleteSubTorneoGroupParticipant(e, gm.id_grupo, gm.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
                             </tr>

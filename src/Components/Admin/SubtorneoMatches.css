@@ -10,3 +10,33 @@
     margin-right: 2rem;
     margin-top: 1.5rem;
 }
+
+.add_matches_left_right_side {
+    display: flex;
+    justify-content:space-around
+}
+
+.addMatch_form_container{
+    border: 3px #CED4DA solid;
+    border-radius: 5px;
+    padding: 1.5rem;
+    width: 50%; 
+}
+
+.inputs_container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    width: 100%
+}
+
+.inputs_container select{
+   width: 100%;
+}
+.inputs_container input{
+   padding:0.3rem;
+}
+
+.add_matches_left_side, .add_matches_right_side{
+    width: 40%;
+}

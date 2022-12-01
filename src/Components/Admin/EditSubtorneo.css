@@ -141,3 +141,12 @@ padding-top: 2rem
     cursor: pointer;
     text-decoration: none;
 }
+
+.label_spinner_container{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+.label_spinner_container label{
+    margin-right: 1rem;
+}
