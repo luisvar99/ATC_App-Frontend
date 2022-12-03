@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import './SubtorneoDetails.css'
 import { RotatingLines } from  'react-loader-spinner'
+import GetGroupsMembers from './GetGroupsMembers'
 
 
 
@@ -14,7 +15,9 @@ export default function SubtorneoDetails() {
   const [Users, setUsers] = useState([])
   const [Parejas, setParejas] = useState([])
   const [GroupsMembers, setGroupsMembers] = useState([])
+  const [Groups, setGroups] = useState([])
   const [StatusGroups, setStatusGroups] = useState(0)
+  const [NotAdmin, setNotAdmin] = useState(true)
 
   const [IsLoading, setIsLoading] = useState(false)
   const [IsLoadingMembers, setIsLoadingMembers] = useState(false)
@@ -76,7 +79,7 @@ export default function SubtorneoDetails() {
 
       const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
       setParticipants(result.data);
-      console.log("getSubTournamentParticipants: " + JSON.stringify(result.data));
+      //console.log("getSubTournamentParticipants: " + JSON.stringify(result.data));
     }
 
     const getParejas = async () => {
@@ -85,7 +88,7 @@ export default function SubtorneoDetails() {
         setIsLoadingParejas(true)
         const result = await axios.get(`http://localhost:4000/api/getSubtorneoParejas/${params.idSubTorneo}`)
         setParejas(result.data);
-        console.log(result.data); 
+        //console.log(result.data); 
         setIsLoadingParejas(false) 
       } catch (error) {
         console.log("Error: " + error.message);
@@ -119,7 +122,7 @@ export default function SubtorneoDetails() {
           setIsLoadingMembers(true)
           //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
           const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubTorneo}`)
-          console.log("Miembros de los Grupos: " + JSON.stringify(result.data));
+          //console.log("Miembros de los Grupos: " + JSON.stringify(result.data));
           setGroupsMembers(result.data);
 
           if(result.data.length>0){
@@ -129,6 +132,17 @@ export default function SubtorneoDetails() {
           setIsLoadingMembers(false)
       } catch (error) {
         console.log("Error: " + error.message);
+      }
+    }
+
+    const GetSubtorneoGrupos = async () =>{
+      try { 
+          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
+          const result = await axios.get(`http://localhost:4000/api/getSubtorneoGrupos/${params.idSubTorneo}`)
+          setGroups(result.data);
+          console.log("GetSubtorneoGrupos: " + result.data);
+      } catch (error) { 
+          
       }
     }
 
@@ -157,14 +171,15 @@ export default function SubtorneoDetails() {
       console.log(params.modalidad);
       if(params.modalidad==="Dobles"){
         getParejas();
-        console.log("Parejas: " + JSON.stringify(Parejas));
+        //console.log("Parejas: " + JSON.stringify(Parejas));
       }else{
         getSubTournamentParticipants();
       }
       GetTorneoinfo();
       GetNumberOfParticipants();
       GetSubtorneoinfo();
-      GetGruposMembers();
+      //GetGruposMembers();
+      GetSubtorneoGrupos();
       
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
@@ -176,7 +191,18 @@ export default function SubtorneoDetails() {
   return (
     <div className="subtorneoDetails_main_container">
       <div className="table_container">
-            <p>Cupos Disponibles: {Cantidad_personas-NumberOfParticipants}</p>          
+            {
+              Cantidad_personas-NumberOfParticipants<0 ?
+              <p>Cupos Disponibles: <RotatingLines
+                                      strokeColor="green"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="30"
+                                      visible={true}
+                                    />
+              </p>  :        
+              <p>Cupos Disponibles: {Cantidad_personas-NumberOfParticipants}</p>         
+            }
         {
           params.modalidad==="Dobles" &&
           <div style={{marginBottom:"2rem"}}>
@@ -285,52 +311,16 @@ export default function SubtorneoDetails() {
             
       </div>
       {
-      <div className="table_container">
-        <p>Grupos</p>
-          {(GroupsMembers.length===0 || parseInt(StatusGroups)===0) ?
-          <h4>Los grupos no se encuentran disponibles en este momento</h4>
-          :
-        
-        <table className="subtorneo_details_table">
-            <thead>
-                <tr className="table_headers">
-                    <th>Usuario</th>
-                    <th>Grupo</th>
-                </tr>
-            </thead>
-            <tbody>
-            { 
-            GroupsMembers.map((gm,index)=>(
-                <tr key={index}>
-                  {
-                    IsLoadingMembers ? 
-                    <td><RotatingLines
-                      strokeColor="green"
-                      strokeWidth="5"
-                      animationDuration="0.75"
-                      width="35"
-                      visible={true}/></td>
-                      :
-                      <td>{gm.username}</td>
-                  }
-                  {
-                    IsLoadingMembers ? 
-                    <td><RotatingLines
-                      strokeColor="green"
-                      strokeWidth="5"
-                      animationDuration="0.75"
-                      width="35"
-                      visible={true}/></td>
-                      :
-                      <td>{gm.nombre_grupo}</td>
-                  }  
-                </tr>
-                ))
+        <>
+        <h2>Grupos</h2>
+        <div className="GetGroupsMembers_conatiner_two">
+          {
+            Groups.map((g, index)=>(
+              <GetGroupsMembers idGrupo={g.id_grupo} key={index} idSubtorneo={params.idSubTorneo} modalidad={params.modalidad} NotAdmin={NotAdmin}/>
+              ))
             }
-            </tbody>
-        </table>
-          }
-        </div>
+      </div>
+      </>
         }
       </div>
   )

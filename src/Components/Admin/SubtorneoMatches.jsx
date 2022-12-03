@@ -130,6 +130,7 @@ export default function SubtorneoMatches() {
                                 }
                             </select>
                         </div>
+                        
                         <div className="inputs_container">
                             <label htmlFor="cantPersonas">Fecha</label>
                             <input type="date" id="cantPersonas" onChange={(e)=>setFecha(e.target.value)} required/>
@@ -137,6 +138,16 @@ export default function SubtorneoMatches() {
                         <div className="inputs_container">
                             <label htmlFor="cantPersonas">Hora</label>
                             <input type="time" id="cantPersonas" onChange={(e)=>setHora(e.target.value)} required/>
+                        </div>
+                        <div className="inputs_container">
+                            <label htmlFor="cantPersonas">Ronda</label>
+                            <select type="number" id="cantPersonas" onChange={(e)=>setId_player_cuatro(e.target.value)} required>
+                                {
+                                    GroupsMembers.map((gm, index)=>(
+                                        <option key={index} value={gm.id}>{gm.accion} - {gm.nombres} {gm.apellidos}</option>
+                                    ))
+                                }
+                            </select>
                         </div>
                     </div>
                     </div>

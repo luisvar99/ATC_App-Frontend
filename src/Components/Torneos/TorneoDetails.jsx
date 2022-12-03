@@ -17,7 +17,7 @@ export default function TorneoDetails() {
   const GetSubtorneos = async () => {
     try {
       setIsLoading(true)
-      const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSubTorneoByTorneoId/${params.idTorneo}`)
+      const result = await axios.get(`http://localhost:4000/api/getSubTorneoByTorneoId/${params.idTorneo}`)
       setSubtorneos(result.data);
       setIsLoading(false)
     } catch (error) {

@@ -14,7 +14,7 @@ export default function TorneosDashboard() {
     const GetTorneos = async () => {
         try {
             setIsLoading(true)
-            const response = await axios.get("https://atcbackend.herokuapp.com/api/getAllTorneos") 
+            const response = await axios.get("http://localhost:4000/api/getAllTorneos") 
             console.log(response.data);
             setTorneos(response.data)
             setIsLoading(false)

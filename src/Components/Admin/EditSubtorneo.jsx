@@ -5,6 +5,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import './EditSubtorneo.css'
 import { RotatingLines } from  'react-loader-spinner'
+import GetGroupsMembers from '../Torneos/GetGroupsMembers'
 
 
 
@@ -78,13 +79,12 @@ export default function EditSubtorneo() {
     const PublishGroups = async (e) =>{
             try {
                 //await axios.put(`https://atcbackend.herokuapp.com/api/editSubTorneo/${params.idSubtorneo}`,
-                await axios.put(`http://localhost:4000/api/publishGroups/${params.idTorneo}`,
+                await axios.put(`http://localhost:4000/api/PublishGrupos/${params.idSubtorneo}`,
                 {
                     isPublicado: 1
                 })
-                setConfirmation("Se ha editado la competencia correctamente")
+                window.location.reload();
             } catch (error) {
-                setConfirmation("Ha ocurrido un error")
                 alert(error.message);
             }
         
@@ -225,13 +225,15 @@ export default function EditSubtorneo() {
             
         }
       }
+
+
       const GetGruposMembers = async () =>{
         try {
             setIsLoadingMembers(true)
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
             const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubtorneo}`)
             setGroupsMembers(result.data);
-            console.log("GroupsMembers: " + JSON.stringify(result.data));
+            //console.log("GroupsMembers: " + JSON.stringify(result.data));
             setIsLoadingMembers(false)
         } catch (error) {
             
@@ -248,7 +250,8 @@ export default function EditSubtorneo() {
             getSubTournamentParticipants();
           }
         GetSubtorneoGrupos();
-        GetGruposMembers();
+        //GetGruposMembers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
 
@@ -400,7 +403,19 @@ export default function EditSubtorneo() {
         <br />
         <br />
         <hr/>
-                <div className="groupsMembers_container">
+        <div className="crear_enfrentamientos">
+            <Link to={`/createSubtorneoMatches/${params.idSubtorneo}`} className="crear_enfrentamientos_btn">Enfrentamientos</Link>
+            <button onClick={PublishGroups} className="publishGrups_btn">Publicar Grupos</button>
+
+        </div>
+        <div className="GetGroupsMembers_conatiner">
+            {
+                Groups.map((g, index)=>(
+                    <GetGroupsMembers idGrupo={g.id_grupo} key={index} idSubtorneo={params.idSubTorneo} modalidad={params.modalidad}/>
+                    ))
+                }
+        </div>
+                {/* <div className="groupsMembers_container">
                 {
                     IsLoadingMembers ? 
                 <>
@@ -419,7 +434,6 @@ export default function EditSubtorneo() {
                   
                   { GroupsMembers.length>0 &&
                   <>
-                    <Link to={`/createSubtorneoMatches/${params.idSubtorneo}`} className="crear_enfrentamientos_btn">Enfrentamientos</Link>
                     <table className="subtorneo_details_table">
                         <thead>
                             <tr className="table_headers">
@@ -447,7 +461,7 @@ export default function EditSubtorneo() {
                 }
                 </>
                 }
-                </div>
+                </div> */}
                 
                        
         
