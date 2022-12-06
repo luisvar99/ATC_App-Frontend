@@ -4,11 +4,12 @@ import {Link, useNavigate} from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
 
-export default function MatchInfo({idPartido}) {
+export default function MatchInfo({idPartido, IsAdmin}) {
 
     const [MatchInfo, setMatchInfo] = useState([])
-    const [MatchID, setMatchID] = useState("")
+    const [MatchModalidad, setMatchModalidad] = useState("")
     const [MatchDate, setMatchDate] = useState("")
+    const [MatchRonda, setMatchRonda] = useState("")
     const [IsLoadingMatches, setIsLoadingMatches] = useState(false)
 
     const GetSubtorneoMatches = async () =>{
@@ -18,8 +19,9 @@ export default function MatchInfo({idPartido}) {
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
             const result = await axios.get(`http://localhost:4000/api/GetSubtorneoMatchesById/${idPartido}`)
             setMatchInfo(result.data);
-            setMatchID(result.data[0].id_partido);
+            setMatchModalidad(result.data[0].modalidad);
             setMatchDate(result.data[0].fecha);
+            setMatchRonda(result.data[0].nombre);
             console.log("GetSubtorneoMatchesById: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
         } catch (error) {
@@ -27,35 +29,54 @@ export default function MatchInfo({idPartido}) {
         }
     }
 
+
+
     useEffect(() => {
         GetSubtorneoMatches()
     }, [])
-    
 
   return (
     <div className="matchTableContainer">
+        <>
+        {
+            IsLoadingMatches ?
+            <>
+            <p>CARGANDO ENFRETAMIENTO...</p>
+                <RotatingLines
+                strokeColor="green"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="35"
+                visible={true}/>
+            </>
+                :
+        <>
         <div className="matchDateID_container" style={{display:"flex", justifyContent:"space-evenly"}}>
-            <div className="matchID">Codigo Partido: {MatchID}</div>
+            <div className="matchID">Ronda: {MatchRonda}</div>
             <div className="matchDate">Fecha: {new Date(MatchDate).toLocaleDateString('es-MX')}</div>
         </div>
         <table>
             <thead>
                 <tr>
-                    <td>Jugadores</td>
+                    <td>Accion - Jugador</td>
                 </tr>
                     </thead>
             <tbody>
 
                 {
                     MatchInfo.map((match,index) =>(
-                        <tr key={index}>
-                        <td>{match.nombres} {match.apellidos}</td>
+                    <tr key={index}>
+                        <td>{match.accion} - {match.nombres} {match.apellidos}</td>
                     </tr>
                     ))
                 }
+                
             </tbody>
 
         </table>
+        </>
+    }
+    </>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-//import './TennisReservationForm.css'
+import './ReservationDetails.css'
 import Select from 'react-select';
 import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
@@ -59,23 +59,26 @@ export default function ReservationDetails() {
 
         try { 
           setIsLoadingReservation(true)
+
           const result = await axios.get(`http://localhost:4000/api/getReservaDetails/${params.idReserva}`)
+          
           setReservationDetails(result.data)
           setUserOne(result.data[0].invitados)
-          setUserTwo(result.data[1].invitados)
+          if(result.data.length>1){
+            setUserTwo(result.data[1].invitados)
+            setInvitadoDos(result.data[1].invitados)
+          }
           setHorarioInicio(result.data[0].inicio)
           setHorarioFin(result.data[0].fin)
           setCanchaName(result.data[0].cancha)
           setIdSocio(result.data[0].id_socio)
           setInvitadoUno(result.data[0].invitados)
-          setInvitadoDos(result.data[1].invitados)
-          console.log(result.data[0].invitados);
-          console.log(result.data[1].invitados);
-          console.log("Reservation Found: " + JSON.stringify(result.data));
           
+          console.log("Reservation Found: " + JSON.stringify(result.data));
+
           setIsLoadingReservation(false)
         }catch (error) {
-
+          alert(error.message);
         }
     }
       
@@ -114,7 +117,8 @@ export default function ReservationDetails() {
       useEffect(() => {
         GetReservationDetails();
         GetUsers();
-        //console.log("Users" + JSON.stringify(Users) );
+        console.log("Reservation" + JSON.stringify(ReservationDetails) );
+        console.log("Loader" + JSON.stringify(IsLoadingReservation) );
       // eslint-disable-next-line react-hooks/exhaustive-deps
       },[])
 
@@ -126,7 +130,7 @@ export default function ReservationDetails() {
               {IsLoadingReservation ? 
               <RotatingLines
                 strokeColor="green"
-                strokeWidth="5"
+                strokeWidth="5" 
                 animationDuration="0.75"
                 width="30"
                 visible={true}
@@ -174,14 +178,6 @@ export default function ReservationDetails() {
                         }
                       </div>
                       
-
-                      { 
-                        parseInt(IdSocio) === parseInt(sessionStorage.getItem('userId')) &&
-                        <>
-                          <button className='btn_make_reservation' type="submit">Actualizar</button>
-                          <button disabled onClick={()=> DeleteReservation(params.idReserva)} className='btn_make_reservation'>Eliminar</button>
-                        </>
-                      }
                       </div>
                     <div className="select_container">
                       <p>Participantes</p>
@@ -217,7 +213,16 @@ export default function ReservationDetails() {
                       }
                       <p className="nombreCancha">{CanchaName}</p>
                     </div>
+
                   </form>
+                      { 
+                        parseInt(IdSocio) === parseInt(sessionStorage.getItem('userId')) &&
+                        <>
+                          <button onClick={()=> UpdateReservation()} className='btn_make_reservation' type="submit">Actualizar</button>
+                          <button onClick={()=> DeleteReservation(params.idReserva)} className='btn_delete_reservation'>Eliminar</button>
+
+                        </>
+                      }
                 </div>
                 </>
                   }

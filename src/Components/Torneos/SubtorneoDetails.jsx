@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './TorneoDetails.css'
 import axios from 'axios'
-/* import {Link} from 'react-router-dom'*/
+import {Link} from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import './SubtorneoDetails.css'
 import { RotatingLines } from  'react-loader-spinner'
@@ -310,18 +310,23 @@ export default function SubtorneoDetails() {
             
             
       </div>
-      {
+      
         <>
-        <h2>Grupos</h2>
         <div className="GetGroupsMembers_conatiner_two">
-          {
-            Groups.map((g, index)=>(
-              <GetGroupsMembers idGrupo={g.id_grupo} key={index} idSubtorneo={params.idSubTorneo} modalidad={params.modalidad} NotAdmin={NotAdmin}/>
+          <h2>Grupos</h2>
+          <Link to={`/subtorneoMatches/idSubtorneo=${params.idSubTorneo}`} className="see_subtorneo_matches">
+            Enfretamientos
+          </Link>
+
+            {
+              Groups.map((g, index)=>(
+                <GetGroupsMembers idGrupo={g.id_grupo} key={index} idSubtorneo={params.idSubTorneo} modalidad={params.modalidad} NotAdmin={NotAdmin}/>
               ))
             }
-      </div>
+            
+        </div>
       </>
-        }
-      </div>
+        
+  </div>
   )
 }

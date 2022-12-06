@@ -65,7 +65,7 @@ export default function Reservaciones() {
                         CanchasPadel.map((cancha, index)=>(
                                 <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}`} style={{pointerEvents: parseInt(cancha.estatus_cancha)===0 ? "none" : "auto"}}>
                                         <div className="img_canchaPadel_container">
-                                            <div class="rectangle">
+                                            <div className="rectangle">
                                                 <div className='cancha_lines'>
                                                     <div className='cancha_lines_two'>
                                                         <div className='cancha_lines_three'></div>

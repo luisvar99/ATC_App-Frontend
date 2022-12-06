@@ -1,0 +1,12 @@
+.btn_delete_reservation{
+    width: 50%;
+    background-color: #839289;
+    padding: 0.6rem 0;
+    border: solid 1px #084e26;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    color: white;
+    font-size: 18px;
+    margin-left: 0.1rem;
+    cursor: pointer;
+}

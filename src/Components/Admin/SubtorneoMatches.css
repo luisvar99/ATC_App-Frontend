@@ -3,12 +3,14 @@
     flex-direction: column;
 }
 
-.matches_container{
+.table_matches_container{
     display:grid;
     grid-template-columns: auto auto auto;
     column-gap: 3rem;
+    row-gap: 3rem;
     margin-right: 2rem;
     margin-top: 1.5rem;
+    margin: 2rem;
 }
 
 .add_matches_left_right_side {
@@ -21,6 +23,10 @@
     border-radius: 5px;
     padding: 1.5rem;
     width: 50%; 
+}
+
+.addMatch_form_container h3{
+    text-align: center;
 }
 
 .inputs_container{
@@ -39,4 +45,9 @@
 
 .add_matches_left_side, .add_matches_right_side{
     width: 40%;
+}
+.matches_container_aux button{
+    width: 100%;
+    padding: 0.5rem;
+    cursor: pointer;
 }

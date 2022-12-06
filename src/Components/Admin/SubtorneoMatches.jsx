@@ -18,6 +18,8 @@ export default function SubtorneoMatches() {
     const [Fecha, setFecha] = useState("")
     const [Hora, setHora] = useState("")
     const [Resultado, setResultado] = useState("")
+    const [RondaString, setRondaString] = useState(0)
+    const [Rondas, setRondas] = useState([])
 
     const [IsLoadingMatches, setIsLoadingMatches] = useState(false)
     const [IsAddingMatch, setIsAddingMatch] = useState(false)
@@ -49,6 +51,18 @@ export default function SubtorneoMatches() {
             
         }
       }
+    const GetRondas = async () =>{
+        try {
+            setIsLoadingMatches(true)
+            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
+            const result = await axios.get(`http://localhost:4000/api/getRondas`)
+            setRondas(result.data);
+            //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
+            setIsLoadingMatches(false)
+        } catch (error) {
+            
+        }
+      }
     const CreateSubtorneoMatch = async (e) =>{
         e.preventDefault()
         try {
@@ -63,6 +77,7 @@ export default function SubtorneoMatches() {
                 resultado: Resultado,
                 fecha: Fecha,
                 hora: Hora,
+                ronda: RondaString
             })
             setIsAddingMatch(false)
             window.location.reload();
@@ -71,9 +86,21 @@ export default function SubtorneoMatches() {
         }
       }
 
+      const DeleteSubtorneoMatches = async (idMatch) =>{
+        try {
+            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
+            const result = await axios.delete(`http://localhost:4000/api/DeleteMatch/${idMatch}`)
+            window.location.reload()            
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+
       useEffect(() => {
         GetGruposMembers();
         GetSubtorneoMatches();
+        GetRondas();
+        console.log("params " + params.idSubtorneo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
      
@@ -91,7 +118,7 @@ export default function SubtorneoMatches() {
                             <select type="number" id="cantPersonas" onChange={(e)=>setId_player_uno(e.target.value)} required>
                                 {
                                     GroupsMembers.map((gm, index)=>(
-                                        <option key={index} value={gm.id}>{gm.accion} - {gm.nombres} {gm.apellidos}</option>
+                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
                                     ))
                                 }
                             </select>
@@ -102,7 +129,7 @@ export default function SubtorneoMatches() {
                             <select type="number" id="cantPersonas" onChange={(e)=>setId_player_dos(e.target.value)} required>
                                 {
                                     GroupsMembers.map((gm, index)=>(
-                                        <option key={index} value={gm.id}>{gm.accion} - {gm.nombres} {gm.apellidos}</option>
+                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
                                     ))
                                 }
                             </select>
@@ -112,7 +139,7 @@ export default function SubtorneoMatches() {
                             <select type="number" id="cantPersonas" onChange={(e)=>setId_player_tres(e.target.value)} required>
                                 {
                                     GroupsMembers.map((gm, index)=>(
-                                        <option key={index} value={gm.id}>{gm.accion} - {gm.nombres} {gm.apellidos}</option>
+                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
                                     ))
                                 }
                             </select>
@@ -125,7 +152,7 @@ export default function SubtorneoMatches() {
                             <select type="number" id="cantPersonas" onChange={(e)=>setId_player_cuatro(e.target.value)} required>
                                 {
                                     GroupsMembers.map((gm, index)=>(
-                                        <option key={index} value={gm.id}>{gm.accion} - {gm.nombres} {gm.apellidos}</option>
+                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
                                     ))
                                 }
                             </select>
@@ -141,10 +168,10 @@ export default function SubtorneoMatches() {
                         </div>
                         <div className="inputs_container">
                             <label htmlFor="cantPersonas">Ronda</label>
-                            <select type="number" id="cantPersonas" onChange={(e)=>setId_player_cuatro(e.target.value)} required>
+                            <select type="number" id="cantPersonas" onChange={(e)=>setRondaString(e.target.value)} required>
                                 {
-                                    GroupsMembers.map((gm, index)=>(
-                                        <option key={index} value={gm.id}>{gm.accion} - {gm.nombres} {gm.apellidos}</option>
+                                    Rondas.map((rond, index)=>(
+                                        <option key={index} value={rond.id_ronda}>{rond.nombre}</option>
                                     ))
                                 }
                             </select>
@@ -169,29 +196,15 @@ export default function SubtorneoMatches() {
             </div>
             <div className="matches_container">
                             <div className="table_matches_container"> 
-                                {/* <table>
-                                    <thead>
-                                        <tr>
-                                            <td>Codigo Partido</td>
-                                            <td>Jugadores</td>
-                                        </tr>
-                                            </thead>
-                                            <tbody>
-                                { 
-                                Matches.map((match, index)=>(
-                                    <tr key={index}>
-                                        <td>{match.id_partido}</td>
-                                        <td>{match.nombres} {match.apellidos}</td>
-                                    </tr>
-                                ))
-                            }
-                                    </tbody>
-                            
-                                </table> */}
                             
                             {
                                 Matches.map((match,index)=>(
-                                <MatchInfo idPartido={match.id_partido} key={index}/>
+                                <div className="matches_container_aux">
+                                    <MatchInfo idPartido={match.id_partido} key={index} IsAdmin={true}/>
+                                    <button onClick={(e)=>DeleteSubtorneoMatches(match.id_partido)}>Eliminar</button>
+                                </div>
+                                
+                                
                             ))}
                             </div>
             </div>

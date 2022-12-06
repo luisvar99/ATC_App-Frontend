@@ -32,6 +32,7 @@ import PrivateRoutes from './Components/PrivateRoutes/PrivateRoutes';
 import AdminPrivateRoutes from './Components/PrivateRoutes/AdminPrivateRoutes';
 import NotFoundPage from './Components/Common/NotFoundPage';
 import SubtorneoMatches from './Components/Admin/SubtorneoMatches';
+import SubtorneoEnfrentamientos from './Components/Torneos/SubtorneoEnfrentamientos';
 
 
 function App() {
@@ -219,6 +220,13 @@ function App() {
           element={
             <PrivateRoutes>
                 <ReservationDetails/>
+            </PrivateRoutes>
+          }/>
+
+        <Route path="/subtorneoMatches/idSubtorneo=:idSubtorneo" 
+          element={
+            <PrivateRoutes>
+                <SubtorneoEnfrentamientos/>
             </PrivateRoutes>
           }/>
 

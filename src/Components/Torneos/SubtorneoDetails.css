@@ -30,3 +30,15 @@
     grid-column-gap: 1rem;
     grid-row-gap: 1rem;
 }
+
+.see_subtorneo_matches{
+    text-decoration: none;
+    border: #0b7037 2px solid;
+    border-radius: 5px;
+    margin: 0.75rem;
+    padding: 0.7rem 0rem;
+    background-color: #0b7037;
+    color: white;
+    font-size: 1.1rem;
+    text-align: center;
+}
