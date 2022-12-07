@@ -298,7 +298,7 @@ export default function EditSubtorneo() {
                         </thead>
                             <tbody>
                                 {
-                                    Participants.length===0 ?
+                                    IsLoadingParticipants ?
                                     <>
                                     <tr>
                                         <td>
@@ -403,11 +403,15 @@ export default function EditSubtorneo() {
         <br />
         <br />
         <hr/>
-        <div className="crear_enfrentamientos">
-            <Link to={`/createSubtorneoMatches/${params.idSubtorneo}`} className="crear_enfrentamientos_btn">Enfrentamientos</Link>
-            <button onClick={PublishGroups} className="publishGrups_btn">Publicar Grupos</button>
 
-        </div>
+        {
+            Groups.length>0 &&
+                <div className="crear_enfrentamientos">
+                <Link to={`/createSubtorneoMatches/${params.idSubtorneo}`} className="crear_enfrentamientos_btn">Enfrentamientos</Link>
+                <button onClick={PublishGroups} className="publishGrups_btn">Publicar Grupos</button>
+
+            </div>
+        }
         <div className="GetGroupsMembers_conatiner">
             {
                 Groups.map((g, index)=>(

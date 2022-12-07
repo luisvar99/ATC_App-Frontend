@@ -103,13 +103,6 @@ useEffect(() => {
                       <td style={{backgroundColor:"#0b7037"}} key={index} onClick={()=>HandleReservation(h.id_horario)}><strong>Libre</strong></td>
 
                   }
-                  {/* {
-                    Reservaciones.map((r, index)=>(
-                        parseInt(r.id_horario) === parseInt(h.id_horario) &&
-                        <td key={index}>{r.username}</td>
-                        
-                    ))
-                  }  */}
             </tr>
                 ))}
             </tbody>

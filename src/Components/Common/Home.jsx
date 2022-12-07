@@ -10,7 +10,8 @@ export default function Home() {
             <img src="https://http2.mlstatic.com/D_NQ_NP_663732-MLV45985217656_052021-C.jpg" alt="" />
           </div>
           <Link className="optionsLinks" to='/Reservaciones'>Reservaciones</Link>
-          <Link className="optionsLinks" to='/torneos'>Torneos</Link>
+          <Link className="optionsLinks" to='/torneos'>Torneos Regulares</Link>
+          <Link className="optionsLinks" to='/torneoColores'>Torneo Colores</Link>
         </div>
     </div>
   )

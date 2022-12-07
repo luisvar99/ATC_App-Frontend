@@ -14,7 +14,7 @@ export default function MatchInfo({idPartido, IsAdmin}) {
 
     const GetSubtorneoMatches = async () =>{
         try {
-            console.log("idPartido " + idPartido);
+            //console.log("idPartido " + idPartido);
             setIsLoadingMatches(true)
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
             const result = await axios.get(`http://localhost:4000/api/GetSubtorneoMatchesById/${idPartido}`)
@@ -22,7 +22,7 @@ export default function MatchInfo({idPartido, IsAdmin}) {
             setMatchModalidad(result.data[0].modalidad);
             setMatchDate(result.data[0].fecha);
             setMatchRonda(result.data[0].nombre);
-            console.log("GetSubtorneoMatchesById: " + JSON.stringify(result.data));
+            //console.log("GetSubtorneoMatchesById: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
         } catch (error) {
             
@@ -41,7 +41,7 @@ export default function MatchInfo({idPartido, IsAdmin}) {
         {
             IsLoadingMatches ?
             <>
-            <p>CARGANDO ENFRETAMIENTO...</p>
+            <p>CARGANDO ENFRENTAMIENTO...</p>
                 <RotatingLines
                 strokeColor="green"
                 strokeWidth="5"

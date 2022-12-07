@@ -230,6 +230,13 @@ function App() {
             </PrivateRoutes>
           }/>
 
+        {/* <Route path="/torneoColores" 
+          element={
+            <PrivateRoutes>
+                <SubtorneoEnfrentamientos/>
+            </PrivateRoutes>
+          }/> */}
+
         {/* <Route path="/ReservationDetails/idReserva=:idReserva/cancha=:idCancha" element={<ReservationDetails/>}/> */}      
 
         <Route path="*" element={<NotFoundPage/>} />

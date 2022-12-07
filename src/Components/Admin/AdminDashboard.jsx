@@ -12,11 +12,13 @@ export default function Dashboard() {
           <div className="atc_admin_logo_container">
             <img src="https://http2.mlstatic.com/D_NQ_NP_663732-MLV45985217656_052021-C.jpg" alt="" />
           </div>
-          <Link className="optionsLinks" to='manageUsuarios'>Gestion de Usuarios
-          </Link>
-          <Link className="optionsLinks" to='manageCanchas'>Gestion de Canchas</Link>
-          <Link className="optionsLinks" to='manageHorarios'>Gestion de Horarios</Link>
-          <Link className="optionsLinks" to='manageTorneos'>Gestion de Torneos</Link>   
+          <div className="LinksContainer">
+            <Link className="optionsLinks" to='manageUsuarios'>Gestion de Usuarios</Link>
+            <Link className="optionsLinks" to='manageCanchas'>Gestion de Canchas</Link>
+            <Link className="optionsLinks" to='manageHorarios'>Gestion de Horarios</Link>
+            <Link className="optionsLinks" to='manageTorneos'>Gestion de Torneos</Link>   
+            <Link className="optionsLinks" to='torneosColores'>Gestion Torneo Colores</Link>   
+          </div>
         </div>
     </div>
     

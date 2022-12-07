@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import './EditSubtorneo.css'
 import { RotatingLines } from  'react-loader-spinner'
 import MatchInfo from '../Torneos/MatchInfo'
+import TennisReservation from '../Canchas/TennisReservation'
 
 export default function SubtorneoMatches() {
 
@@ -15,11 +16,14 @@ export default function SubtorneoMatches() {
     const [Id_player_dos, setId_player_dos] = useState(0)
     const [Id_player_tres, setId_player_tres] = useState(0)
     const [Id_player_cuatro, setId_player_cuatro] = useState(0)
-    const [Fecha, setFecha] = useState("")
-    const [Hora, setHora] = useState("")
+    const [Fecha, setFecha] = useState(new Date().toLocaleDateString("EN-US"))
+    const [IDHorario, setIDHorario] = useState(0)
     const [Resultado, setResultado] = useState("")
     const [RondaString, setRondaString] = useState(0)
     const [Rondas, setRondas] = useState([])
+    const [Horarios, setHorarios] = useState([])
+    const [Canchas, setCanchas] = useState([])
+    const [IDCancha, setIDCancha] = useState([])
 
     const [IsLoadingMatches, setIsLoadingMatches] = useState(false)
     const [IsAddingMatch, setIsAddingMatch] = useState(false)
@@ -63,6 +67,30 @@ export default function SubtorneoMatches() {
             
         }
       }
+    const GetHorarios = async () =>{
+        try {
+            setIsLoadingMatches(true)
+            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
+            const result = await axios.get(`http://localhost:4000/api/GetAllHorarios`)
+            setHorarios(result.data);
+            //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
+            setIsLoadingMatches(false)
+        } catch (error) {
+            
+        }
+      }
+
+      const GetAllCanchas = async () => {
+        try {
+            //const result = await axios.get('https://atcbackend.herokuapp.com/api/getAllCanchas');
+            const result = await axios.get('http://localhost:4000/api/getAllCanchas');
+            setCanchas(result.data);
+            //console.log("result.data: " + JSON.stringify(result.data));
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+    
     const CreateSubtorneoMatch = async (e) =>{
         e.preventDefault()
         try {
@@ -76,13 +104,35 @@ export default function SubtorneoMatches() {
                 id_player_cuatro: Id_player_cuatro,
                 resultado: Resultado,
                 fecha: Fecha,
-                hora: Hora,
+                hora: IDHorario,
                 ronda: RondaString
             })
             setIsAddingMatch(false)
-            window.location.reload();
-        } catch (error) {
             
+            if(result.data.success===true){
+                await CreateReservation();
+                window.location.reload();
+            }
+        } catch (error) {
+            alert(error.message)
+        }
+      }
+
+      const CreateReservation = async (e) => {
+        console.log("Creando Reservacion");
+        try { 
+          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
+          const result = await axios.post(`http://localhost:4000/api/createReservation`,{
+            idCancha: IDCancha,
+            idHorario: IDHorario,
+            idSocio: sessionStorage.getItem('userId'),
+            fecha: new Date(Fecha).toLocaleDateString("EN-US"),
+            id_inv_uno: Id_player_uno,
+            id_inv_dos: Id_player_dos
+          })
+          console.log("CreateReservation-> " + JSON.stringify(result.data));
+        } catch (error) {
+          alert(error.message)
         }
       }
 
@@ -100,7 +150,8 @@ export default function SubtorneoMatches() {
         GetGruposMembers();
         GetSubtorneoMatches();
         GetRondas();
-        console.log("params " + params.idSubtorneo);
+        GetHorarios();
+        GetAllCanchas();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
      
@@ -116,6 +167,7 @@ export default function SubtorneoMatches() {
                         <div className="inputs_container">
                             <label htmlFor="cantPersonas">Jugador No. 1</label>
                             <select type="number" id="cantPersonas" onChange={(e)=>setId_player_uno(e.target.value)} required>
+                            <option value="">-----Seleccione una opcion-----</option>
                                 {
                                     GroupsMembers.map((gm, index)=>(
                                         <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
@@ -127,6 +179,7 @@ export default function SubtorneoMatches() {
                         <div className="inputs_container">
                             <label htmlFor="cantPersonas">Jugador No.2</label>
                             <select type="number" id="cantPersonas" onChange={(e)=>setId_player_dos(e.target.value)} required>
+                            <option value="">-----Seleccione una opcion-----</option>
                                 {
                                     GroupsMembers.map((gm, index)=>(
                                         <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
@@ -137,6 +190,7 @@ export default function SubtorneoMatches() {
                         <div className="inputs_container">
                             <label htmlFor="cantPersonas">Jugador No.3</label>
                             <select type="number" id="cantPersonas" onChange={(e)=>setId_player_tres(e.target.value)} required>
+                            <option value="">-----Seleccione una opcion-----</option>
                                 {
                                     GroupsMembers.map((gm, index)=>(
                                         <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
@@ -144,15 +198,28 @@ export default function SubtorneoMatches() {
                                 }
                             </select>
                         </div>
-                    </div>
-
-                    <div className="add_matches_right_side">
                         <div className="inputs_container">
                             <label htmlFor="cantPersonas">Jugador No.4</label>
                             <select type="number" id="cantPersonas" onChange={(e)=>setId_player_cuatro(e.target.value)} required>
+                            <option value="">-----Seleccione una opcion-----</option>
                                 {
                                     GroupsMembers.map((gm, index)=>(
                                         <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                        
+                    </div>
+
+                    <div className="add_matches_right_side">
+                    <div className="inputs_container">
+                            <label htmlFor="cantPersonas">Cancha</label>
+                            <select type="number" id="cantPersonas" onChange={(e)=>setIDCancha(e.target.value)} required>
+                                <option value="">-----Seleccione una opcion-----</option>
+                                {
+                                    Canchas.map((can, index)=>(
+                                        <option key={index} value={can.id_cancha}>{can.nombre_cancha}</option>
                                     ))
                                 }
                             </select>
@@ -163,12 +230,20 @@ export default function SubtorneoMatches() {
                             <input type="date" id="cantPersonas" onChange={(e)=>setFecha(e.target.value)} required/>
                         </div>
                         <div className="inputs_container">
-                            <label htmlFor="cantPersonas">Hora</label>
-                            <input type="time" id="cantPersonas" onChange={(e)=>setHora(e.target.value)} required/>
+                            <label htmlFor="cantPersonas">Horario</label>
+                            <select type="number" id="cantPersonas" onChange={(e)=>setIDHorario(e.target.value)} required>
+                            <option value="">-----Seleccione una opcion-----</option>
+                                {
+                                    Horarios.map((h, index)=>(
+                                        <option key={index} value={h.id_horario}>{h.hora_inicio}</option>
+                                    ))
+                                }
+                            </select>
                         </div>
                         <div className="inputs_container">
                             <label htmlFor="cantPersonas">Ronda</label>
                             <select type="number" id="cantPersonas" onChange={(e)=>setRondaString(e.target.value)} required>
+                            <option value="">-----Seleccione una opcion-----</option>
                                 {
                                     Rondas.map((rond, index)=>(
                                         <option key={index} value={rond.id_ronda}>{rond.nombre}</option>
@@ -199,8 +274,8 @@ export default function SubtorneoMatches() {
                             
                             {
                                 Matches.map((match,index)=>(
-                                <div className="matches_container_aux">
-                                    <MatchInfo idPartido={match.id_partido} key={index} IsAdmin={true}/>
+                                <div className="matches_container_aux" key={index}>
+                                    <MatchInfo idPartido={match.id_partido} IsAdmin={true}/>
                                     <button onClick={(e)=>DeleteSubtorneoMatches(match.id_partido)}>Eliminar</button>
                                 </div>
                                 

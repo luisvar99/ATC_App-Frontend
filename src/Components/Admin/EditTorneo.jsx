@@ -6,6 +6,8 @@ import moment from 'moment'
 import Moment from 'react-moment'
 import 'moment-timezone'
 import './EditTorneo.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 
 export default function EditTorneo() {
@@ -127,8 +129,11 @@ const DeleteCompetencia = async (id) => {
                             <tr key={comp.id_subtorneo}>
                                 <td>{comp.nombre}</td>
                                 <td>{comp.cantidad_personas}</td>
-                                <td><button className="editCanchaBtn"><Link to={`editSubtorneo/id=${comp.id_subtorneo}/modalidad=${Modalidad}`}>Detalles</Link></button></td>
-                                <td><button className="deleteCanchaBtn" onClick={(e) => DeleteCompetencia(comp.id_subtorneo)}>Eliminar</button></td>
+                                {/* <td><button className="editCanchaBtn"><Link to={`editSubtorneo/id=${comp.id_subtorneo}/modalidad=${Modalidad}`}>Detalles</Link></button></td>
+                                <td><button className="deleteCanchaBtn" onClick={(e) => DeleteCompetencia(comp.id_subtorneo)}>Eliminar</button></td> */}
+                                
+                                <td><Link to={`editSubtorneo/id=${comp.id_subtorneo}/modalidad=${Modalidad}`}> <FontAwesomeIcon icon={faPenToSquare} size="2x" style={{color: "black"}}/> </Link></td>
+                                <td><FontAwesomeIcon icon={faTrash} size="2x" className="deleteIcon" onClick={(e) => DeleteCompetencia(comp.id_subtorneo)} style={{cursor: "pointer"}}/></td>
                             </tr>
                             ))
                         }

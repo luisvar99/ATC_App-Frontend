@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import './ManageCanchas.css'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 export default function ManageCanchas() {
 
@@ -26,7 +27,8 @@ export default function ManageCanchas() {
 
     const DeleteCancha = async (id) => {
         try {
-            await axios.delete(`https://atcbackend.herokuapp.com/api/deleteCancha/${id}`);
+            //await axios.delete(`https://atcbackend.herokuapp.com/api/deleteCancha/${id}`);
+            await axios.delete(`http://localhost:4000/api/deleteCancha/${id}`);
             const filter = Canchas.filter(e => e.id_cancha !== id)
             setCanchas(filter);
         } catch (error) {
@@ -58,8 +60,10 @@ export default function ManageCanchas() {
                                 <td>{cancha.nombre_cancha}</td>
                                 <td>{cancha.id_categoriacancha ==="0" ? 'Tennis' : 'Padel'}</td>
                                 <td>{cancha.estatus_cancha ==="0" ? 'Cerrada' : 'Abierta'}</td>
-                                <td><button className="editCanchaBtn"><Link to={`editCancha/id=${cancha.id_cancha}`}>Editar</Link></button></td>
-                                <td><button className="deleteCanchaBtn" onClick={(e) => DeleteCancha(cancha.id_cancha)}>Eliminar</button></td>
+                                {/* <td><button className="editCanchaBtn"><Link to={`editCancha/id=${cancha.id_cancha}`}>Editar</Link></button></td>
+                                <td><button className="deleteCanchaBtn" onClick={(e) => DeleteCancha(cancha.id_cancha)}>Eliminar</button></td> */}
+                                <td><Link to={`editCancha/id=${cancha.id_cancha}`}> <FontAwesomeIcon icon={faPenToSquare} size="2x" style={{color: "black"}}/> </Link></td>
+                                <td><FontAwesomeIcon icon={faTrash} size="2x" className="deleteIcon" onClick={(e) => DeleteCancha(cancha.id_cancha)} style={{cursor: "pointer"}}/></td>                            
                             </tr>
                             ))
                         }

@@ -3,6 +3,9 @@ import {Link} from 'react-router-dom'
 import axios from 'axios'
 import './ManageCanchas.css'
 import { RotatingLines } from  'react-loader-spinner'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+
 
 
 export default function ManageTorneos() {
@@ -80,8 +83,10 @@ export default function ManageTorneos() {
                                 <td>{new Date(torneo.fecha_inicio).toLocaleDateString('es-MX')}</td>
                                 <td>{new Date(torneo.fecha_fin).toLocaleDateString('es-MX')}</td>
                                 <td>{torneo.modalidad}</td>
-                                <td><button className="editCanchaBtn"><Link to={`editTorneo/id=${torneo.id_torneo}`}>Detalles</Link></button></td>
-                                <td><button className="deleteCanchaBtn" onClick={(e) => DeleteTorneo(torneo.id_torneo)}>Eliminar</button></td>
+                                {/* <td><button className="editCanchaBtn"><Link to={`editTorneo/id=${torneo.id_torneo}`}>Detalles</Link></button></td> */}
+                                {/* <td><button className="deleteCanchaBtn" onClick={(e) => DeleteTorneo(torneo.id_torneo)}>Eliminar</button></td> */}
+                                <td><Link to={`editTorneo/id=${torneo.id_torneo}`}> <FontAwesomeIcon icon={faPenToSquare} size="2x" style={{color: "black"}}/> </Link></td>
+                                <td><FontAwesomeIcon icon={faTrash} size="2x" className="deleteIcon" onClick={(e) => DeleteTorneo(torneo.id_torneo)} style={{cursor: "pointer"}}/></td>
                             </tr>
                             ))
                         }
