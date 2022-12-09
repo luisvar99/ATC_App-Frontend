@@ -105,11 +105,11 @@ export default function AddTorneo() {
                     <textarea type="text" id="description" onChange={(e)=>setDescription(e.target.value)} rows="5" required/>
                 </div>
                 <div className="name_input_container">
-                    <label htmlFor="ecategoryCancha">Es Torneo Colores?</label>
+                    <label htmlFor="ecategoryCancha">Tipo de Torneo</label>
                     <select id="ecategoryCancha" className="" onChange={(e)=>setIsTorneoColores(e.target.value)}>
                         <option value="">---Seleccione una Modalidad---</option>
-                        <option value="true">Si</option>
-                        <option value="false">No</option>
+                        <option value="true">Colores</option>
+                        <option value="false">Regular</option>
                     </select>
                 </div>
                 <p style={{fontSize:"14px"}}>{Confirmation}</p>

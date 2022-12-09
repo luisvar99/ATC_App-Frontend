@@ -121,7 +121,7 @@ export default function TennisReservationForm() {
                           visible={true}
                         />
                         }
-                        <p>Modalidad</p>
+                        <p></p>
                         <input type="radio" id="modalidad" value="single" name="modalidad" onChange={()=> setIsDobles(false)} required/>
                         <label htmlFor="singles">Singles</label>
                         <br />

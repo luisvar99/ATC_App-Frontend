@@ -2,7 +2,6 @@
     display: flex;
     justify-content:center;
     background-color:#F8F8F8;
-    height: 100vh;
 }
 
 .manage_users_second_container{
@@ -10,6 +9,7 @@
     flex-direction: column;
     align-items:center; */
     width: 90%;
+    margin-bottom: 2rem;
 }
 
 .manage_users_table_container{
@@ -46,3 +46,9 @@
     font-size:1.1rem;
 }
 
+@media only screen and (max-width: 600px) {
+    .manage_users_table_container{
+        overflow-x:auto;
+    }
+    
+}

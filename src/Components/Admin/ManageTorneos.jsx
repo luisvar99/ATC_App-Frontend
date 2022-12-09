@@ -85,10 +85,10 @@ export default function ManageTorneos() {
                                 <td>{torneo.modalidad}</td>
                                 {/* <td><button className="editCanchaBtn"><Link to={`editTorneo/id=${torneo.id_torneo}`}>Detalles</Link></button></td> */}
                                 {/* <td><button className="deleteCanchaBtn" onClick={(e) => DeleteTorneo(torneo.id_torneo)}>Eliminar</button></td> */}
-                                <td><Link to={`editTorneo/id=${torneo.id_torneo}`}> <FontAwesomeIcon icon={faPenToSquare} size="2x" style={{color: "black"}}/> </Link></td>
-                                <td><FontAwesomeIcon icon={faTrash} size="2x" className="deleteIcon" onClick={(e) => DeleteTorneo(torneo.id_torneo)} style={{cursor: "pointer"}}/></td>
+                                <td><Link to={`editTorneo/id=${torneo.id_torneo}`}> <FontAwesomeIcon icon={faPenToSquare} size="2x" style={{color: "#545353"}}/> </Link></td>
+                                <td><FontAwesomeIcon icon={faTrash} size="2x" onClick={(e) => DeleteTorneo(torneo.id_torneo)} style={{cursor: "pointer", color: "#545353"}}/></td>
                             </tr>
-                            ))
+                            )) 
                         }
                     </tbody>
             </table>

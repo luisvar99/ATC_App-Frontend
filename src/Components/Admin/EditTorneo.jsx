@@ -132,8 +132,8 @@ const DeleteCompetencia = async (id) => {
                                 {/* <td><button className="editCanchaBtn"><Link to={`editSubtorneo/id=${comp.id_subtorneo}/modalidad=${Modalidad}`}>Detalles</Link></button></td>
                                 <td><button className="deleteCanchaBtn" onClick={(e) => DeleteCompetencia(comp.id_subtorneo)}>Eliminar</button></td> */}
                                 
-                                <td><Link to={`editSubtorneo/id=${comp.id_subtorneo}/modalidad=${Modalidad}`}> <FontAwesomeIcon icon={faPenToSquare} size="2x" style={{color: "black"}}/> </Link></td>
-                                <td><FontAwesomeIcon icon={faTrash} size="2x" className="deleteIcon" onClick={(e) => DeleteCompetencia(comp.id_subtorneo)} style={{cursor: "pointer"}}/></td>
+                                <td><Link to={`editSubtorneo/id=${comp.id_subtorneo}/modalidad=${Modalidad}`}> <FontAwesomeIcon icon={faPenToSquare} size="2x" style={{color: "#545353"}}/> </Link></td>
+                                <td><FontAwesomeIcon icon={faTrash} size="2x" className="deleteIcon" onClick={(e) => DeleteCompetencia(comp.id_subtorneo)} style={{cursor: "pointer", color: "#545353"}}/></td>
                             </tr>
                             ))
                         }

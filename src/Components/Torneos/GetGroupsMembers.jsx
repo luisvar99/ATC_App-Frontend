@@ -48,7 +48,7 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
     },[])
 
       return (
-        <div>
+        <>
           { IsLoadingMembers ? 
                 <>
                     <p>Cargando...</p>
@@ -87,6 +87,6 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
             </table>
             </>
         }
-        </div>
+        </>
     ) 
 }

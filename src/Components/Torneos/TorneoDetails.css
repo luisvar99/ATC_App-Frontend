@@ -1,6 +1,5 @@
 .torneo_details_main_container{
     background-color: #F8F8F8;
-    height: 92vh;
     display:flex;
     justify-content:center;
 }
@@ -34,4 +33,23 @@
 .link_to_torneo{
     width: 100%;
 }
+
+
+@media only screen and (max-width: 600px) {
+    .subtorneos{
+        display: grid;
+        grid-template-columns: auto;
+        row-gap: 1rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .subtorneos_container{
+        border: 6px solid #0D8641;
+        width: 100%;
+        margin-bottom: 4rem;
+    }
+    
+    
+  }
 

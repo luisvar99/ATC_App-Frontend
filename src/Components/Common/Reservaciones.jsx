@@ -60,10 +60,10 @@ export default function Reservaciones() {
         </div>
         <div className="reservaciones_padel_container">
                 <h3 style={{color:"black"}}>Padel</h3>
-                <div className="canchas_container">
+                <div className="Padelcanchas_container">
                     {
                         CanchasPadel.map((cancha, index)=>(
-                                <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}`} style={{pointerEvents: parseInt(cancha.estatus_cancha)===0 ? "none" : "auto"}}>
+                                <Link key={index} className="canchaPadel_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}`} style={{pointerEvents: parseInt(cancha.estatus_cancha)===0 ? "none" : "auto"}}>
                                         <div className="img_canchaPadel_container">
                                             <div className="rectangle">
                                                 <div className='cancha_lines'>

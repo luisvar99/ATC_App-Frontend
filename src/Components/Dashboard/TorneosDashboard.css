@@ -13,7 +13,6 @@
 .dashboard_main_container{
   display: flex;
   justify-content:flex-end; 
-  height: 100vh
 }
 
 .torneos_cards_container{
@@ -21,7 +20,9 @@
   grid-template-columns: auto auto;
   align-items:start;
   column-gap: 1rem;
+  row-gap: 1rem;
   margin-top: 2rem;
+  margin-bottom: 2rem;
   margin-right: 5rem;
 }
 
@@ -62,4 +63,12 @@
   margin-top: -15rem;
   font-size: 2rem;
   color:white;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .torneos_cards_container{
+    grid-template-columns: auto;
+  }
+  
 }

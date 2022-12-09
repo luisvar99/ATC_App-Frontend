@@ -5,3 +5,11 @@
     row-gap: 2rem;
     margin: 2rem;
 }
+
+@media only screen and (max-width: 600px) {
+    .sutorneoMatches_container{
+        grid-template-columns: auto;
+        justify-items: center;
+    }
+    
+}

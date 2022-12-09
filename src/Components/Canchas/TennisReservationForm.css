@@ -14,7 +14,7 @@
     flex-direction: column;
 }
 .make_reservation_form{
-    width: 30%;
+    /* width: 30%; */
     border: 2px solid #0D8641;
     border-radius: 3px;
     padding: 2rem;
@@ -70,4 +70,27 @@
     color: white;
     font-size: 18px;
     text-align: center;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+.make_reservation_form{
+    width: 70%;
+}
+#horaInicio, #horaFin{
+    width: 23%;
+    padding: 0.4rem;
+}
+
+#modalidad{
+    margin-top: 1rem;
+}
+
+.nombreCancha{
+    width: 80%;
+}
+
+
+
 }
