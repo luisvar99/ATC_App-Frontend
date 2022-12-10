@@ -58,7 +58,7 @@ export default function AddTorneo() {
   return (
     <div className="main_addCancha_container">
         <h3 style={{marginTop:"2rem"}}>Agregar nuevo Torneo</h3>
-        <div className="Addform_container">
+        <div className="AddTorneoform_container">
             <form onSubmit={AddNewTorneo} className="form_add_canchas">
                 <div className="name_input_container">
                     <label htmlFor="nameCancha">Nombre del Torneo</label>

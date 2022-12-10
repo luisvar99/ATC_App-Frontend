@@ -45,9 +45,11 @@ export default function ManageTorneos() {
   return (
     <>
     <div className="mge_canchas_container">
-        <Link to='addTorneo' className="linkAddCancha">Agregar nuevo torneo</Link>
         <div className="second_container">
-            <h3>Listado de Torneos</h3>
+            <div style={{ marginBottom:"1.5rem"}}>  
+                <h3>Listado de Torneos</h3>
+                <Link to='addTorneo' className="linkAddCancha">Agregar nuevo torneo</Link>
+            </div>
             {
             LoadingTorneos ?
             <RotatingLines

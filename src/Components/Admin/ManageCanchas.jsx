@@ -40,9 +40,11 @@ export default function ManageCanchas() {
   return (
     <>
     <div className="mge_canchas_container">
-        <Link to='addCancha' className="linkAddCancha">Agregar nueva cancha</Link>
         <div className="second_container">
-            <h3>Listado de Canchas</h3>
+            <div style={{ marginBottom:"1.5rem"}}>  
+                <h3>Listado de Canchas</h3>
+                <Link to='addCancha' className="linkAddCancha">Agregar nueva cancha</Link>
+            </div>
             <table className="chanchasAdmin_table">
                 <thead>
                     <tr className="table_headers">

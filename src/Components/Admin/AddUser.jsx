@@ -52,7 +52,7 @@ export default function AddUser() {
     }
 
   return (
-    <div className="main_addCancha_container">
+    <div className="main_addUser_container">
         <h3>Agregar nuevo usuario</h3>
         <div className="Add_userform_container">
             <form onSubmit={AddNewUser} className="form_add_users">
