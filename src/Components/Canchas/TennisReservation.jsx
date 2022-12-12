@@ -47,7 +47,7 @@ export default function CanchaReservation() {
     const mes = params.mes;
     const ano = params.ano;
     const fecha = ano+'-'+mes+'-'+dia;
-  navigate(`/MakeReservation/idCancha=${params.idCancha}/idHorario=${idHorario}/${fecha}`)
+  navigate(`/MakeReservation/idCancha=${params.idCancha}/idHorario=${idHorario}/${fecha}/categoriaCancha=${params.categoriaCancha}`)
 
 }
 

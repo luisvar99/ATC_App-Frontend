@@ -14,7 +14,7 @@
     flex-direction: column;
 }
 .make_reservation_form{
-    /* width: 30%; */
+    width: 40%;
     border: 2px solid #0D8641;
     border-radius: 3px;
     padding: 2rem;

@@ -33,6 +33,8 @@ import AdminPrivateRoutes from './Components/PrivateRoutes/AdminPrivateRoutes';
 import NotFoundPage from './Components/Common/NotFoundPage';
 import SubtorneoMatches from './Components/Admin/SubtorneoMatches';
 import SubtorneoEnfrentamientos from './Components/Torneos/SubtorneoEnfrentamientos';
+import ManageTorneoColores from './Components/Admin/ManageTorneoColores';
+import TorneoColores from './Components/Torneos/TorneoColores';
 
 
 function App() {
@@ -58,6 +60,13 @@ function App() {
           element={
             <AdminPrivateRoutes>
                 <AdminDashboard/>
+            </AdminPrivateRoutes>
+          }/>
+
+          <Route path="/admin/torneosColores" 
+          element={
+            <AdminPrivateRoutes>
+                <ManageTorneoColores/>
             </AdminPrivateRoutes>
           }/>
 
@@ -198,7 +207,7 @@ function App() {
         {/* <Route path="/Reservaciones" element={<Reservaciones/>}/>       */}
       
 
-        <Route path="/Reservaciones/tennis/idCancha=:idCancha/:ano-:mes-:dia" 
+        <Route path="/Reservaciones/tennis/idCancha=:idCancha/:ano-:mes-:dia/categoriaCancha=:categoriaCancha" 
           element={
             <PrivateRoutes>
                 <TennisReservation/>
@@ -207,7 +216,7 @@ function App() {
 
         {/* <Route path="/Reservaciones/tennis/idCancha=:idCancha/:ano-:mes-:dia" element={<TennisReservation/>}/> */}      
  
-        <Route path="/MakeReservation/idCancha=:idCancha/idHorario=:idHorario/:ano-:mes-:dia" 
+        <Route path="/MakeReservation/idCancha=:idCancha/idHorario=:idHorario/:ano-:mes-:dia/categoriaCancha=:categoriaCancha" 
           element={
             <PrivateRoutes>
                 <TennisReservationForm/>
@@ -230,12 +239,12 @@ function App() {
             </PrivateRoutes>
           }/>
 
-        {/* <Route path="/torneoColores" 
+        <Route path="/torneoColores" 
           element={
             <PrivateRoutes>
-                <SubtorneoEnfrentamientos/>
+                <TorneoColores/>
             </PrivateRoutes>
-          }/> */}
+          }/>
 
         {/* <Route path="/ReservationDetails/idReserva=:idReserva/cancha=:idCancha" element={<ReservationDetails/>}/> */}      
 

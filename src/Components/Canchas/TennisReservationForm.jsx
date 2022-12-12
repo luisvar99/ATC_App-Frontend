@@ -122,14 +122,20 @@ export default function TennisReservationForm() {
                         />
                         }
                         <p></p>
-                        <input type="radio" id="modalidad" value="single" name="modalidad" onChange={()=> setIsDobles(false)} required/>
-                        <label htmlFor="singles">Singles</label>
-                        <br />
+                        {
+                          parseInt(params.categoriaCancha)===0 &&
+                          <>
+                            <input type="radio" id="modalidad" value="single" name="modalidad" onChange={()=> setIsDobles(false)} required/>
+                            <label htmlFor="singles">Singles</label>
+                            <br />
+                          
+                            <input type="radio" id="modalidad" value="dobles" name="modalidad" onChange={()=> setIsDobles(true)} required/>
+                            <label htmlFor="dobles">Dobles</label> 
+                            <br />
+                            <br />
+                          </>
+                        }
                         
-                        <input type="radio" id="modalidad" value="dobles" name="modalidad" onChange={()=> setIsDobles(true)} required/>
-                        <label htmlFor="dobles">Dobles</label>
-                        <br />
-                        <br />
                       <div className="horasReserva">
                         <label htmlFor="horaInicio">Hora Inicio</label>
                         <input type="text" id="horaInicio" value={HorarioInicio} onChange={()=> setIsDobles(true)} readOnly/>

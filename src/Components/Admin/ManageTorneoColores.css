@@ -1,0 +1,58 @@
+.manageColoresSubContainer{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    margin-top: 1rem
+}
+
+.manageColoresForm{
+    display:flex;
+    justify-content:space-evenly;
+    
+}
+
+.manageColoresFormContainer{
+    width: 50%;
+    border: 2px solid #0b7037;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.nombre_torneo_container{
+    margin-top: 1rem;
+    display:flex;
+    flex-direction: column;
+}
+
+.nombre_torneo_container input, textarea{
+    font-size: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+
+.new1{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 85%;
+    border-top: 1px solid rgb(173, 182, 173);
+}
+
+.btnUpdateColores{
+    display:flex;
+    justify-content:center;
+    margin-top: 2rem;
+}
+
+.btnUpdateColores button{
+    text-decoration: none;
+    border: #0b7037 2px solid;
+    border-radius: 5px;
+    padding: 0.7rem;
+    background-color: #0D8641;
+    color: white;
+    font-size: 1.1rem;
+    text-align: center;
+    width: 75%;
+    cursor: pointer;
+}

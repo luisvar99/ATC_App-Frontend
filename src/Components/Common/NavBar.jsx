@@ -19,7 +19,8 @@ export default function NavBar() {
           </button>
           <div className="dropdown-content">
               <Link to="/Reservaciones">Reservas</Link>
-              <Link to="/torneos">Torneos</Link>
+              <Link to="/torneos">Torneos Regulares</Link>
+              <Link to="/torneoColores">Torneo Colores</Link>
           </div>
         </div> 
       </div>

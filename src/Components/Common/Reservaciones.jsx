@@ -22,7 +22,7 @@ export default function Reservaciones() {
         try {
             const result = await axios.get('http://localhost:4000/api/getAllTennisCanchas');
             setCanchasTennis(result.data);
-            console.log("result.data.tennis: " + JSON.stringify(result.data));
+            //console.log("result.data.tennis: " + JSON.stringify(result.data));
         } catch (error) {
             alert(error.message)
         }
@@ -46,8 +46,7 @@ export default function Reservaciones() {
                 {
                     CanchasTennis.map((cancha, index)=>(
                     <>  
-  
-                            <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}`}>
+                            <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}/categoriaCancha=${cancha.id_categoriacancha}`}>
                             <div className="img_cancha_container">
                                 <img src="https://img.freepik.com/vector-premium/cancha-tenis-vista-superior_97886-10983.jpg" alt="" />
                                 <h4>{cancha.nombre_cancha}</h4>
@@ -63,7 +62,7 @@ export default function Reservaciones() {
                 <div className="Padelcanchas_container">
                     {
                         CanchasPadel.map((cancha, index)=>(
-                                <Link key={index} className="canchaPadel_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}`} style={{pointerEvents: parseInt(cancha.estatus_cancha)===0 ? "none" : "auto"}}>
+                                <Link key={index} className="canchaPadel_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}/categoriaCancha=${cancha.id_categoriacancha}`} style={{pointerEvents: parseInt(cancha.estatus_cancha)===0 ? "none" : "auto"}}>
                                         <div className="img_canchaPadel_container">
                                             <div className="rectangle">
                                                 <div className='cancha_lines'>
