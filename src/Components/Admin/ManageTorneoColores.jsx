@@ -16,6 +16,9 @@ export default function ManageTorneoColores() {
     const [InicioInscripcion, setInicioInscripcion] = useState({})
     const [FinInscripcion, setFinInscripcion] = useState({})
     const [Descripcion, setDescripcion] = useState({})
+    const [NombreGrupo, setNombreGrupo] = useState("")
+
+    const [IsCreatingGrupo, setIsCreatingGrupo] = useState(false)
 
     const getCurrentTorneoColores = async ()=> {
         try {
@@ -25,7 +28,25 @@ export default function ManageTorneoColores() {
         }catch (error) {
         alert(error.message)
     
-}
+        }
+    }
+
+    const CreateGrupo = async (e)=> {
+        e.preventDefault();
+        setIsCreatingGrupo(true)
+        try {
+            const result = await axios.post('http://localhost:4000/api/CreateColoresGrupo',
+            {
+                id_torneo: TorneoColores.id_torneo,
+                nombre_bombo: NombreGrupo
+            });
+            
+            console.log("result.data: " + JSON.stringify(result.data));
+            setIsCreatingGrupo(false)
+        }catch (error) {
+        alert(error.message)
+    
+        }
     }
 
     useEffect(() => {
@@ -80,8 +101,8 @@ export default function ManageTorneoColores() {
             </div>
         <hr class="new1"/> 
         
+        <h3>Parejas Inscritas</h3>
         <div className="coloresParticipantsContainer">
-            <h3>Participantes</h3>
             <table>
                 <thead>
                     <tr>
@@ -90,12 +111,137 @@ export default function ManageTorneoColores() {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Luis Vargas</td>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
                     </tr>
                 </tbody>
             </table>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Nombre Jugador</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Nombre Jugador</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Nombre Jugador</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Nombre Jugador</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Nombre Jugador</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Nombre Jugador</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                    <tr>
+                        <td>494 - Luis Eduardo Vargas Perez</td>
+                    </tr>
+                </tbody>
+            </table>
+           
         </div>
 
+        <hr class="new1"/> 
+        
+        <div className='createGruposColoresFormContainer'>
+            <form className="createGrupoColoresForm" onSubmit={CreateGrupo}>
+                <div className="nombre_bombo_container">
+                    <label htmlFor="nombre_bombo">Nombre del Grupo</label>
+                    <input type="text" id="nombre_bombo" onChange={(e)=> setNombreGrupo(e.target.value)}/>
+                </div>
+                <div className="btnCreateGrupoColores">
+                    <button>Crear Grupo</button>
+                    { IsCreatingGrupo && 
+                        <RotatingLines
+                        strokeColor="green"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="35"
+                        visible={true}
+                    />}
+                </div>
+            </form>
+        </div>
+
+        <hr class="new1"/> 
+
+        <div className='createEquipoColoresFormContainer'>
+            <form action="createEquipoColoresForm">
+                <div>
+                    
+                </div>
+            </form>
+        </div>
         </div>
     </div>
   )
