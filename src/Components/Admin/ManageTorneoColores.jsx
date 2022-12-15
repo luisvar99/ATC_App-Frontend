@@ -4,10 +4,13 @@ import './ManageTorneoColores.css'
 import { useParams, useNavigate } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
 import moment from 'moment'
-
-
+import GetColoresParejas from '../Torneos/GetColoresParejas'
+import GetColoresTeamsByGroup from '../Torneos/GetColoresTeamsByGroup'
+import {Link} from 'react-router-dom'
 
 export default function ManageTorneoColores() {
+
+    const [ColoresParejas, setColoresParejas] = useState([])
 
     const [TorneoColores, setTorneoColores] = useState({})
     const [NombreTorneo, setNombreTorneo] = useState("")
@@ -17,14 +20,44 @@ export default function ManageTorneoColores() {
     const [FinInscripcion, setFinInscripcion] = useState({})
     const [Descripcion, setDescripcion] = useState({})
     const [NombreGrupo, setNombreGrupo] = useState("")
+    const [ColoresGrupos, setColoresGrupos] = useState([])
+
+    const [NombreEquipo, setNombreEquipo] = useState("")
+    const [ColorEquipo, setColorEquipo] = useState("")
+    const [GrupoEquipo, setGrupoEquipo] = useState("")
 
     const [IsCreatingGrupo, setIsCreatingGrupo] = useState(false)
+    const [IsCreatingEquipo, setIsCreatingEquipo] = useState(false)
+
+    const params = useParams();
 
     const getCurrentTorneoColores = async ()=> {
         try {
             const result = await axios.get('http://localhost:4000/api/getTorneoColores');
             setTorneoColores(result.data);
-            console.log("result.data: " + JSON.stringify(result.data));
+            //console.log("result.data TorneoColores: " + JSON.stringify(result.data));
+        }catch (error) {
+        alert(error.message)
+    
+        }
+    }
+
+ /*    const getColoresParejas = async ()=> {
+        try {
+            const result = await axios.get(`http://localhost:4000/api/getColoresParejas/${params.id}`);
+            setColoresParejas(result.data);
+            //console.log("result.data TorneoColores: " + JSON.stringify(result.data));
+        }catch (error) {
+        alert(error.message)
+    
+        }
+    } */
+
+    const getColoresGrupos = async ()=> {
+        try {
+            const result = await axios.get(`http://localhost:4000/api/GetColoresGrupo/${params.id}`);
+            setColoresGrupos(result.data);
+            //console.log("result.data: " + JSON.stringify(result.data));
         }catch (error) {
         alert(error.message)
     
@@ -49,10 +82,36 @@ export default function ManageTorneoColores() {
         }
     }
 
+    const CreateEquipo = async (e)=> {
+        e.preventDefault();
+        setIsCreatingEquipo(true)
+        try {
+            const result = await axios.post('http://localhost:4000/api/CreateColoresEquipo',
+            {
+                nombre_equipo: NombreEquipo,
+                id_bombo: GrupoEquipo,
+                id_torneo: params.id,
+                isPublicado:0,
+                color: ColorEquipo,
+            });
+            
+            console.log("result.data: " + JSON.stringify(result.data));
+            setIsCreatingEquipo(false)
+        }catch (error) {
+        alert(error.message)
+    
+        }
+    }
+
     useEffect(() => {
         getCurrentTorneoColores();
+        getColoresGrupos();
+        /* getColoresParejas(); */
+        //console.log(ColoresGrupos);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    
+
+
 
   return (
     
@@ -99,149 +158,87 @@ export default function ManageTorneoColores() {
                     <button>Acualizar Datos</button>
                 </div>
             </div>
-        <hr class="new1"/> 
+        <hr className="new1"/> 
         
-        <h3>Parejas Inscritas</h3>
-        <div className="coloresParticipantsContainer">
-            <table>
-                <thead>
-                    <tr>
-                        <td>Nombre Jugador</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Nombre Jugador</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Nombre Jugador</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Nombre Jugador</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Nombre Jugador</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Nombre Jugador</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Nombre Jugador</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                    <tr>
-                        <td>494 - Luis Eduardo Vargas Perez</td>
-                    </tr>
-                </tbody>
-            </table>
-           
-        </div>
+        <Link to={`/coloresParejas/${params.id}`}>Ver Parejas Inscritas</Link>
+
 
         <hr class="new1"/> 
-        
-        <div className='createGruposColoresFormContainer'>
-            <form className="createGrupoColoresForm" onSubmit={CreateGrupo}>
-                <div className="nombre_bombo_container">
-                    <label htmlFor="nombre_bombo">Nombre del Grupo</label>
-                    <input type="text" id="nombre_bombo" onChange={(e)=> setNombreGrupo(e.target.value)}/>
-                </div>
-                <div className="btnCreateGrupoColores">
-                    <button>Crear Grupo</button>
-                    { IsCreatingGrupo && 
-                        <RotatingLines
-                        strokeColor="green"
-                        strokeWidth="5"
-                        animationDuration="0.75"
-                        width="35"
-                        visible={true}
-                    />}
-                </div>
-            </form>
+
+        <div className="manageColoresGrupsTeamsContainer">
+            <div className='createGruposColoresFormContainer'>
+                <form className="createGrupoColoresForm" onSubmit={CreateGrupo}>
+                    <div className="nombre_bombo_container">
+                        <label htmlFor="nombre_bombo">Nombre del Grupo</label>
+                        <input type="text" id="nombre_bombo" onChange={(e)=> setNombreGrupo(e.target.value)}/>
+                    </div>
+                    <div className="btnCreateGrupoColores">
+                        <button>Crear Grupo</button>
+                        { IsCreatingGrupo && 
+                            <RotatingLines
+                            strokeColor="green"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="35"
+                            visible={true}
+                        />}
+                    </div>
+                </form>
+            </div>
+            <div className='createGruposColoresFormContainer'>
+                <form className="createGrupoColoresForm" onSubmit={CreateEquipo}>
+                    <div className="nombre_bombo_container">
+                        <label htmlFor="nombre_bombo">Nombre del Equipo</label>
+                        <input type="text" id="nombre_bombo" onChange={(e)=> setNombreEquipo(e.target.value)}/>
+                    </div>
+                    <br />
+                    <div className="nombre_bombo_container">
+                        <label htmlFor="color_equipo">Color del Equipo</label>
+                        <input type="color" id="color_equipo" onChange={(e)=> setColorEquipo(e.target.value)}/>
+                        <input value={`Codigo color: ${ColorEquipo}`} type="text" id="color_equipo" disabled/>
+                    </div>
+                    <br />
+                    <div className="nombre_bombo_container">
+                        <label htmlFor="grupo_equipo">Grupo del Equipo</label>
+                        <select type="color" id="grupo_equipo" onChange={(e)=> setGrupoEquipo(e.target.value)}>
+                            <option value="">--- Seleccione una opcion ---</option>
+                            {
+                                ColoresGrupos.map((grupo, index)=> (
+                                    <option key={index} value={grupo.id_bombo}>{grupo.nombre_bombo}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div className="btnCreateGrupoColores">
+                        <button>Crear Equipo</button>
+                        { IsCreatingEquipo && 
+                            <RotatingLines
+                            strokeColor="green"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="35"
+                            visible={true}
+                        />}
+                    </div>
+                </form>
+            </div>
         </div>
 
         <hr class="new1"/> 
 
-        <div className='createEquipoColoresFormContainer'>
-            <form action="createEquipoColoresForm">
-                <div>
-                    
-                </div>
-            </form>
-        </div>
+            <div className='Grupos_equipos_players_container'>
+            {
+                ColoresGrupos.map((grupo, index)=> (
+                    <>
+                    <p>{grupo.nombre_bombo}</p>
+                    <div className='Grupos_equipos_players'  key={index}>
+                        <GetColoresTeamsByGroup id_bombo={grupo.id_bombo}/>
+                    </div>
+                    </>
+                ))
+            }
+            </div>
+
         </div>
     </div>
   )

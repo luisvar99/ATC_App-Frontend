@@ -1,3 +1,29 @@
 .inscripcionColoresFormContainer{
     width: 30%;
+    margin: 2rem 0rem 0rem 2rem
 }
+.inscripcionColoresFormContainer p{
+    margin-bottom: 0.5rem
+
+}
+
+.ColoresInscripcionBtn{
+    text-decoration: none;
+    border: #0b7037 2px solid;
+    border-radius: 5px;
+    padding: 0.4rem;
+    background-color: #0D8641;
+    color: white;
+    font-size: 1rem;
+    text-align: center;
+    width: 50%;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.ColoresInscripcionBtnContainer{
+    margin-top: 0.5rem;
+    display: flex;
+}
+
+

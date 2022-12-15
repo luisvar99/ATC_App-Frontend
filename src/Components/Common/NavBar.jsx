@@ -13,6 +13,11 @@ export default function NavBar() {
       <div>
         <Link to="/home">Inicio</Link>
         <Link to="/home">Noticias</Link>
+        { sessionStorage.getItem('userRole')==="ADMIN" &&
+          
+          <Link to="/admin">Admin Panel</Link>
+        
+        }
         <div className="dropdown">
           <button className="dropbtn">Juegos 
             <i className="fa fa-caret-down"></i>

@@ -35,6 +35,7 @@ import SubtorneoMatches from './Components/Admin/SubtorneoMatches';
 import SubtorneoEnfrentamientos from './Components/Torneos/SubtorneoEnfrentamientos';
 import ManageTorneoColores from './Components/Admin/ManageTorneoColores';
 import TorneoColores from './Components/Torneos/TorneoColores';
+import GetColoresParejas from './Components/Torneos/GetColoresParejas';
 
 
 function App() {
@@ -63,10 +64,16 @@ function App() {
             </AdminPrivateRoutes>
           }/>
 
-          <Route path="/admin/torneosColores" 
+          <Route path="/admin/torneosColores/:id" 
           element={
             <AdminPrivateRoutes>
                 <ManageTorneoColores/>
+            </AdminPrivateRoutes>
+          }/>
+          <Route path="/coloresParejas/:id" 
+          element={
+            <AdminPrivateRoutes>
+                <GetColoresParejas/>
             </AdminPrivateRoutes>
           }/>
 
@@ -239,7 +246,7 @@ function App() {
             </PrivateRoutes>
           }/>
 
-        <Route path="/torneoColores" 
+        <Route path="/torneoColores/:id" 
           element={
             <PrivateRoutes>
                 <TorneoColores/>
