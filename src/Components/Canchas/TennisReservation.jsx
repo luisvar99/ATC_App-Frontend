@@ -52,7 +52,7 @@ export default function CanchaReservation() {
 }
 
 const HandleCanlendarChange = async (e) => {
-  navigate(`/Reservaciones/tennis/idCancha=${params.idCancha}/${e.target.value}`);
+  navigate(`/Reservaciones/tennis/idCancha=${params.idCancha}/${e.target.value}/categoriaCancha=${params.categoriaCancha}`);
   window.location.reload();
 }
 

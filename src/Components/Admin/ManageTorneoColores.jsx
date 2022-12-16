@@ -76,6 +76,7 @@ export default function ManageTorneoColores() {
             
             console.log("result.data: " + JSON.stringify(result.data));
             setIsCreatingGrupo(false)
+            window.location.reload()
         }catch (error) {
         alert(error.message)
     
@@ -97,6 +98,7 @@ export default function ManageTorneoColores() {
             
             console.log("result.data: " + JSON.stringify(result.data));
             setIsCreatingEquipo(false)
+            window.location.reload()
         }catch (error) {
         alert(error.message)
     
@@ -230,7 +232,7 @@ export default function ManageTorneoColores() {
             {
                 ColoresGrupos.map((grupo, index)=> (
                     <>
-                    <p>{grupo.nombre_bombo}</p>
+                    <p style={{backgroundColor:"grey", padding:"0.4rem", textAlign:"center"}}>{grupo.nombre_bombo}</p>
                     <div className='Grupos_equipos_players'  key={index}>
                         <GetColoresTeamsByGroup id_bombo={grupo.id_bombo}/>
                     </div>

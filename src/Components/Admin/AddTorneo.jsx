@@ -32,7 +32,8 @@ export default function AddTorneo() {
         }else{
             setConfirmation("Creando Torneo...")
             try {
-                const response = await axios.post('https://atcbackend.herokuapp.com/api/addTorneo',
+                //const response = await axios.post('https://atcbackend.herokuapp.com/api/addTorneo',
+                const response = await axios.post('http://localhost:4000/api/addTorneo',
                 {
                     nombre_torneo: Name,
                     fecha_inicio: Inicio_torneo,
@@ -108,8 +109,8 @@ export default function AddTorneo() {
                     <label htmlFor="ecategoryCancha">Tipo de Torneo</label>
                     <select id="ecategoryCancha" className="" onChange={(e)=>setIsTorneoColores(e.target.value)}>
                         <option value="">---Seleccione una Modalidad---</option>
-                        <option value="true">Colores</option>
-                        <option value="false">Regular</option>
+                        <option value={true}>Colores</option>
+                        <option value={false}>Regular</option>
                     </select>
                 </div>
                 <p style={{fontSize:"14px"}}>{Confirmation}</p>

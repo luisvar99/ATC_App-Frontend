@@ -172,9 +172,7 @@ function App() {
 
         <Route path="/admin/addNewUser" 
           element={
-            <AdminPrivateRoutes>
-                <AddUser/>
-            </AdminPrivateRoutes>
+            <AddUser/>
           }/>     
 
         <Route path="/createSubtorneoMatches/:idSubtorneo" 
