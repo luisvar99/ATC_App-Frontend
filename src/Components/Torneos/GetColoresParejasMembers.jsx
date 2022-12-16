@@ -27,7 +27,7 @@ useEffect(() => {
 
 
   return (
-    <table>
+    <table style={{marginBottom:"0.5rem"}}>
         <thead>
             <tr>
                 <td>Jugadores</td>

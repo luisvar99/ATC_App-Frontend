@@ -68,15 +68,15 @@ export default function GetColoresParejas(/* {id_pareja} */) {
                     <>
                     <div className="aux">
 
-                    <GetColoresParejasMembers id_pareja={p.id_pareja} id_torneo={params.id} key={index}/>
-                    <select onChange={(e) => setIdEquipo(e.target.value)}>
+                    <GetColoresParejasMembers id_pareja={p.id_pareja} id_torneo={params.id} key={index} />
+                    <select onChange={(e) => setIdEquipo(e.target.value)} >
                         <option key={index} value="">--- Seleccione una opcion ---</option>
                         {ColoresEquipos.map((ce,index)=>(
                             <option key={index} value={ce.id_equipo}>{ce.nombre_equipo}</option>
                             ))
                         }
                     </select>
-                    <button onClick={(e) => setTeamToPareja(p.id_pareja)}>Guardar Cambios</button>
+                    <button onClick={(e) => setTeamToPareja(p.id_pareja)} style={{padding:"0.4rem"}}>Guardar Cambios</button>
                     </div>
                     </>
                     ))

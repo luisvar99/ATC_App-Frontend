@@ -38,9 +38,7 @@ export default function GetColoresTeamsByGroup({id_bombo}) {
 
       </thead>
       <tbody>
-        <tr>
-          <td></td>
-        </tr>
+            <GetColoresPlayersByTeam id_equipo={t.id_equipo}/>
       </tbody>
     </table>
   </>
