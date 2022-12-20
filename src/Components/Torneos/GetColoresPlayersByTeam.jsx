@@ -29,7 +29,7 @@ export default function GetColoresPlayersByTeam({id_equipo}) {
     <>
       { PlayersByTeam.map((ply, index)=>(
         <tr>
-          <td key={index}>{ply.nombres} {ply.apellidos} - {ply.id_pareja}</td>
+          <td key={index} style={{padding: '5px'}}>{ply.nombres} {ply.apellidos} - {ply.id_pareja}</td>
         </tr>
       ))
       }

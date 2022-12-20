@@ -36,7 +36,7 @@ useEffect(() => {
         <tbody>
            {Pareja.map((p,index)=>(
             <tr key={index}>
-                <td>{p.nombres} {p.apellidos}</td>
+                <td>{p.accion} - {p.nombres} {p.apellidos}</td>
             </tr>
            ))
             }

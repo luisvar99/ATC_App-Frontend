@@ -102,6 +102,17 @@
     margin-right: 1rem;
 }
 
+
+.publicarColoresEquiposBtn{
+    border: #666666 2px solid;
+    border-radius: 5px;
+    padding: 0.4rem;
+    background-color: #666666;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
 .manageColoresGrupsTeamsContainer{
     width: 100%;
     display:flex;
@@ -112,4 +123,14 @@
 .Grupos_equipos_players{
     display:grid;
     grid-template-columns: auto auto auto auto
+}
+
+.goToParejas_inscritas{
+    text-decoration: none;
+    color: black;
+    font-size:2rem;
+}
+
+.Grupos_equipos_players_container{
+    width: 80%;
 }

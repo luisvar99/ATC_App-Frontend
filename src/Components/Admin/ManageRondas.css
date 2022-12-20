@@ -1,0 +1,34 @@
+.ManageRondas_main_container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.manageRondasSubContainer{
+    display:flex;
+    justify-content: space-evenly;
+    width: 90%;
+    align-items: center
+}
+
+.manageRondasFormContainer{
+    border: green 1px solid;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+}
+
+.manageRondasNombreContainer{
+    display: flex;
+    flex-direction: column;
+}
+.manageRondasNombreContainer input{
+    padding: 0.3rem;
+}
+
+.manageRondasBtnContainer{
+    margin-top: 0.3rem;
+}
+.manageRondasBtnContainer button{
+   padding: 0.3rem;
+   width: 100%;
+}

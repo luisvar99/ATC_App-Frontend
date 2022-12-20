@@ -1,8 +1,27 @@
-import React from 'react'
+import React, {useEffect,useState} from 'react'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 
 
 export default function NavBar() {
+
+  
+  const [CurrentColores, setCurrentColores] = useState([])
+
+  const getCurrentTorneoColores = async ()=> {
+    try {
+        const result = await axios.get('http://localhost:4000/api/getTorneoColores');
+        setCurrentColores(result.data);
+        console.log("result.data: " + JSON.stringify(result.data));
+    }catch (error) {
+    alert(error.message)
+
+    }
+}
+
+useEffect(() => {
+  getCurrentTorneoColores();
+},[])
 
   const Logout = () => {
 
@@ -25,7 +44,7 @@ export default function NavBar() {
           <div className="dropdown-content">
               <Link to="/Reservaciones">Reservas</Link>
               <Link to="/torneos">Torneos Regulares</Link>
-              <Link to="/torneoColores">Torneo Colores</Link>
+              <Link to={`/torneoColores/${CurrentColores.id_torneo}`}>Torneo Colores</Link>
           </div>
         </div> 
       </div>

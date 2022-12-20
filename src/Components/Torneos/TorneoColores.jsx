@@ -4,6 +4,8 @@ import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
 import './TorneoColores.css'
+import GetColoresParejasMembers from './GetColoresParejasMembers'
+
 
 
 export default function TorneoColores() {
@@ -12,6 +14,28 @@ export default function TorneoColores() {
   const [ParejaId, setParejaId] = useState(0)
 
   const [IsCreatingInscripcion, setIsCreatingInscripcion] = useState(false)
+
+  const params = useParams();
+
+    const [ColoresParejas, setColoresParejas] = useState([])
+    const [ColoresEquipos, setColoresEquipos] = useState([])
+    const [IdEquipo, setIdEquipo] = useState(0)
+
+    const getColoresParejas = async ()=> {
+        try {
+            const result = await axios.get(`http://localhost:4000/api/getColoresParejas/${params.id}`);
+            setColoresParejas(result.data);
+            console.log("getColoresParejas: " + JSON.stringify(result.data));
+        }catch (error) {
+          alert(error.message)
+        }
+    }
+
+useEffect(() => {
+  getColoresParejas();
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [])
+
 
   const customStyles = {
     option: (provided, state) => ({
@@ -43,16 +67,33 @@ export default function TorneoColores() {
     }
   }
 
-  const MakeInscripcion = async (e) => {
+  const MakeColoresInscripcion = async (e) => {
+    const valid_inscripcion = ColoresParejas.find(p => p.id_user_one===parseInt(sessionStorage.getItem("userId")) || p.id_user_two===parseInt(sessionStorage.getItem("userId")))
+    console.log(valid_inscripcion);
     e.preventDefault()
-    setIsCreatingInscripcion(true)
-    try { 
-      //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-      const result = await axios.post(`http://localhost:4000/api/getAllUsers`)
-      console.log(result.data)
-      setIsCreatingInscripcion(false)
-    } catch (error) {
-      alert(error.message)
+    if (ParejaId===0) {
+      alert("Por favor, seleccione una pareja");
+    }else if(valid_inscripcion!== undefined){
+      alert("Usted ya se encuentra inscrito en el torneo");
+    }else{
+      setIsCreatingInscripcion(true)
+      try { 
+        //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
+        const result = await axios.post(`http://localhost:4000/api/MakeColoresInscripcion`,
+        {
+          id_torneo: params.id,
+          id_user_one: sessionStorage.getItem("userId"),
+          id_user_two: ParejaId,
+          id_equipo: null
+        })
+        console.log(result.data)
+        setIsCreatingInscripcion(false)
+        window.location.reload();
+      } catch (error) {
+        alert(error.message)
+        setIsCreatingInscripcion(false)
+      }
+
     }
   }
         
@@ -66,7 +107,7 @@ export default function TorneoColores() {
     <div className="TorneoColoresMainContainer">
       <div className="TorneoColoresSubContainer">
           <div className="inscripcionColoresFormContainer">
-            <form className="inscripcionColoresForm" onSubmit={MakeInscripcion}>
+            <form className="inscripcionColoresForm" onSubmit={MakeColoresInscripcion}>
               <p>Seleccionar una pareja</p>
               <Select 
               /* value={Users} */
@@ -92,6 +133,18 @@ export default function TorneoColores() {
             </form>
           </div>
       </div>
+      <div className="coloresParticipantsContainer">
+
+            {
+                ColoresParejas.map((p, index)=>(
+                    <div key={index} >
+                        <div className="aux">
+                            <GetColoresParejasMembers id_pareja={p.id_pareja} id_torneo={params.id} key={index} />
+                        </div>
+                </div>
+                    ))
+                }
+            </div>
     </div>
   )
 }

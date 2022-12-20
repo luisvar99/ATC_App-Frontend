@@ -11,6 +11,7 @@ import {Link} from 'react-router-dom'
 export default function ManageTorneoColores() {
 
     const [ColoresParejas, setColoresParejas] = useState([])
+    const [Rondas, setRondas] = useState([])
 
     const [TorneoColores, setTorneoColores] = useState({})
     const [NombreTorneo, setNombreTorneo] = useState("")
@@ -28,6 +29,7 @@ export default function ManageTorneoColores() {
 
     const [IsCreatingGrupo, setIsCreatingGrupo] = useState(false)
     const [IsCreatingEquipo, setIsCreatingEquipo] = useState(false)
+    const [IsPublishingEquipos, setIsPublishingEquipos] = useState(false)
 
     const params = useParams();
 
@@ -105,9 +107,38 @@ export default function ManageTorneoColores() {
         }
     }
 
+    const PublishColoresEquipos = async (e)=> {
+        e.preventDefault();
+        setIsPublishingEquipos(true)
+        try {
+            const result = await axios.put(`http://localhost:4000/api/PublishColoresEquipo/${params.id}`,
+            {
+                isPublicado: 1
+            });
+            
+            //console.log("result.data: " + JSON.stringify(result.data));
+            setIsPublishingEquipos(false)
+            window.location.reload()
+        }catch (error) {
+            alert(error.message)
+        }
+    }
+
+    const GetRondas = async () =>{
+        try {
+            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
+            const result = await axios.get(`http://localhost:4000/api/getRondas`)
+            setRondas(result.data);
+            console.log("Rondas: " + JSON.stringify(result.data));
+        } catch (error) {
+            alert(error.message)
+        }
+      }
+
     useEffect(() => {
         getCurrentTorneoColores();
         getColoresGrupos();
+        GetRondas();
         /* getColoresParejas(); */
         //console.log(ColoresGrupos);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -162,7 +193,7 @@ export default function ManageTorneoColores() {
             </div>
         <hr className="new1"/> 
         
-        <Link to={`/coloresParejas/${params.id}`}>Ver Parejas Inscritas</Link>
+        <Link to={`/coloresParejas/${params.id}`} className="goToParejas_inscritas">Ver Parejas Inscritas</Link>
 
 
         <hr class="new1"/> 
@@ -172,7 +203,7 @@ export default function ManageTorneoColores() {
                 <form className="createGrupoColoresForm" onSubmit={CreateGrupo}>
                     <div className="nombre_bombo_container">
                         <label htmlFor="nombre_bombo">Nombre del Grupo</label>
-                        <input type="text" id="nombre_bombo" onChange={(e)=> setNombreGrupo(e.target.value)}/>
+                        <input type="text" id="nombre_bombo" onChange={(e)=> setNombreGrupo(e.target.value)} required/>
                     </div>
                     <div className="btnCreateGrupoColores">
                         <button>Crear Grupo</button>
@@ -191,18 +222,18 @@ export default function ManageTorneoColores() {
                 <form className="createGrupoColoresForm" onSubmit={CreateEquipo}>
                     <div className="nombre_bombo_container">
                         <label htmlFor="nombre_bombo">Nombre del Equipo</label>
-                        <input type="text" id="nombre_bombo" onChange={(e)=> setNombreEquipo(e.target.value)}/>
+                        <input type="text" id="nombre_bombo" onChange={(e)=> setNombreEquipo(e.target.value)} required/>
                     </div>
                     <br />
                     <div className="nombre_bombo_container">
                         <label htmlFor="color_equipo">Color del Equipo</label>
-                        <input type="color" id="color_equipo" onChange={(e)=> setColorEquipo(e.target.value)}/>
+                        <input type="color" id="color_equipo" onChange={(e)=> setColorEquipo(e.target.value)} required/>
                         <input value={`Codigo color: ${ColorEquipo}`} type="text" id="color_equipo" disabled/>
                     </div>
                     <br />
                     <div className="nombre_bombo_container">
                         <label htmlFor="grupo_equipo">Grupo del Equipo</label>
-                        <select type="color" id="grupo_equipo" onChange={(e)=> setGrupoEquipo(e.target.value)}>
+                        <select type="color" id="grupo_equipo" onChange={(e)=> setGrupoEquipo(e.target.value)} required>
                             <option value="">--- Seleccione una opcion ---</option>
                             {
                                 ColoresGrupos.map((grupo, index)=> (
@@ -229,6 +260,7 @@ export default function ManageTorneoColores() {
         <hr class="new1"/> 
 
             <div className='Grupos_equipos_players_container'>
+                <button className="publicarColoresEquiposBtn" onClick={PublishColoresEquipos}>Publicar Equipos</button>
             {
                 ColoresGrupos.map((grupo, index)=> (
                     <>
@@ -239,6 +271,26 @@ export default function ManageTorneoColores() {
                     </>
                 ))
             }
+            </div>
+
+            <hr class="new1"/> 
+            
+            <div className="createColoresMatchContainer">
+                <div className="createColoresMatchFormContainer">
+                    <form className="createColoresMatchForm">
+                        <div className="coloresMatchRonda">
+                            <label htmlFor="ColoresMatchRonda">Ronda</label>
+                            <select id="ColoresMatchRonda">
+                            <option value="">-----Seleccione una opcion-----</option>
+                                {
+                                    Rondas.map((rond, index)=>(
+                                        <option key={index} value={rond.id_ronda}>{rond.nombre}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                    </form>
+                </div>
             </div>
 
         </div>

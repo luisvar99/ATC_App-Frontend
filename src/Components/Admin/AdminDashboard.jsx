@@ -55,6 +55,7 @@ export default function Dashboard() {
                 <Link className="optionsLinks" to='manageHorarios'>Gestion de Horarios</Link>
                 <Link className="optionsLinks" to='manageTorneos'>Gestion de Torneos</Link>   
                 <Link className="optionsLinks" to={`torneosColores/${TorneoColores.id_torneo}`}>Gestion Torneo Colores</Link>   
+                <Link className="optionsLinks" to="manageRondas">Gestion Rondas</Link>   
               </div>
             </div>
           
