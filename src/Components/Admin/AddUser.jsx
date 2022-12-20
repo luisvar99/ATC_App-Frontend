@@ -20,7 +20,7 @@ export default function AddUser() {
     const [Confirmation, setConfirmation] = useState("")
 
     useEffect(() => {
-      console.log(Role);
+      //console.log(Role);
     }, [Role])
     
     const AddNewUser = async (e) =>{
@@ -30,9 +30,9 @@ export default function AddUser() {
         }else{
             setConfirmation("Agregando Usuario")
             try {
-                await axios.post('http://localhost:4000/api/addUser',
+                const result = await axios.post('http://localhost:4000/api/addUser',
                 {
-                    username: User,
+                    username: User.toLowerCase(),
                     password: Contrasena,
                     nombres: Nombres,
                     apellidos: Apellidos,
@@ -43,7 +43,12 @@ export default function AddUser() {
                     sexo: Sexo,
                     role:Role
                 })
-                setConfirmation("Se ha agregado el usuario correctamente")
+                if(result.data.loggedIn === false){
+                    alert("El usuario ya pertence a otra persona")
+                    setConfirmation("No se ha podido realizar el registro")
+                }else{
+                    setConfirmation("Se ha agregado el usuario correctamente")
+                }
             } catch (error) {
                 setConfirmation("Ha ocurrido un error")
                 alert(error.message);

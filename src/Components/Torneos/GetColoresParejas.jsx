@@ -86,16 +86,16 @@ export default function GetColoresParejas(/* {id_pareja} */) {
                     <div key={index} >
                         <div className="aux">
                             <GetColoresParejasMembers id_pareja={p.id_pareja} id_torneo={params.id} key={index} />
-                            <select onChange={(e) => setIdEquipo(e.target.value)} >
-                                <option value="">--- Seleccione una Equipo ---</option>
+                            <select onChange={(e) => setIdEquipo(e.target.value)} style={{fontSize:"0.8rem"}}>
+                                <option value="" >Seleccione un Equipo</option>
                                 {ColoresEquipos.map((ce,index)=>(
                                     <option key={index} value={ce.id_equipo}>{ce.nombre_equipo}</option>
                                     ))
                                 }
                             </select>
                             <div style={{display:"flex", width: "100%", justifyContent:"space-between", marginTop:"0.3rem"}}>
-                                <button onClick={(e) => setTeamToPareja(p.id_pareja)} style={{padding:"0.4rem", width: "90%"}}>Guardar Cambios</button>
-                                <FontAwesomeIcon icon={faTrash} size="2x" className="deleteColoresParejaIcon" onClick={(e) => DeleteColoresPareja(p.id_pareja)} style={{cursor: "pointer"}}/>                            
+                                <button onClick={(e) => setTeamToPareja(p.id_pareja)} style={{padding:"0.4rem", width: "75%", fontSize:"0.8rem"}}>Guardar Cambios</button>
+                                <FontAwesomeIcon icon={faTrash} className="deleteColoresParejaIcon" onClick={(e) => DeleteColoresPareja(p.id_pareja)} style={{cursor: "pointer", fontSize:"2rem", color: "#515151"}}/>                            
                             </div>
                         </div>
                 </div>

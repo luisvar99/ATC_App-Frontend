@@ -2,13 +2,14 @@
     display:flex;
     justify-content: center;
     align-items: center;
+    margin-top: 6rem;
 }
 
 .manageRondasSubContainer{
     display:flex;
     justify-content: space-evenly;
     width: 90%;
-    align-items: center
+    align-items: flex-start
 }
 
 .manageRondasFormContainer{

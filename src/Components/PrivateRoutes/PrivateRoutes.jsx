@@ -3,9 +3,10 @@ import React, {useContext } from 'react'
 import { AccountContext } from "../Context/UserContext";
 
 const PrivateRoutes = ({user, redirectTo = "/", children}) => {
-    console.log("USER ID DESDE PRIVATE ROUTES" + sessionStorage.getItem('userId'));
+    console.log("USER ID DESDE PRIVATE ROUTES " + sessionStorage.getItem('userId'));
     user = sessionStorage.getItem('userId');
-    if(user==null){
+    if(user==="null"){
+        console.log("USER IGUAL A NULL " + sessionStorage.getItem('userId'));
         return <Navigate to={redirectTo}/>
     }
     return children;

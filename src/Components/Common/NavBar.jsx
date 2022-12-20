@@ -1,6 +1,7 @@
 import React, {useEffect,useState} from 'react'
-import {Link} from 'react-router-dom'
 import axios from 'axios'
+import {Link, useNavigate} from 'react-router-dom'
+
 
 
 export default function NavBar() {
@@ -8,11 +9,13 @@ export default function NavBar() {
   
   const [CurrentColores, setCurrentColores] = useState([])
 
+  const navigate = useNavigate();
+
   const getCurrentTorneoColores = async ()=> {
     try {
         const result = await axios.get('http://localhost:4000/api/getTorneoColores');
         setCurrentColores(result.data);
-        console.log("result.data: " + JSON.stringify(result.data));
+        //console.log("result.data: " + JSON.stringify(result.data));
     }catch (error) {
     alert(error.message)
 
@@ -21,10 +24,13 @@ export default function NavBar() {
 
 useEffect(() => {
   getCurrentTorneoColores();
+  //console.log(sessionStorage.getItem('userRole'));
 },[])
 
   const Logout = () => {
-
+    sessionStorage.setItem("userId", "null");
+    sessionStorage.setItem("userRole", "null");
+    navigate("/");
   }
   
   return (

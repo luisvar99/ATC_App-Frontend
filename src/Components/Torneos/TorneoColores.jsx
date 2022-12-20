@@ -68,13 +68,15 @@ useEffect(() => {
   }
 
   const MakeColoresInscripcion = async (e) => {
-    const valid_inscripcion = ColoresParejas.find(p => p.id_user_one===parseInt(sessionStorage.getItem("userId")) || p.id_user_two===parseInt(sessionStorage.getItem("userId")))
+    const valid_inscripcion = ColoresParejas.find(p => p.id_user_one===parseInt(sessionStorage.getItem("userId")))
+    const valid_inscripcion_userTwo = ColoresParejas.find(p => p.id_user_two===ParejaId)
+    const valid_inscripcion_extra = ColoresParejas.find(p => p.id_user_one===ParejaId)
     console.log(valid_inscripcion);
     e.preventDefault()
     if (ParejaId===0) {
       alert("Por favor, seleccione una pareja");
-    }else if(valid_inscripcion!== undefined){
-      alert("Usted ya se encuentra inscrito en el torneo");
+    }else if(valid_inscripcion!== undefined || valid_inscripcion_userTwo!== undefined || valid_inscripcion_extra!== undefined) {
+      alert("Usted o su pareja ya se encuentran inscritos en el torneo");
     }else{
       setIsCreatingInscripcion(true)
       try { 
@@ -132,6 +134,9 @@ useEffect(() => {
               </div>
             </form>
           </div>
+        <div className="btnColoresNextEnfretamientos">
+          <button>Enfrentamientos</button>
+        </div>
       </div>
       <div className="coloresParticipantsContainer">
 

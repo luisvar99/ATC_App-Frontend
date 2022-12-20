@@ -36,6 +36,10 @@ export default function Login() {
                 }else{
                     navigate("/home")
                 }
+            }else if(logged.data.badUsername===true){
+                alert("El usuario es incorrecto");
+            }else if(logged.data.wrongPassword===true){
+                alert("La contrasena es incorrecta")
             }else{
                 alert("Ha ocurrido un error")
                 setIsLoading(false)

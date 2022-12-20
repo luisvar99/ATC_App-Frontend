@@ -57,7 +57,7 @@ export default function EditRonda() {
                         <label htmlFor="nombreRonda">Nombre</label>
                         <input value={NombreRonda} type="text" id="nombreRonda" onChange={(e)=> setNombreRonda(e.target.value)}/>
                         <div className="manageRondasBtnContainer">
-                            <button type="submit">Crear</button>
+                            <button type="submit">Guardar Cambios</button>
                         </div>
                     </div>
                 </form>

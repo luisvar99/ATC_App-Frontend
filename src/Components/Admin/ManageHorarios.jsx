@@ -101,7 +101,7 @@ export default function ManageHorarios() {
             <div className="manageRondasFormContainer">
                 <form onSubmit={CreateHorario} className="manageRondasForm">
                     <div className='manageRondasNombreContainer'>
-                        <h3 style={{margin:"1rem 0rem"}}>Agregar nueva ronda</h3>
+                        <h3 style={{margin:"1rem 0rem"}}>Agregar nuevo Horario</h3>
                         <label htmlFor="nombreRonda">Hora Inicio</label>
                         <select type="text" id="nombreRonda" onChange={(e)=> setInicio(e.target.value)} required>
                             <option value="">--- Seleccione una opcion ---</option>
@@ -123,7 +123,7 @@ export default function ManageHorarios() {
                     <br />
                     <div className='manageRondasNombreContainer'>
                         <label htmlFor="nombreRonda">Hora Fin</label>
-                        <input value={(new Date("1970-01-01T" +Inicio).getHours()+1)+":00"} type="text" id="nombreRonda" readOnly/>
+                        <input value={Inicio !== "" ? (new Date("1970-01-01T" +Inicio).getHours()+1)+":00" : ""} type="text" id="nombreRonda" readOnly/>
                     </div>
                     <br />
                     <div className='manageRondasNombreContainer'>
