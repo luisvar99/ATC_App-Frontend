@@ -7,11 +7,14 @@ import moment from 'moment'
 import GetColoresParejas from '../Torneos/GetColoresParejas'
 import GetColoresTeamsByGroup from '../Torneos/GetColoresTeamsByGroup'
 import {Link} from 'react-router-dom'
+import Select from 'react-select';
+
 
 export default function ManageTorneoColores() {
 
     const [ColoresParejas, setColoresParejas] = useState([])
     const [Rondas, setRondas] = useState([])
+    const [ColoresParejasDropdown, setColoresParejasDropdown] = useState([])
 
     const [TorneoColores, setTorneoColores] = useState({})
     const [NombreTorneo, setNombreTorneo] = useState("")
@@ -26,12 +29,29 @@ export default function ManageTorneoColores() {
     const [NombreEquipo, setNombreEquipo] = useState("")
     const [ColorEquipo, setColorEquipo] = useState("")
     const [GrupoEquipo, setGrupoEquipo] = useState("")
+    const [ParejaId_one, setParejaId_one] = useState(0)
+    const [ParejaId_two, setParejaId_two] = useState(0)
 
     const [IsCreatingGrupo, setIsCreatingGrupo] = useState(false)
     const [IsCreatingEquipo, setIsCreatingEquipo] = useState(false)
     const [IsPublishingEquipos, setIsPublishingEquipos] = useState(false)
+    const [IsLoadingColoresParejasDropdown, setIsLoadingColoresParejasDropdown] = useState(false)
 
     const params = useParams();
+
+    const customStyles = {
+        option: (provided, state) => ({
+          ...provided,
+          borderBottom: '2px solid #F8F8F8',
+          color: state.isSelected ? 'black' : 'black',
+          backgroundColor: state.isSelected ? 'white' : 'white',
+          width: "100%"
+        }),
+        control: (provided) => ({
+          ...provided,
+          marginTop: "2%",
+        })
+      }
 
     const getCurrentTorneoColores = async ()=> {
         try {
@@ -135,13 +155,30 @@ export default function ManageTorneoColores() {
         }
       }
 
+      const GetColoresParejasDropdown = async () => {
+        setIsLoadingColoresParejasDropdown(true)
+        try { 
+            const arr = [];
+          //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
+          const result = await axios.get(`http://localhost:4000/api/GetColoresParejasMoreInfo/${params.id}`)
+          //console.log("result.data " + JSON.stringify(result.data));
+          let response = result.data;
+          response.map((user) => {
+          return arr.push({label: user.id_pareja + ' - ' + user.nombres + ' ' + user.apellidos, user_id: user.id});
+        });
+          setColoresParejasDropdown(arr)
+          setIsLoadingColoresParejasDropdown(false)
+        } catch (error) {
+          alert(error.message)
+        }
+      }
+
     useEffect(() => {
         getCurrentTorneoColores();
         getColoresGrupos();
         GetRondas();
-        /* getColoresParejas(); */
-        //console.log(ColoresGrupos);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        GetColoresParejasDropdown();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
@@ -264,7 +301,7 @@ export default function ManageTorneoColores() {
             {
                 ColoresGrupos.map((grupo, index)=> (
                     <>
-                    <p style={{backgroundColor:"grey", padding:"0.4rem", textAlign:"center"}}>{grupo.nombre_bombo}</p>
+                    <p style={{backgroundColor:"grey", padding:"0.4rem", textAlign:"center", color:"white"}}>{grupo.nombre_bombo}</p>
                     <div className='Grupos_equipos_players'  key={index}>
                         <GetColoresTeamsByGroup id_bombo={grupo.id_bombo}/>
                     </div>
@@ -278,6 +315,29 @@ export default function ManageTorneoColores() {
             <div className="createColoresMatchContainer">
                 <div className="createColoresMatchFormContainer">
                     <form className="createColoresMatchForm">
+                        <div className='parejas_dropdown_container'>
+                            <Select 
+                                /* value={Users} */
+                                onChange={(item) => {
+                                    //console.log("Item: "+ JSON.stringify(item.user_id));
+                                    setParejaId_one(item.id_pareja);
+                                }}
+                                options = {ColoresParejasDropdown}
+                                styles = {customStyles}
+                                placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
+                            />
+                            <Select 
+                                /* value={Users} */
+                                onChange={(item) => {
+                                    //console.log("Item: "+ JSON.stringify(item.user_id));
+                                    setParejaId_two(item.id_pareja);
+                                }}
+                                options = {ColoresParejasDropdown}
+                                styles = {customStyles}
+                                
+                                placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
+                            />
+                        </div>
                         <div className="coloresMatchRonda">
                             <label htmlFor="ColoresMatchRonda">Ronda</label>
                             <select id="ColoresMatchRonda">

@@ -83,7 +83,7 @@ export default function GetColoresParejas(/* {id_pareja} */) {
 
             {
                 ColoresParejas.map((p, index)=>(
-                    <div key={index} >
+                    <div key={index}>
                         <div className="aux">
                             <GetColoresParejasMembers id_pareja={p.id_pareja} id_torneo={params.id} key={index} />
                             <select onChange={(e) => setIdEquipo(e.target.value)} style={{fontSize:"0.8rem"}}>
@@ -93,7 +93,7 @@ export default function GetColoresParejas(/* {id_pareja} */) {
                                     ))
                                 }
                             </select>
-                            <div style={{display:"flex", width: "100%", justifyContent:"space-between", marginTop:"0.3rem"}}>
+                            <div style={{display:"flex", width: "100%", justifyContent:"space-between", marginTop:"0.3rem", alignItems:"center"}}>
                                 <button onClick={(e) => setTeamToPareja(p.id_pareja)} style={{padding:"0.4rem", width: "75%", fontSize:"0.8rem"}}>Guardar Cambios</button>
                                 <FontAwesomeIcon icon={faTrash} className="deleteColoresParejaIcon" onClick={(e) => DeleteColoresPareja(p.id_pareja)} style={{cursor: "pointer", fontSize:"2rem", color: "#515151"}}/>                            
                             </div>

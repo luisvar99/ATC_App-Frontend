@@ -34,7 +34,7 @@
 .new1{
     margin-top: 2rem;
     margin-bottom: 2rem;
-    width: 85%;
+    width: 90%;
     border-top: 1px solid rgb(173, 182, 173);
 }
 
@@ -121,6 +121,10 @@
     align-items: flex-start;
 }
 
+.createColoresMatchContainer{
+    width: 80%;
+}
+
 .Grupos_equipos_players{
     display:grid;
     grid-template-columns:  25% 25% 25% 25% ;
@@ -138,5 +142,19 @@
 }
 
 .Grupos_equipos_players_container{
-    width: 80%;
+    width: 90%;
+}
+
+.parejas_dropdown_container{
+    margin-bottom: 1rem;
+}
+
+.createColoresMatchContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.coloresMatchRonda{
+    display: flex;
+    flex-direction: column;
 }
