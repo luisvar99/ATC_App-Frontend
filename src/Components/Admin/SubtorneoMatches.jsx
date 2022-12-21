@@ -105,13 +105,16 @@ export default function SubtorneoMatches() {
                 resultado: Resultado,
                 fecha: Fecha,
                 hora: IDHorario,
-                ronda: RondaString
+                ronda: RondaString,
+                id_cancha: IDCancha
             })
             setIsAddingMatch(false)
             
             if(result.data.success===true){
                 await CreateReservation();
                 window.location.reload();
+            }else{
+                alert("Ha ocurrido un error creando el enfrentamiento")  
             }
         } catch (error) {
             alert(error.message)
@@ -128,7 +131,8 @@ export default function SubtorneoMatches() {
             idSocio: sessionStorage.getItem('userId'),
             fecha: new Date(Fecha).toLocaleDateString("EN-US"),
             id_inv_uno: Id_player_uno,
-            id_inv_dos: Id_player_dos
+            id_inv_dos: Id_player_dos,
+            descripcion: "Torneo Regular"
           })
           console.log("CreateReservation-> " + JSON.stringify(result.data));
         } catch (error) {

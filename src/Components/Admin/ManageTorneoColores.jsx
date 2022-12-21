@@ -15,6 +15,9 @@ export default function ManageTorneoColores() {
     const [ColoresParejas, setColoresParejas] = useState([])
     const [Rondas, setRondas] = useState([])
     const [ColoresParejasDropdown, setColoresParejasDropdown] = useState([])
+    const [Horarios, setHorarios] = useState([])
+    const [CanchasTennis, setCanchasTennis] = useState([])
+
 
     const [TorneoColores, setTorneoColores] = useState({})
     const [NombreTorneo, setNombreTorneo] = useState("")
@@ -31,9 +34,16 @@ export default function ManageTorneoColores() {
     const [GrupoEquipo, setGrupoEquipo] = useState("")
     const [ParejaId_one, setParejaId_one] = useState(0)
     const [ParejaId_two, setParejaId_two] = useState(0)
+    const [IDHorario, setIDHorario] = useState(0)
+    const [IDCancha, setIDCancha] = useState(0)
+    const [IdRonda, setIdRonda] = useState(0)
+    const [Resultado, setResultado] = useState("")
+    const [Fecha, setFecha] = useState(new Date().toLocaleDateString("EN-US"))
+
 
     const [IsCreatingGrupo, setIsCreatingGrupo] = useState(false)
     const [IsCreatingEquipo, setIsCreatingEquipo] = useState(false)
+    const [IsCreatingMatch, setIsCreatingMatch] = useState(false)
     const [IsPublishingEquipos, setIsPublishingEquipos] = useState(false)
     const [IsLoadingColoresParejasDropdown, setIsLoadingColoresParejasDropdown] = useState(false)
 
@@ -45,11 +55,13 @@ export default function ManageTorneoColores() {
           borderBottom: '2px solid #F8F8F8',
           color: state.isSelected ? 'black' : 'black',
           backgroundColor: state.isSelected ? 'white' : 'white',
-          width: "100%"
+          width: "100%",
+          fontSize: "0.9rem",
         }),
         control: (provided) => ({
           ...provided,
           marginTop: "2%",
+          fontSize: "0.9rem",
         })
       }
 
@@ -127,6 +139,42 @@ export default function ManageTorneoColores() {
         }
     }
 
+    const CreateColoresMatch = async (e)=> {
+        e.preventDefault();
+        if(ParejaId_one===ParejaId_two){
+            alert("Las parejas seleccionadas deben ser diferentes")
+        }else{
+            setIsCreatingMatch(true)
+            try {
+                const result = await axios.post('http://localhost:4000/api/addColoresMatch',
+                {
+                    id_torneo: params.id,
+                    id_pareja_one: ParejaId_one,
+                    id_pareja_two: ParejaId_two,
+                    fecha: Fecha,
+                    resultado: Resultado,
+                    idRonda: IdRonda,
+                    IdHorario: IDHorario,
+                    id_cancha: IDCancha
+                });
+                
+                console.log("result.data: " + JSON.stringify(result.data));
+
+                if(result.data.success===true){
+                    setIsCreatingMatch(false)
+                    await CreateReservation();
+                    window.location.reload();
+                }else{
+                    alert("Ha ocurrido un error creando el enfrentamiento")  
+                    setIsCreatingMatch(false)
+                }
+            }catch (error) {
+                alert(error.message)
+            }
+
+        }
+    }
+
     const PublishColoresEquipos = async (e)=> {
         e.preventDefault();
         setIsPublishingEquipos(true)
@@ -164,7 +212,7 @@ export default function ManageTorneoColores() {
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
           response.map((user) => {
-          return arr.push({label: user.id_pareja + ' - ' + user.nombres + ' ' + user.apellidos, user_id: user.id});
+          return arr.push({label: user.id_pareja + ' - ' + user.nombres + ' ' + user.apellidos, id_pareja: user.id_pareja});
         });
           setColoresParejasDropdown(arr)
           setIsLoadingColoresParejasDropdown(false)
@@ -173,11 +221,57 @@ export default function ManageTorneoColores() {
         }
       }
 
+      const GetHorarios = async () =>{
+        try {
+            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
+            const result = await axios.get(`http://localhost:4000/api/GetAllHorarios`)
+            setHorarios(result.data);
+            //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
+        } catch (error) {
+            
+        }
+      }
+
+      const CreateReservation = async (e) => {
+        console.log("Creando Reservacion");
+        try { 
+          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
+          const result = await axios.post(`http://localhost:4000/api/createReservation`,{
+            idCancha: IDCancha,
+            idHorario: IDHorario,
+            idSocio: sessionStorage.getItem('userId'),
+            fecha: Fecha,
+            id_inv_uno: 0,
+            id_inv_dos: 0,
+            descripcion: "Torneo Colores"
+          })
+          console.log("CreateReservation-> " + JSON.stringify(result.data));
+          
+          if(result.data.success === false){
+            alert("Ha ocurrido un error al reservar la cancha para el dia y hora establecido")
+          }
+        } catch (error) {
+          alert(error.message)
+        }
+      }
+
+      const GetAllTennisCanchas = async () => {
+        try {
+            const result = await axios.get('http://localhost:4000/api/getAllTennisCanchas');
+            setCanchasTennis(result.data);
+            //console.log("result.data.tennis: " + JSON.stringify(result.data));
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+
     useEffect(() => {
         getCurrentTorneoColores();
         getColoresGrupos();
         GetRondas();
         GetColoresParejasDropdown();
+        GetHorarios()
+        GetAllTennisCanchas();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -314,40 +408,88 @@ export default function ManageTorneoColores() {
             
             <div className="createColoresMatchContainer">
                 <div className="createColoresMatchFormContainer">
-                    <form className="createColoresMatchForm">
-                        <div className='parejas_dropdown_container'>
-                            <Select 
-                                /* value={Users} */
-                                onChange={(item) => {
-                                    //console.log("Item: "+ JSON.stringify(item.user_id));
-                                    setParejaId_one(item.id_pareja);
-                                }}
-                                options = {ColoresParejasDropdown}
-                                styles = {customStyles}
-                                placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
-                            />
-                            <Select 
-                                /* value={Users} */
-                                onChange={(item) => {
-                                    //console.log("Item: "+ JSON.stringify(item.user_id));
-                                    setParejaId_two(item.id_pareja);
-                                }}
-                                options = {ColoresParejasDropdown}
-                                styles = {customStyles}
-                                
-                                placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
-                            />
+                    <div className="coloresMatchFormTitle">
+                        <h3 style={{ margin:"0"}}>Enfrentamiento</h3>
+                        <div className='goToColoresMatches'>
+                            <button type="submit">Ver Enfrentamientos</button>
                         </div>
-                        <div className="coloresMatchRonda">
-                            <label htmlFor="ColoresMatchRonda">Ronda</label>
-                            <select id="ColoresMatchRonda">
-                            <option value="">-----Seleccione una opcion-----</option>
-                                {
-                                    Rondas.map((rond, index)=>(
-                                        <option key={index} value={rond.id_ronda}>{rond.nombre}</option>
-                                    ))
-                                }
-                            </select>
+                    </div>
+                    <form className="createColoresMatchForm" onSubmit={CreateColoresMatch}>
+                        <div className="coloresmatchrightleftside">
+
+                        
+                            <div className='parejas_dropdown_container'>
+                                <p style={{margin:"0"}}>Pareja 1</p>
+                                <Select 
+                                    /* value={Users} */
+                                    onChange={(item) => {
+                                        console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
+                                        setParejaId_one(item.id_pareja);
+                                    }}
+                                    options = {ColoresParejasDropdown}
+                                    styles = {customStyles}
+                                    placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
+                                />
+                                <p style={{margin:"0.3rem 0"}}>Pareja 2</p>
+                                <Select 
+                                    /* value={Users} */
+                                    onChange={(item) => {
+                                        console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
+                                        setParejaId_two(item.id_pareja);
+                                    }}
+                                    options = {ColoresParejasDropdown}
+                                    styles = {customStyles}
+                                    
+                                    placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
+                                />
+                                <div className="coloresMatchRonda">
+                                    <label htmlFor="matchDate">Fecha</label>
+                                    <input type="date" id="matchDate" onChange={(e)=>setFecha(e.target.value)} required/>
+                                </div>
+
+                                <div className="coloresMatchRonda">
+                                    <label htmlFor="matchCancha">Cancha</label>
+                                    <select type="number" id="matchCancha" onChange={(e)=>setIDCancha(e.target.value)} required>
+                                        <option value="">-----Seleccione una opcion-----</option>
+                                        {
+                                            CanchasTennis.map((can, index)=>(
+                                                <option key={index} value={can.id_cancha}>{can.nombre_cancha}</option>
+                                            ))
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="coloresMatchRightSide">
+                                <div className="coloresMatchRonda">
+                                <label htmlFor="cantPersonas">Horario</label>
+                                <select type="number" id="cantPersonas" onChange={(e)=>setIDHorario(e.target.value)} required>
+                                    <option value="">-----Seleccione una opcion-----</option>
+                                        {
+                                            Horarios.map((h, index)=>(
+                                                <option key={index} value={h.id_horario}>{h.hora_inicio}</option>
+                                            ))
+                                        }
+                                </select>
+                                </div>
+                                <div className="coloresMatchRonda">
+                                    <label htmlFor="ColoresMatchRonda">Ronda</label>
+                                    <select id="ColoresMatchRondaInput" className='ColoresMatchRondaInput' required>
+                                    <option value="">-----Seleccione una opcion-----</option>
+                                        {
+                                            Rondas.map((rond, index)=>(
+                                                <option key={index} value={rond.id_ronda}>{rond.nombre}</option>
+                                            ))
+                                        }
+                                    </select>
+                                </div>
+                                <div className="coloresMatchRonda">
+                                    <label htmlFor="matchResult">Resultado</label>
+                                    <input type="Text" id="matchResult" />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='btnCreateColoresMatchContainer'>
+                            <button type="submit">Crear</button>
                         </div>
                     </form>
                 </div>

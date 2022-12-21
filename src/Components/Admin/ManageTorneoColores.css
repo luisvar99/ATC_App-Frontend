@@ -44,7 +44,7 @@
     margin-top: 2rem;
 }
 
-.btnUpdateColores button{
+.btnUpdateColores button, .btnCreateColoresMatchContainer button{
     text-decoration: none;
     border: #0b7037 2px solid;
     border-radius: 5px;
@@ -145,16 +145,74 @@
     width: 90%;
 }
 
-.parejas_dropdown_container{
-    margin-bottom: 1rem;
-}
-
 .createColoresMatchContainer{
     display: flex;
     justify-content: center;
 }
 
+.createColoresMatchFormContainer{
+    width: 70%;
+}
+
 .coloresMatchRonda{
     display: flex;
     flex-direction: column;
+    margin-top: 1rem;
+}
+
+.coloresMatchRonda input, select{
+    padding: 0.4rem;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+.btnCreateColoresMatchContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.btnCreateColoresMatchContainer button{
+    text-decoration: none;
+    border: #0b7037 2px solid;
+    border-radius: 5px;
+    padding: 0.4rem;
+    background-color: #0D8641;
+    color: white;
+    font-size: 1.1rem;
+    text-align: center;
+    width: 50%;
+    cursor: pointer;
+    margin: 1rem 0 0 0;
+}
+
+.coloresmatchrightleftside{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.createColoresMatchForm{
+    border: #0b7037 solid 1px;
+    padding: 2rem;
+    border-radius:5px;
+    margin-bottom: 3rem;
+}
+
+.parejas_dropdown_container{
+    min-width: 40%;
+    max-width: 40%;
+}
+
+#matchDate{
+    width: 50%;
+}
+
+#matchCancha{
+    width: 55%;
+}
+
+.coloresMatchFormTitle{
+    display:flex;
+    margin-bottom:1rem;
+    justify-content: space-evenly;
 }

@@ -16,7 +16,7 @@ export default function TennisReservationForm() {
     const [HorarioFin, setHorarioFin] = useState("")
     const [CanchaName, setCanchaName] = useState("")
     const [IsLoadingReservation, setIsLoadingReservation] = useState(false)
-
+    const [Descripcion, setDescripcion] = useState("")
     const navigate = useNavigate();
     const params = useParams();
 
@@ -86,7 +86,8 @@ export default function TennisReservationForm() {
             idSocio: sessionStorage.getItem('userId'),
             fecha: params.ano+'/'+params.mes+'/'+params.dia,
             id_inv_uno: UserOne,
-            id_inv_dos: UserTwo
+            id_inv_dos: UserTwo,
+            descripcion: Descripcion
           })
           setIsLoadingReservation(false)
           console.log("CreateReservation-> " + JSON.stringify(result.data));
