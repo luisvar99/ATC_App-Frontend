@@ -8,25 +8,29 @@ import GetColoresParejas from '../Torneos/GetColoresParejas'
 import GetColoresTeamsByGroup from '../Torneos/GetColoresTeamsByGroup'
 import {Link} from 'react-router-dom'
 import Select from 'react-select';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 
 export default function ManageTorneoColores() {
 
-    const [ColoresParejas, setColoresParejas] = useState([])
     const [Rondas, setRondas] = useState([])
     const [ColoresParejasDropdown, setColoresParejasDropdown] = useState([])
     const [Horarios, setHorarios] = useState([])
     const [CanchasTennis, setCanchasTennis] = useState([])
+    const [ColoresEquipos, setColoresEquipos] = useState([])
 
 
     const [TorneoColores, setTorneoColores] = useState({})
+
     const [NombreTorneo, setNombreTorneo] = useState("")
     const [FechaInicio, setFechaInicio] = useState("")
     const [FechaFin, setFechaFin] = useState("")
-    const [InicioInscripcion, setInicioInscripcion] = useState({})
-    const [FinInscripcion, setFinInscripcion] = useState({})
-    const [Descripcion, setDescripcion] = useState({})
+    const [InicioInscripcion, setInicioInscripcion] = useState("")
+    const [FinInscripcion, setFinInscripcion] = useState("")
+    const [Descripcion, setDescripcion] = useState("")
     const [NombreGrupo, setNombreGrupo] = useState("")
+
     const [ColoresGrupos, setColoresGrupos] = useState([])
 
     const [NombreEquipo, setNombreEquipo] = useState("")
@@ -39,6 +43,7 @@ export default function ManageTorneoColores() {
     const [IdRonda, setIdRonda] = useState(0)
     const [Resultado, setResultado] = useState("")
     const [Fecha, setFecha] = useState(new Date().toLocaleDateString("EN-US"))
+    const [Confirmation, setConfirmation] = useState("")
 
 
     const [IsCreatingGrupo, setIsCreatingGrupo] = useState(false)
@@ -68,24 +73,18 @@ export default function ManageTorneoColores() {
     const getCurrentTorneoColores = async ()=> {
         try {
             const result = await axios.get('http://localhost:4000/api/getTorneoColores');
-            setTorneoColores(result.data);
-            //console.log("result.data TorneoColores: " + JSON.stringify(result.data));
+            console.log("result.data TorneoColores: " + JSON.stringify(result.data));
+            setNombreTorneo(result.data.nombre_torneo)
+            setFechaInicio(result.data.fecha_inicio)
+            setFechaFin(result.data.fecha_fin)
+            setInicioInscripcion(result.data.fecha_inicio_inscripcion)
+            setFinInscripcion(result.data.fecha_fin_inscripcion)
+            setDescripcion(result.data.descripcion)
         }catch (error) {
         alert(error.message)
     
         }
     }
-
- /*    const getColoresParejas = async ()=> {
-        try {
-            const result = await axios.get(`http://localhost:4000/api/getColoresParejas/${params.id}`);
-            setColoresParejas(result.data);
-            //console.log("result.data TorneoColores: " + JSON.stringify(result.data));
-        }catch (error) {
-        alert(error.message)
-    
-        }
-    } */
 
     const getColoresGrupos = async ()=> {
         try {
@@ -197,7 +196,7 @@ export default function ManageTorneoColores() {
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
             const result = await axios.get(`http://localhost:4000/api/getRondas`)
             setRondas(result.data);
-            console.log("Rondas: " + JSON.stringify(result.data));
+            //console.log("Rondas: " + JSON.stringify(result.data));
         } catch (error) {
             alert(error.message)
         }
@@ -211,7 +210,7 @@ export default function ManageTorneoColores() {
           const result = await axios.get(`http://localhost:4000/api/GetColoresParejasMoreInfo/${params.id}`)
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
-          response.map((user) => {
+          response.map((user, index) => {
           return arr.push({label: user.id_pareja + ' - ' + user.nombres + ' ' + user.apellidos, id_pareja: user.id_pareja});
         });
           setColoresParejasDropdown(arr)
@@ -264,6 +263,54 @@ export default function ManageTorneoColores() {
             alert(error.message)
         }
     }
+    
+    const GetEquiposColores = async () => {
+        
+        try {
+            const result = await axios.get(`http://localhost:4000/api/GetEquiposColores/${params.id}`);
+            setColoresEquipos(result.data);
+            //console.log("Pareja " + JSON.stringify(result.data));
+        }catch (error) {
+            alert(error.message)
+        }
+    }
+
+    const DeleteColoresGroup = async (id_bombo) => {
+        
+        try {
+            const result = await axios.delete(`http://localhost:4000/api/DeleteColoresGrupo/${id_bombo}`);
+            //console.log("Pareja " + JSON.stringify(result.data));
+        }catch (error) {
+            alert(error.message)
+        }
+    }
+
+    const EditTorneo = async (e) =>{
+        e.preventDefault();
+            setConfirmation("Actualizando Torneo...")
+            try {
+                //const editResult = await axios.put(`https://atcbackend.herokuapp.com/api/editTorneo/${params.idTorneo}`,
+                const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.id}`,
+                {
+                  nombre_torneo: NombreTorneo,
+                  fecha_inicio: FechaInicio,
+                  fecha_fin: FechaFin,
+                  fecha_inicio_inscripcion: InicioInscripcion,
+                  fecha_fin_inscripcion: FinInscripcion,
+                  id_categoria: 0,
+                  descripcion: Descripcion,
+                  modalidad: "Dobles",
+                  is_colores: true
+                })
+                console.log(editResult.data);
+                setConfirmation("Se ha actualizado el torneo correctamente")
+            } catch (error) {
+                setConfirmation("Ha ocurrido un error")
+                alert(error.message);
+            }
+        
+    }
+
 
     useEffect(() => {
         getCurrentTorneoColores();
@@ -272,6 +319,7 @@ export default function ManageTorneoColores() {
         GetColoresParejasDropdown();
         GetHorarios()
         GetAllTennisCanchas();
+        GetEquiposColores();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -288,19 +336,19 @@ export default function ManageTorneoColores() {
 
                         <div className="nombre_torneo_container">
                             <label htmlFor="nombre_torneo">Nombre</label>
-                            <input value={TorneoColores.nombre_torneo} type="text" id='nombre_torneo' onChange={(e)=> setNombreTorneo(e.target.value)}/>
+                            <input value={NombreTorneo} type="text" id='nombre_torneo' onChange={(e)=> setNombreTorneo(e.target.value)}/>
                         </div>
                         <div className="nombre_torneo_container">
                             <label htmlFor="fecha_inicio">Fecha Inicio</label>
-                            <input value={moment(TorneoColores.fecha_inicio).format('YYYY-MM-DD')} type="date" id="fecha_inicio"/>
+                            <input value={moment(FechaInicio).format('YYYY-MM-DD')} type="date" id="fecha_inicio" onChange={(e)=> setFechaInicio(e.target.value)}/>
                         </div>
                         <div className="nombre_torneo_container">
                             <label htmlFor="fecha_fin">Fecha Finalizacion</label>
-                            <input value={moment(TorneoColores.fecha_fin).format('YYYY-MM-DD')} type="date" id="fecha_fin"/>
+                            <input value={moment(FechaFin).format('YYYY-MM-DD')} type="date" id="fecha_fin" onChange={(e)=> setFechaFin(e.target.value)}/>
                         </div>
                         <div className="nombre_torneo_container">
                             <label htmlFor="descripcion">Descripcion</label>
-                            <textarea value={TorneoColores.descripcion} type="text" cols="30" rows="5" id="descripcion"/>
+                            <textarea value={Descripcion} type="text" cols="30" rows="5" id="descripcion" onChange={(e)=> setDescripcion(e.target.value)}/>
                         </div>
                     </div>
 
@@ -309,17 +357,18 @@ export default function ManageTorneoColores() {
 
                         <div className="nombre_torneo_container">
                             <label htmlFor="fecha_inicio_inscripcion">Inicio Inscripcion</label>
-                            <input value={moment(TorneoColores.fecha_inicio_inscripcion).format('YYYY-MM-DD')} type="date" id="fecha_inicio_inscripcion"/>
+                            <input value={moment(InicioInscripcion).format('YYYY-MM-DD')} type="date" id="fecha_inicio_inscripcion" onChange={(e)=> setInicioInscripcion(e.target.value)}/>
                         </div>
                         <div className="nombre_torneo_container">
                             <label htmlFor="fecha_fin_inscripcion">Fin Inscripcion</label>
-                            <input value={moment(TorneoColores.fecha_fin_inscripcion).format('YYYY-MM-DD')} type="date" id="fecha_fin_inscripcion"/>
+                            <input value={moment(FinInscripcion).format('YYYY-MM-DD')} type="date" id="fecha_fin_inscripcion" onChange={(e)=> setFinInscripcion(e.target.value)}/>
                         </div>
                         
                     </div>
                 </form>
                 <div className="btnUpdateColores">
-                    <button>Acualizar Datos</button>
+                    <button onClick={EditTorneo}>Acualizar Datos</button>
+                    <p>{Confirmation}</p>
                 </div>
             </div>
         <hr className="new1"/> 
@@ -327,7 +376,7 @@ export default function ManageTorneoColores() {
         <Link to={`/coloresParejas/${params.id}`} className="goToParejas_inscritas">Ver Parejas Inscritas</Link>
 
 
-        <hr class="new1"/> 
+        <hr className="new1"/> 
 
         <div className="manageColoresGrupsTeamsContainer">
             <div className='createGruposColoresFormContainer'>
@@ -350,71 +399,116 @@ export default function ManageTorneoColores() {
                 </form>
             </div>
             <div className='createGruposColoresFormContainer'>
-                <form className="createGrupoColoresForm" onSubmit={CreateEquipo}>
-                    <div className="nombre_bombo_container">
-                        <label htmlFor="nombre_bombo">Nombre del Equipo</label>
-                        <input type="text" id="nombre_bombo" onChange={(e)=> setNombreEquipo(e.target.value)} required/>
-                    </div>
-                    <br />
-                    <div className="nombre_bombo_container">
-                        <label htmlFor="color_equipo">Color del Equipo</label>
-                        <input type="color" id="color_equipo" onChange={(e)=> setColorEquipo(e.target.value)} required/>
-                        <input value={`Codigo color: ${ColorEquipo}`} type="text" id="color_equipo" disabled/>
-                    </div>
-                    <br />
-                    <div className="nombre_bombo_container">
-                        <label htmlFor="grupo_equipo">Grupo del Equipo</label>
-                        <select type="color" id="grupo_equipo" onChange={(e)=> setGrupoEquipo(e.target.value)} required>
-                            <option value="">--- Seleccione una opcion ---</option>
-                            {
-                                ColoresGrupos.map((grupo, index)=> (
-                                    <option key={index} value={grupo.id_bombo}>{grupo.nombre_bombo}</option>
-                                ))
-                            }
-                        </select>
-                    </div>
-                    <div className="btnCreateGrupoColores">
-                        <button>Crear Equipo</button>
-                        { IsCreatingEquipo && 
-                            <RotatingLines
-                            strokeColor="green"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="35"
-                            visible={true}
-                        />}
-                    </div>
-                </form>
+                    <form className="createGrupoColoresForm" onSubmit={CreateEquipo}>
+                        <div className="nombre_bombo_container">
+                            <label htmlFor="nombre_bombo">Nombre del Equipo</label>
+                            <input type="text" id="nombre_bombo" onChange={(e)=> setNombreEquipo(e.target.value)} required/>
+                        </div>
+                        <br />
+                        <div className="nombre_bombo_container">
+                            <label htmlFor="color_equipo">Color del Equipo</label>
+                            <input type="color" id="color_equipo" onChange={(e)=> setColorEquipo(e.target.value)} required/>
+                            <input value={`Codigo color: ${ColorEquipo}`} type="text" id="color_equipo" disabled/>
+                        </div>
+                        <br />
+                        <div className="nombre_bombo_container">
+                            <label htmlFor="grupo_equipo">Grupo del Equipo</label>
+                            <select type="color" id="grupo_equipo" onChange={(e)=> setGrupoEquipo(e.target.value)} required>
+                                <option value="">--- Seleccione una opcion ---</option>
+                                {
+                                    ColoresGrupos.map((grupo, index)=> (
+                                        <option key={index} value={grupo.id_bombo}>{grupo.nombre_bombo}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                        <div className="btnCreateGrupoColores">
+                            <button>Crear Equipo</button>
+                            { IsCreatingEquipo && 
+                                <RotatingLines
+                                strokeColor="green"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                width="35"
+                                visible={true}
+                            />}
+                        </div>
+                    </form>
             </div>
         </div>
-
-        <hr class="new1"/> 
+        <div className='see_groups_teams_container'>
+            <div className="see_groups_table_container">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Nombre</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {ColoresGrupos.map((grupo, index)=> (
+                           <tr key={index}>
+                            <td>{grupo.nombre_bombo}</td>
+                            <td><Link to={`editCancha/id=`}> <FontAwesomeIcon icon={faPenToSquare} size="xl" style={{color: "#515151"}}/> </Link></td>
+                            <td><FontAwesomeIcon icon={faTrash} size="xl" className="deleteIcon" onClick={(e) => DeleteColoresGroup(grupo.id_bombo)}  style={{cursor: "pointer", color:"#515151"}}/></td>                            
+                        </tr>
+                           ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div className="see_teams_table_container">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Nombre</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {ColoresEquipos.map((eq, index)=>(
+                            <tr key={index}>
+                                <td>{eq.nombre_equipo}</td>
+                                <td><Link to={`editCancha/id=`}> <FontAwesomeIcon icon={faPenToSquare} size="xl" style={{color: "#515151"}}/> </Link></td>
+                                <td><FontAwesomeIcon icon={faTrash} size="xl" className="deleteIcon" /* onClick={(e) => DeleteCancha(cancha.id_cancha)} */ style={{cursor: "pointer", color:"#515151"}}/></td>                            
+                            </tr>
+                        ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr className="new1"/> 
 
             <div className='Grupos_equipos_players_container'>
                 <button className="publicarColoresEquiposBtn" onClick={PublishColoresEquipos}>Publicar Equipos</button>
             {
                 ColoresGrupos.map((grupo, index)=> (
-                    <>
-                    <p style={{backgroundColor:"grey", padding:"0.4rem", textAlign:"center", color:"white"}}>{grupo.nombre_bombo}</p>
-                    <div className='Grupos_equipos_players'  key={index}>
-                        <GetColoresTeamsByGroup id_bombo={grupo.id_bombo}/>
+                    <div key={index}>
+
+                        <p style={{backgroundColor:"grey", padding:"0.4rem", textAlign:"center", color:"white"}}>{grupo.nombre_bombo}</p>
+                        <div className='Grupos_equipos_players'>
+                            <GetColoresTeamsByGroup id_bombo={grupo.id_bombo}/>
+                        </div>
                     </div>
-                    </>
+                    
                 ))
             }
             </div>
 
-            <hr class="new1"/> 
+            <hr className="new1"/> 
             
             <div className="createColoresMatchContainer">
                 <div className="createColoresMatchFormContainer">
                     <div className="coloresMatchFormTitle">
-                        <h3 style={{ margin:"0"}}>Enfrentamiento</h3>
                         <div className='goToColoresMatches'>
-                            <button type="submit">Ver Enfrentamientos</button>
+                            <Link to="enfrentamientos">Ver Enfrentamientos</Link>
                         </div>
                     </div>
                     <form className="createColoresMatchForm" onSubmit={CreateColoresMatch}>
+                        <h3 style={{ margin:"0", textAlign:"center" }}>Nuevo Enfrentamiento</h3>
                         <div className="coloresmatchrightleftside">
 
                         

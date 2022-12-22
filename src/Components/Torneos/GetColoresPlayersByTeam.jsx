@@ -12,7 +12,7 @@ export default function GetColoresPlayersByTeam({id_equipo}) {
     try {
       const result = await axios.get(`http://localhost:4000/api/getPlayersByTeam/${id_equipo}`);
       setPlayersByTeam(result.data);
-      console.log("getPlayersByTeam: " + JSON.stringify(result.data));
+      //console.log("getPlayersByTeam: " + JSON.stringify(result.data));
   }catch (error) {
     alert(error.message)
 
@@ -21,15 +21,15 @@ export default function GetColoresPlayersByTeam({id_equipo}) {
 
   useEffect(() => {
     getPlayersByTeam();
-    console.log("id_equipo: " + id_equipo);
+    //console.log("id_equipo: " + id_equipo);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   return (
     <>
       { PlayersByTeam.map((ply, index)=>(
-        <tr>
-          <td key={index} style={{padding: '5px 0px'}}>{ply.nombres} {ply.apellidos} - {ply.id_pareja}</td>
+        <tr key={index}>
+          <td style={{padding: '5px 0px'}}>{ply.nombres} {ply.apellidos} - {ply.id_pareja}</td>
         </tr>
       ))
       }

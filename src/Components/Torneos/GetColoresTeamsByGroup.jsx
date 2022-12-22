@@ -13,7 +13,7 @@ export default function GetColoresTeamsByGroup({id_bombo}) {
       try {
         const result = await axios.get(`http://localhost:4000/api/GetColoresTeamsByGroup/${id_bombo}`);
         setTeamsByBomboId(result.data);
-        console.log("getTeamsByBombo: " + JSON.stringify(result.data));
+        //console.log("getTeamsByBombo: " + JSON.stringify(result.data));
     }catch (error) {
       alert(error.message)
 
@@ -21,27 +21,27 @@ export default function GetColoresTeamsByGroup({id_bombo}) {
     }
 
     useEffect(() => {
-      console.log("id_bombo: " + id_bombo);
+      //console.log("id_bombo: " + id_bombo);
       getTeamsByBombo();
     },[])
 
 
   return (
     TeamsByBomboId.map((t, index) =>(
-      <>
+      <div key={index}>
     
-    <table>
-      <thead>
-            <tr key={index}>
-              <td style={{backgroundColor:`${t.color}`}}>{t.nombre_equipo}</td>
-            </tr>
+      <table>
+        <thead>
+              <tr>
+                <td style={{backgroundColor:`${t.color}`}}>{t.nombre_equipo}</td>
+              </tr>
 
-      </thead>
-      <tbody>
-            <GetColoresPlayersByTeam id_equipo={t.id_equipo}/>
-      </tbody>
-    </table>
-  </>
+        </thead>
+        <tbody>
+              <GetColoresPlayersByTeam id_equipo={t.id_equipo}/>
+        </tbody>
+      </table>
+  </div>
   ))
   )
 }

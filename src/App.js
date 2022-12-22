@@ -43,7 +43,7 @@ import ManageHorarios from './Components/Admin/ManageHorarios';
 
 function App() {
 
-  console.log("Desde App: " + sessionStorage.getItem('userRole'));
+  //console.log("Desde App: " + sessionStorage.getItem('userRole'));
   
   return (
   <BrowserRouter>

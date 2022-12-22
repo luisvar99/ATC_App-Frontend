@@ -24,7 +24,7 @@ export default function GetColoresParejas(/* {id_pareja} */) {
         try {
             const result = await axios.get(`http://localhost:4000/api/getColoresParejas/${params.id}`);
             setColoresParejas(result.data);
-            console.log("getColoresParejas: " + JSON.stringify(result.data));
+            //console.log("getColoresParejas: " + JSON.stringify(result.data));
         }catch (error) {
         alert(error.message)
     

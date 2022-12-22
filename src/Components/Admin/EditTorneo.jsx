@@ -74,7 +74,8 @@ const EditTorneo = async (e) =>{
               fecha_fin_inscripcion: Fin_inscripcion,
               id_categoria: Category,
               descripcion: Description,
-              modalidad: Modalidad
+              modalidad: Modalidad,
+              is_colores: false
             })
             console.log(editResult.data);
             setConfirmation("Se ha actualizado el torneo correctamente")

@@ -87,6 +87,7 @@
 .btnCreateGrupoColores{
     margin-top: 1rem;
     display: flex;
+    align-items: center;
 }
 
 .btnCreateGrupoColores button{
@@ -189,6 +190,7 @@
     display:flex;
     justify-content: space-around;
     align-items: center;
+    margin-top: 1rem;
 }
 
 .createColoresMatchForm{
@@ -215,4 +217,31 @@
     display:flex;
     margin-bottom:1rem;
     justify-content: space-evenly;
+}
+
+.goToColoresMatches a{
+    text-decoration: none;
+    border: #0b7037 2px solid;
+    border-radius: 5px;
+    padding: 0.4rem;
+    background-color: #0D8641;
+    color: white;
+    font-size: 1rem;
+    text-align: center;
+    width: 50%;
+    cursor: pointer;
+    margin: 1rem 0 0 0;
+}
+
+.see_groups_table_container, .see_teams_table_container{
+    border: #0b7037 2px solid;
+    padding: 1rem;
+}
+
+.see_groups_teams_container{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    margin-top: 2rem;
 }

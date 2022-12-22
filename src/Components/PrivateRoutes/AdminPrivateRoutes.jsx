@@ -4,9 +4,9 @@ import { AccountContext } from "../Context/UserContext";
 
 const PrivateRoutes = ({user, redirectTo = "/", notAdmin = "/" ,children}) => {
     user = sessionStorage.getItem('userRole');
-    console.log("ROLE DESDE ADMIN PRIVATE ROUTES " + sessionStorage.getItem('userRole'));
+    //console.log("ROLE DESDE ADMIN PRIVATE ROUTES " + sessionStorage.getItem('userRole'));
     if(user==="null" || user===null){
-        console.log("userRole " + user);
+        //console.log("userRole " + user);
         return <Navigate to={redirectTo}/>
     }else if(user !== "ADMIN"){
         return <Navigate to={notAdmin}/>
