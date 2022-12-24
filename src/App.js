@@ -39,6 +39,7 @@ import GetColoresParejas from './Components/Torneos/GetColoresParejas';
 import ManageRondas from './Components/Admin/ManageRondas';
 import EditRonda from './Components/Admin/EditRonda';
 import ManageHorarios from './Components/Admin/ManageHorarios';
+import ColoresEnfrentamientos from './Components/Torneos/ColoresEnfrentamientos';
 
 
 function App() {
@@ -73,6 +74,15 @@ function App() {
                 <ManageTorneoColores/>
             </AdminPrivateRoutes>
           }/>
+          
+          <Route path="/admin/torneosColores/:id/enfrentamientos" 
+          element={
+            <AdminPrivateRoutes>
+                <ColoresEnfrentamientos/>
+            </AdminPrivateRoutes>
+          }/>
+
+
           <Route path="/coloresParejas/:id" 
           element={
             <AdminPrivateRoutes>
@@ -274,6 +284,7 @@ function App() {
                 <TorneoColores/>
             </PrivateRoutes>
           }/>
+        
 
         {/* <Route path="/ReservationDetails/idReserva=:idReserva/cancha=:idCancha" element={<ReservationDetails/>}/> */}      
 

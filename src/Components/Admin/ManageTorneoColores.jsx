@@ -142,6 +142,8 @@ export default function ManageTorneoColores() {
         e.preventDefault();
         if(ParejaId_one===ParejaId_two){
             alert("Las parejas seleccionadas deben ser diferentes")
+        }else if(IdRonda===0){
+            alert("Seleccione una ronda")
         }else{
             setIsCreatingMatch(true)
             try {
@@ -170,9 +172,10 @@ export default function ManageTorneoColores() {
             }catch (error) {
                 alert(error.message)
             }
-
         }
+
     }
+    
 
     const PublishColoresEquipos = async (e)=> {
         e.preventDefault();
@@ -320,10 +323,9 @@ export default function ManageTorneoColores() {
         GetHorarios()
         GetAllTennisCanchas();
         GetEquiposColores();
+        console.log(IdRonda);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-
 
   return (
     
@@ -567,7 +569,7 @@ export default function ManageTorneoColores() {
                                 </div>
                                 <div className="coloresMatchRonda">
                                     <label htmlFor="ColoresMatchRonda">Ronda</label>
-                                    <select id="ColoresMatchRondaInput" className='ColoresMatchRondaInput' required>
+                                    <select id="ColoresMatchRondaInput" className='ColoresMatchRondaInput' onChange={(e)=>setIdRonda(e.target.value)} required>
                                     <option value="">-----Seleccione una opcion-----</option>
                                         {
                                             Rondas.map((rond, index)=>(
