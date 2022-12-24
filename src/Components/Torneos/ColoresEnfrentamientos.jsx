@@ -28,25 +28,43 @@ export default function ColoresEnfrentamientos() {
         }
     }
 
+    const DeleteColoresEnfrentamiento = async ( ev ,id_partido)=> {
+        ev.preventDefault();
+        try {
+            const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEnfrentamiento/${id_partido}`);
+            const filter = Enfrentamientos.filter(p => p.id_partido !== id_partido )
+            console.log("filter: "+filter);
+            setEnfrentamientos(filter);
+        }catch (error) {
+            alert(error.message)
+        }
+    }
+
     useEffect(() => {
         getColoresEnfrentamientos();
     }, [])
         
   return (
+    <>
+    
     <div className='ColoresEnfrentamientos_main_container'>
         <div className='ColoresEnfrentamientos_sub_container'>
             {
+                Enfrentamientos.length===0 ?
+                <p>En este momento no hay enfrentamientos creados</p>
+                :
                 Enfrentamientos.map((e, index)=>(
                     <div key={index}>
                         <GetColoresEnfretamientosPlayers id_partido={e.id_partido} id_torneo={params.id}/>
                         <div className='delete_edit_colores_match_container'>
-                            <button className='delete_colores_match'>Eliminar</button>
-                            <button className='edit_colores_match'>Editar</button>
+                            <button className='delete_colores_match' onClick={(ev)=>DeleteColoresEnfrentamiento(ev, e.id_partido)}>Eliminar</button>
+                            <button className='edit_colores_match'><Link to={`id_partido=${e.id_partido}`}>Editar</Link></button>
                         </div>
                     </div>
                 ))
             }
         </div>
     </div>
+    </>
   )
 }

@@ -40,6 +40,7 @@ import ManageRondas from './Components/Admin/ManageRondas';
 import EditRonda from './Components/Admin/EditRonda';
 import ManageHorarios from './Components/Admin/ManageHorarios';
 import ColoresEnfrentamientos from './Components/Torneos/ColoresEnfrentamientos';
+import EditColoresEnfrentamiento from './Components/Admin/EditColoresEnfrentamiento';
 
 
 function App() {
@@ -79,6 +80,13 @@ function App() {
           element={
             <AdminPrivateRoutes>
                 <ColoresEnfrentamientos/>
+            </AdminPrivateRoutes>
+          }/>
+
+          <Route path="/admin/torneosColores/:id/enfrentamientos/id_partido=:id_partido" 
+          element={
+            <AdminPrivateRoutes>
+                <EditColoresEnfrentamiento/>
             </AdminPrivateRoutes>
           }/>
 

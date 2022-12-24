@@ -8,5 +8,13 @@
 
 .delete_colores_match, .edit_colores_match{
     width:50%;
-    padding: 0.2rem
+    padding: 0.2rem;
+    cursor: pointer;
+}
+
+.edit_colores_match a{
+    display:block;
+    width: 100%;
+    text-decoration: none;
+    color: black;
 }
