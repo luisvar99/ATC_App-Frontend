@@ -288,6 +288,18 @@ export default function ManageTorneoColores() {
         }
     }
 
+    const DeleteColoresEquipo = async (e, id_equipo) => {
+        e.preventDefault();
+        try {
+            const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEquipo/${id_equipo}`);
+            //console.log("Pareja " + JSON.stringify(result.data));
+            const filter = ColoresEquipos.filter(eq => eq.id_equipo !== id_equipo )
+            setColoresEquipos(filter);
+        }catch (error) {
+            alert(error.message)
+        }
+    }
+
     const EditTorneo = async (e) =>{
         e.preventDefault();
             setConfirmation("Actualizando Torneo...")
@@ -449,13 +461,14 @@ export default function ManageTorneoColores() {
                         </tr>
                     </thead>
                     <tbody>
-                       {ColoresGrupos.map((grupo, index)=> (
-                           <tr key={index}>
-                            <td>{grupo.nombre_bombo}</td>
-                            <td><Link to={`editCancha/id=`}> <FontAwesomeIcon icon={faPenToSquare} size="xl" style={{color: "#515151"}}/> </Link></td>
-                            <td><FontAwesomeIcon icon={faTrash} size="xl" className="deleteIcon" onClick={(e) => DeleteColoresGroup(grupo.id_bombo)}  style={{cursor: "pointer", color:"#515151"}}/></td>                            
-                        </tr>
-                           ))
+                       {
+                            ColoresGrupos.map((grupo, index)=> (
+                                <tr key={index}>
+                                    <td>{grupo.nombre_bombo}</td>
+                                    <td><Link to={`editGrupo/${grupo.id_bombo}`}> <FontAwesomeIcon icon={faPenToSquare} size="xl" style={{color: "#515151"}}/> </Link></td>
+                                    <td><FontAwesomeIcon icon={faTrash} size="xl" className="deleteIcon" onClick={(e) => DeleteColoresGroup(grupo.id_bombo)}  style={{cursor: "pointer", color:"#515151"}}/></td>                            
+                                </tr>
+                            ))
                         }
                     </tbody>
                 </table>
@@ -470,13 +483,14 @@ export default function ManageTorneoColores() {
                         </tr>
                     </thead>
                     <tbody>
-                        {ColoresEquipos.map((eq, index)=>(
-                            <tr key={index}>
-                                <td>{eq.nombre_equipo}</td>
-                                <td><Link to={`editCancha/id=`}> <FontAwesomeIcon icon={faPenToSquare} size="xl" style={{color: "#515151"}}/> </Link></td>
-                                <td><FontAwesomeIcon icon={faTrash} size="xl" className="deleteIcon" /* onClick={(e) => DeleteCancha(cancha.id_cancha)} */ style={{cursor: "pointer", color:"#515151"}}/></td>                            
-                            </tr>
-                        ))
+                        {
+                            ColoresEquipos.map((eq, index)=>(
+                                <tr key={index}>
+                                    <td>{eq.nombre_equipo}</td>
+                                    <td><Link to={`editEquipo/${eq.id_equipo}`}> <FontAwesomeIcon icon={faPenToSquare} size="xl" style={{color: "#515151"}}/> </Link></td>
+                                    <td><FontAwesomeIcon icon={faTrash} size="xl" className="deleteIcon" onClick={(e) => DeleteColoresEquipo(e, eq.id_equipo)} style={{cursor: "pointer", color:"#515151"}}/></td>                            
+                                </tr>
+                            ))
                         }
                     </tbody>
                 </table>

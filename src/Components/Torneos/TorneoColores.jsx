@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select';
 import axios from 'axios'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
 import './TorneoColores.css'
 import GetColoresParejasMembers from './GetColoresParejasMembers'
@@ -110,7 +110,7 @@ useEffect(() => {
       <div className="TorneoColoresSubContainer">
           <div className="inscripcionColoresFormContainer">
             <form className="inscripcionColoresForm" onSubmit={MakeColoresInscripcion}>
-              <p>Seleccionar una pareja</p>
+              <p>Seleccione una pareja</p>
               <Select 
               /* value={Users} */
               onChange={(item) => {
@@ -135,7 +135,7 @@ useEffect(() => {
             </form>
           </div>
         <div className="btnColoresNextEnfretamientos">
-          <button>Enfrentamientos</button>
+          <Link to="enfrentamientos" className='goToColoresEnfrentamientos'>Enfrentamientos</Link>
         </div>
       </div>
       <div className="coloresParticipantsContainer">

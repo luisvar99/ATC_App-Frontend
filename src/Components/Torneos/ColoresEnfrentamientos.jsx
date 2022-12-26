@@ -10,7 +10,7 @@ import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import './ColoresEnfrentamientos.css'
 import GetColoresEnfretamientosPlayers from './GetColoresEnfretamientosPlayers'
 
-export default function ColoresEnfrentamientos() {
+export default function ColoresEnfrentamientos({isAdmin}) {
 
     const [Enfrentamientos, setEnfrentamientos] = useState([])
 
@@ -57,8 +57,12 @@ export default function ColoresEnfrentamientos() {
                     <div key={index}>
                         <GetColoresEnfretamientosPlayers id_partido={e.id_partido} id_torneo={params.id}/>
                         <div className='delete_edit_colores_match_container'>
-                            <button className='delete_colores_match' onClick={(ev)=>DeleteColoresEnfrentamiento(ev, e.id_partido)}>Eliminar</button>
-                            <button className='edit_colores_match'><Link to={`id_partido=${e.id_partido}`}>Editar</Link></button>
+                            {isAdmin!==false &&
+                                <>
+                                    <button className='delete_colores_match' onClick={(ev)=>DeleteColoresEnfrentamiento(ev, e.id_partido)}>Eliminar</button>
+                                    <button className='edit_colores_match'><Link to={`id_partido=${e.id_partido}`}>Editar</Link></button>
+                                </>
+                            }
                         </div>
                     </div>
                 ))

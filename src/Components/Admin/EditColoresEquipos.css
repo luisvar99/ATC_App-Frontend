@@ -1,0 +1,11 @@
+.editEquiposColoresFormContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.EditEquipoColoresForm{
+    border-radius: 5px;
+    padding: 1rem;
+    background-color: rgb(226, 231, 226);
+    margin-top: 4rem;
+}

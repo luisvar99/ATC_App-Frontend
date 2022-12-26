@@ -162,13 +162,9 @@ export default function EditColoresEnfrentamiento() {
 
   return (
     <div>
-        <div className="createColoresMatchContainer">
-                <div className="createColoresMatchFormContainer">
-                    <div className="coloresMatchFormTitle">
-                        <div className='goToColoresMatches'>
-                            <Link to="enfrentamientos">Ver Enfrentamientos</Link>
-                        </div>
-                    </div>
+        <div className="EditColoresMatchContainer">
+                <div className="EditColoresMatchFormContainer">
+
                     <form className="createColoresMatchForm" onSubmit={EditColoresMatch}>
                         <h3 style={{ margin:"0", textAlign:"center" }}>Editar Enfrentamiento</h3>
                         <div className="coloresmatchrightleftside">
@@ -248,7 +244,7 @@ export default function EditColoresEnfrentamiento() {
                             </div>
                         </div>
                         <div className='btnCreateColoresMatchContainer'>
-                            <button type="submit">Crear</button>
+                            <button type="submit">Guardar Cambios</button>
                         </div>
                     </form>
                 </div>

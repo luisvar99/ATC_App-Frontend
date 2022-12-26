@@ -41,6 +41,9 @@ import EditRonda from './Components/Admin/EditRonda';
 import ManageHorarios from './Components/Admin/ManageHorarios';
 import ColoresEnfrentamientos from './Components/Torneos/ColoresEnfrentamientos';
 import EditColoresEnfrentamiento from './Components/Admin/EditColoresEnfrentamiento';
+import EditColoresEquipos from './Components/Admin/EditColoresEquipos';
+import EditColoresGrupo from './Components/Admin/EditColoresGrupo';
+import ColoresEnfrentamientosForUsers from './Components/Torneos/ColoresEnfrentamientosForUsers';
 
 
 function App() {
@@ -87,6 +90,20 @@ function App() {
           element={
             <AdminPrivateRoutes>
                 <EditColoresEnfrentamiento/>
+            </AdminPrivateRoutes>
+          }/>
+
+          <Route path="/admin/torneosColores/:id/editEquipo/:id_equipo" 
+          element={
+            <AdminPrivateRoutes>
+                <EditColoresEquipos/>
+            </AdminPrivateRoutes>
+          }/>
+
+          <Route path="/admin/torneosColores/:id/editGrupo/:id_bombo" 
+          element={
+            <AdminPrivateRoutes>
+                <EditColoresGrupo/>
             </AdminPrivateRoutes>
           }/>
 
@@ -290,6 +307,13 @@ function App() {
           element={
             <PrivateRoutes>
                 <TorneoColores/>
+            </PrivateRoutes>
+          }/>
+
+        <Route path="/torneoColores/:id/enfrentamientos" 
+          element={
+            <PrivateRoutes>
+                <ColoresEnfrentamientosForUsers/>
             </PrivateRoutes>
           }/>
         
