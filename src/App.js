@@ -44,6 +44,7 @@ import EditColoresEnfrentamiento from './Components/Admin/EditColoresEnfrentamie
 import EditColoresEquipos from './Components/Admin/EditColoresEquipos';
 import EditColoresGrupo from './Components/Admin/EditColoresGrupo';
 import ColoresEnfrentamientosForUsers from './Components/Torneos/ColoresEnfrentamientosForUsers';
+import EditUser from './Components/Admin/EditUser';
 
 
 function App() {
@@ -211,6 +212,13 @@ function App() {
         <Route path="/admin/addNewUser" 
           element={
             <AddUser/>
+          }/>  
+
+        <Route path="/admin/manageUsuarios/editUser/:user_id" 
+          element={
+            <AdminPrivateRoutes>
+                <EditUser/>
+            </AdminPrivateRoutes>
           }/>     
 
         <Route path="/createSubtorneoMatches/:idSubtorneo" 

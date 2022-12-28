@@ -13,17 +13,18 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
     const [IsLoadingMembers, setIsLoadingMembers] = useState(false)
 
     const GetGruposMembers = async () =>{
-        console.log("NotAdmin: " + NotAdmin);
+        console.log("idGrupo: " + idGrupo);
         try {
             setIsLoadingMembers(true)
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
             const result = await axios.get(`http://localhost:4000/api/GetGruposById/${idGrupo}`)
+            console.log("result.data: " + /* JSON.stringify */(result.data[0]));
             setGroupsMembers(result.data);
-            setGroupNumber(result.data[0].numero_grupo)
-            //console.log("GroupsMembers: " + JSON.stringify(result.data));
+            setGroupNumber(result.data[0] === undefined ? "" : result.data[0].numero_grupo)
             setIsLoadingMembers(false)
         } catch (error) {
-            
+            alert("ERROR GetGruposMembers " + error.message)
+            setIsLoadingMembers(false)
         }
       }
 
@@ -51,7 +52,7 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
         <>
           { IsLoadingMembers ? 
                 <>
-                    <p>Cargando...</p>
+                    <p>Cargando..</p>
                     <RotatingLines
                     strokeColor="green"
                     strokeWidth="5"
@@ -74,15 +75,17 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
                     </tr>
                 </thead>
                 <tbody>
-                {GroupsMembers.map((gm,index)=>(
+                {
+                        GroupsMembers.map((gm,index)=>(
                     
-                    <tr key={index}>
-                        <td>{gm.accion} - {gm.nombres} {gm.apellidos}</td>
-                        {/* <td>Grupo {gm.numero_grupo}</td> */}
-                        { modalidad==="Dobles" && <td>{gm.id_pareja}</td>}
-                        {!NotAdmin && <td><button onClick={(e)=> DeleteSubTorneoGroupParticipant(e, gm.id_grupo, gm.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>}
-                    </tr>
-                ))}
+                        <tr key={index}>
+                            <td>{gm.accion} - {gm.nombres} {gm.apellidos}</td>
+                            {/* <td>Grupo {gm.numero_grupo}</td> */}
+                            { modalidad==="Dobles" && <td>{gm.id_pareja}</td>}
+                            {!NotAdmin && <td><button onClick={(e)=> DeleteSubTorneoGroupParticipant(e, gm.id_grupo, gm.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>}
+                        </tr>
+                    ))
+                }
                 </tbody>
             </table>
             </>

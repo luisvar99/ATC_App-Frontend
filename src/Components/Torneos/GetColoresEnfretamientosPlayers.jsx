@@ -15,6 +15,7 @@ export default function GetColoresEnfretamientosPlayers({id_partido, id_torneo})
     const [FechaEnfrentamiento, setFechaEnfrentamiento] = useState([])
     const [RondaEnfrentamiento, setRondaEnfrentamientos] = useState([])
     const [NombreCancha, setNombreCancha] = useState([])
+    const [Resultado, setResultado] = useState([])
 
     const [IsLoadingEnfrentamientos, setIsLoadingEnfrentamientos] = useState(false)
 
@@ -26,6 +27,7 @@ export default function GetColoresEnfretamientosPlayers({id_partido, id_torneo})
             setFechaEnfrentamiento(result.data[0].fecha);
             setRondaEnfrentamientos(result.data[0].nombre);
             setNombreCancha(result.data[0].nombre_cancha)
+            setResultado(result.data[0].resultado || "Partido sin jugar")
             setIsLoadingEnfrentamientos(false)
             //console.log("result.data: " + JSON.stringify(result.data));
         }catch (error) {
@@ -54,6 +56,7 @@ export default function GetColoresEnfretamientosPlayers({id_partido, id_torneo})
                 <p>Fecha: {new Date(FechaEnfrentamiento).toLocaleDateString('ES-MX')}</p>
                 <p>Ronda: {RondaEnfrentamiento}</p>
                 <p>Cancha: {NombreCancha}</p>
+                <p>Resultado: {Resultado}</p>
                 <table style={{fontSize:"0.9rem"}}>
                     <thead>
                         <tr>

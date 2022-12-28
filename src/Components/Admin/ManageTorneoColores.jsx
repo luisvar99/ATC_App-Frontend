@@ -103,7 +103,7 @@ export default function ManageTorneoColores() {
         try {
             const result = await axios.post('http://localhost:4000/api/CreateColoresGrupo',
             {
-                id_torneo: TorneoColores.id_torneo,
+                id_torneo: params.id,
                 nombre_bombo: NombreGrupo
             });
             
@@ -283,6 +283,7 @@ export default function ManageTorneoColores() {
         try {
             const result = await axios.delete(`http://localhost:4000/api/DeleteColoresGrupo/${id_bombo}`);
             //console.log("Pareja " + JSON.stringify(result.data));
+            window.location.reload();
         }catch (error) {
             alert(error.message)
         }
@@ -382,8 +383,8 @@ export default function ManageTorneoColores() {
                 </form>
                 <div className="btnUpdateColores">
                     <button onClick={EditTorneo}>Acualizar Datos</button>
-                    <p>{Confirmation}</p>
                 </div>
+                    <p style={{textAlign: "center"}}>{Confirmation}</p>
             </div>
         <hr className="new1"/> 
         

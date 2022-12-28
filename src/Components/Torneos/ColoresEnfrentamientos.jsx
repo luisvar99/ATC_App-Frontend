@@ -28,10 +28,10 @@ export default function ColoresEnfrentamientos({isAdmin}) {
         }
     }
 
-    const DeleteColoresEnfrentamiento = async ( ev ,id_partido)=> {
+    const DeleteColoresEnfrentamiento = async ( ev ,id_partido, id_cancha, id_horario, fecha)=> {
         ev.preventDefault();
         try {
-            const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEnfrentamiento/${id_partido}`);
+            const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEnfrentamiento/${id_partido}/${id_cancha}/${id_horario}/${fecha}`);
             const filter = Enfrentamientos.filter(p => p.id_partido !== id_partido )
             console.log("filter: "+filter);
             setEnfrentamientos(filter);
@@ -59,7 +59,7 @@ export default function ColoresEnfrentamientos({isAdmin}) {
                         <div className='delete_edit_colores_match_container'>
                             {isAdmin!==false &&
                                 <>
-                                    <button className='delete_colores_match' onClick={(ev)=>DeleteColoresEnfrentamiento(ev, e.id_partido)}>Eliminar</button>
+                                    <button className='delete_colores_match' onClick={(ev)=>DeleteColoresEnfrentamiento(ev, e.id_partido, e.id_cancha, e.id_horario, e.fecha)}>Eliminar</button>
                                     <button className='edit_colores_match'><Link to={`id_partido=${e.id_partido}`}>Editar</Link></button>
                                 </>
                             }

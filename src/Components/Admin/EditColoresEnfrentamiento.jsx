@@ -27,9 +27,9 @@ export default function EditColoresEnfrentamiento() {
     const [IdHorario, setIdHorario] = useState(0)
     const [IdCancha, setIdCancha] = useState(0)
     
-    const [NombreCancha, setNombreCancha] = useState("")
-    const [NombreRonda, setNombreRonda] = useState("")
-    const [InicioHorario, setInicioHorario] = useState("")
+    const [NombreCancha, setNombreCancha] = useState()
+    const [NombreRonda, setNombreRonda] = useState()
+    const [InicioHorario, setInicioHorario] = useState()
 
     const [Confirmation, setConfirmation] = useState("")
 
@@ -68,10 +68,11 @@ export default function EditColoresEnfrentamiento() {
             setPareja_one_name_two(result.data[1].nombres + " " + (result.data[1].apellidos))
             setPareja_two_name_one(result.data[2].nombres + " " + (result.data[2].apellidos))
             setPareja_two_name_two(result.data[3].nombres + " " + (result.data[3].apellidos))
+            
             setNombreCancha(result.data[0].nombre_cancha)
             setInicioHorario(result.data[0].inicio)
             setNombreRonda(result.data[0].nombre)
-            //console.log("GetColoresMatchById: " + JSON.stringify(result.data[0]));
+            console.log("GetColoresMatchById: " + JSON.stringify(result.data[0]));
             //console.log("Pareja 1: " + result.data[0].nombres + " " + (result.data[0].apellidos));
         } catch (error) {
             alert(error.message)
@@ -130,20 +131,21 @@ export default function EditColoresEnfrentamiento() {
 
       const EditColoresMatch = async (e) =>{
         e.preventDefault();
-            setConfirmation("Actualizando Torneo...")
+            setConfirmation("Actualizando Enfrentamiento...")
             try {
                 //const editResult = await axios.put(`https://atcbackend.herokuapp.com/api/editTorneo/${params.idTorneo}`,
-                const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.id}`,
+                const editResult = await axios.put(`http://localhost:4000/api/editColoresMatch/${params.id_partido}`,
                 {
-                  Id_pareja_one: Id_pareja_one,
-                  Id_pareja_two: Id_pareja_two,
+                  id_pareja_one: Id_pareja_one,
+                  id_pareja_two: Id_pareja_two,
                   fecha: Fecha,
                   resultado: Resultado,
                   id_ronda: IdRonda,
                   id_horario: IdHorario,
                   id_cancha: IdCancha,
                 })
-                setConfirmation("Se ha actualizado el torneo correctamente")
+                setConfirmation("Se ha actualizado el Enfrentamiento correctamente")
+                /* window.location.reload(); */
             } catch (error) {
                 setConfirmation("Ha ocurrido un error")
                 alert(error.message);
@@ -207,7 +209,7 @@ export default function EditColoresEnfrentamiento() {
 
                                 <div className="coloresMatchRonda">
                                     <label htmlFor="matchCancha">Cancha</label>
-                                    <select value={NombreCancha} type="number" id="matchCancha" onChange={(e)=>setIdCancha(e.target.value)} required>
+                                    <select value={IdCancha} type="number" id="matchCancha" onChange={(e)=>setIdCancha(e.target.value)} required>
                                         {
                                             CanchasTennis.map((can, index)=>(
                                                 <option key={index} value={can.id_cancha}>{can.nombre_cancha}</option>
@@ -219,7 +221,7 @@ export default function EditColoresEnfrentamiento() {
                             <div className="coloresMatchRightSide">
                                 <div className="coloresMatchRonda">
                                 <label htmlFor="cantPersonas">Horario</label>
-                                <select value={InicioHorario} type="number" id="cantPersonas" onChange={(e)=>setIdHorario(e.target.value)} required>
+                                <select value={IdHorario} type="number" id="cantPersonas" onChange={(e)=>setIdHorario(e.target.value)} required>
                                         {
                                             Horarios.map((h, index)=>(
                                                 <option key={index} value={h.id_horario}>{h.hora_inicio}</option>
@@ -229,7 +231,7 @@ export default function EditColoresEnfrentamiento() {
                                 </div>
                                 <div className="coloresMatchRonda">
                                     <label htmlFor="ColoresMatchRonda">Ronda</label>
-                                    <select value={NombreRonda} id="ColoresMatchRondaInput" className='ColoresMatchRondaInput' onChange={(e)=>setIdRonda(e.target.value)} required>
+                                    <select value={IdRonda} id="ColoresMatchRonda" className='ColoresMatchRondaInput' onChange={(e)=>setIdRonda(e.target.value)} required>
                                         {
                                             Rondas.map((rond, index)=>(
                                                 <option key={index} value={rond.id_ronda}>{rond.nombre}</option>
@@ -239,13 +241,14 @@ export default function EditColoresEnfrentamiento() {
                                 </div>
                                 <div className="coloresMatchRonda">
                                     <label htmlFor="matchResult">Resultado</label>
-                                    <input value={Resultado} type="Text" id="matchResult" />
+                                    <input value={Resultado} type="Text" id="matchResult" onChange={(e)=>setResultado(e.target.value)}/>
                                 </div>
                             </div>
                         </div>
                         <div className='btnCreateColoresMatchContainer'>
                             <button type="submit">Guardar Cambios</button>
                         </div>
+                        <p>{Confirmation}</p>
                     </form>
                 </div>
             </div>

@@ -112,11 +112,23 @@ export default function EditSubtorneo() {
   
       }
 
-      const DeleteSubTorneoParticipant = async (id_subtorneo, user_id)=>{
+      const DeleteSubTorneoParticipant = async (user_id)=>{
         try {
             //const result = await axios.delete(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/user=${user_id}/${id_subtorneo}`);
-            const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoParticipant/user=${user_id}/${id_subtorneo}`);
+            const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoParticipant/user=${user_id}/${params.idSubtorneo}`);
             const filter = Participants.filter(p => p.id !== user_id )
+            //console.log(result.data);
+            setParticipants(filter);
+        } catch (error) {
+            alert(error.message)
+        }
+      }
+
+      const DeleteSubTorneoPareja = async (id_pareja)=>{
+        try {
+            //const result = await axios.delete(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/user=${user_id}/${id_subtorneo}`);
+            const result = await axios.delete(`http://localhost:4000/api/DeleteSubTorneoPareja/${id_pareja}/${params.idSubtorneo}`);
+            const filter = Participants.filter(p => p.id_pareja !== id_pareja )
             //console.log(result.data);
             setParticipants(filter);
         } catch (error) {
@@ -317,7 +329,12 @@ export default function EditSubtorneo() {
                                         <tr key={index}>
                                         <td>{participant.accion} - {participant.nombres} {participant.apellidos}</td>
                                         <td>{params.modalidad.trim()==="Dobles" && (participant.id_pareja)}</td>
-                                        <td><button onClick={()=> DeleteSubTorneoParticipant(participant.id_subtorneo, participant.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
+                                        {
+                                            params.modalidad.trim()==="Dobles" ?
+                                            <td><button onClick={()=> DeleteSubTorneoPareja(participant.id_pareja)} className="editTorneoDeleteParticipant">Eliminar Pareja</button></td>
+                                            :
+                                            <td><button onClick={()=> DeleteSubTorneoParticipant(participant.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
+                                        }
                                     </tr>
                                     ))
                                 }
@@ -415,60 +432,11 @@ export default function EditSubtorneo() {
         <div className="GetGroupsMembers_conatiner">
             {
                 Groups.map((g, index)=>(
-                    <GetGroupsMembers idGrupo={g.id_grupo} key={index} idSubtorneo={params.idSubTorneo} modalidad={params.modalidad}/>
+                    <GetGroupsMembers idGrupo={g.id_grupo} key={index} idSubtorneo={params.idSubTorneo} modalidad={params.modalidad} NotAdmin={false}/>
                     ))
                 }
-        </div>
-                {/* <div className="groupsMembers_container">
-                {
-                    IsLoadingMembers ? 
-                <>
-                    <p>Cargando...</p>
-                    <RotatingLines
-                    strokeColor="green"
-                    strokeWidth="5"
-                    animationDuration="0.75"
-                    width="35"
-                    visible={true}
-                    />
-                </>
-                
-                  :
-                <>
-                  
-                  { GroupsMembers.length>0 &&
-                  <>
-                    <table className="subtorneo_details_table">
-                        <thead>
-                            <tr className="table_headers">
-                                <th>Usuario</th>
-                                <th>Grupo</th>
-                                {params.modalidad==="Dobles" &&<th>Id de Pareja</th>}
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                       { 
-                        GroupsMembers.map((gm,index)=>(
-                            <tr key={index}>
-                                <td>{gm.accion} - {gm.nombres} {gm.apellidos}</td>
-                                <td>Grupo {gm.numero_grupo}</td>
-                                { params.modalidad==="Dobles" && <td>{gm.id_pareja}</td>}
-                                <td><button onClick={(e)=> DeleteSubTorneoGroupParticipant(e, gm.id_grupo, gm.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
-                            </tr>
-                            ))
-                        }
-                        </tbody>
-                    </table>
-                    <button onClick={PublishGroups} className="publishGrups_btn">Publicar Grupos</button>
-                </>
-                }
-                </>
-                }
-                </div> */}
-                
-                       
-        
+        </div>  
+                 
     </div>
   )
 }

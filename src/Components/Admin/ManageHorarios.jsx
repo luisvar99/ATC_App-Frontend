@@ -28,7 +28,7 @@ export default function ManageHorarios() {
     const DeleteHorario = async (id_horario) =>{
         try {
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.delete(`http://localhost:4000/api/deleteRonda/${id_horario}`)
+            const result = await axios.delete(`http://localhost:4000/api/deleteHorario/${id_horario}`)
             const filter = Horarios.filter(h => h.id_horario !== id_horario )
             //console.log(result.data);
             setHorarios(filter);
@@ -80,6 +80,7 @@ export default function ManageHorarios() {
                             <td>Hora de Inicio</td>
                             <td>Hora de Fin</td>
                             <td>Estatus</td>
+                            <td></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,7 +90,7 @@ export default function ManageHorarios() {
                                 <td style={{padding: "10px 15px"}}>{r.inicio}</td>
                                 <td style={{padding: "10px 15px"}}>{r.fin}</td>
                                 <td style={{padding: "10px 15px"}}>{parseInt(r.estatus_horario)===1 ? "Disponible" :  "No Disponible"}</td>
-                                <td style={{padding: "10px 15px"}}><Link to={`editRonda/${r.id_horario}`}> <FontAwesomeIcon icon={faPenToSquare} size="2x" style={{color: "#515151"}}/> </Link></td>
+                                {/* <td style={{padding: "10px 15px"}}><Link to={`editRonda/${r.id_horario}`}> <FontAwesomeIcon icon={faPenToSquare} size="2x" style={{color: "#515151"}}/> </Link></td> */}
                                 <td style={{padding: "10px 15px"}}><FontAwesomeIcon icon={faTrash} size="2x" onClick={(e) => DeleteHorario(r.id_horario)} style={{cursor: "pointer", color: "#515151"}}/></td>                            
                             </tr>
 

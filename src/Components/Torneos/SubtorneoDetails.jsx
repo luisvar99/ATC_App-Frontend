@@ -16,7 +16,7 @@ export default function SubtorneoDetails() {
   const [Parejas, setParejas] = useState([])
   const [GroupsMembers, setGroupsMembers] = useState([])
   const [Groups, setGroups] = useState([])
-  const [StatusGroups, setStatusGroups] = useState(0)
+  const [GroupsStatus, setGroupsStatus] = useState([])
   const [NotAdmin, setNotAdmin] = useState(true)
 
   const [IsLoading, setIsLoading] = useState(false)
@@ -36,6 +36,7 @@ export default function SubtorneoDetails() {
     }else{
       const duplicateInscriptionSingles = Participants.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
       const duplicateInscriptionParejas = Parejas.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
+      //const duplicateInscriptionParejasTwo = Parejas.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
       if(duplicateInscriptionSingles !== undefined || duplicateInscriptionParejas !== undefined){
         alert("Usted ya se encuentra inscrito en este torneo")
       }else{
@@ -126,7 +127,7 @@ export default function SubtorneoDetails() {
           setGroupsMembers(result.data);
 
           if(result.data.length>0){
-            setStatusGroups(result.data[0].isPublicado);
+            //setStatusGroups(result.data[0].isPublicado);
           }
 
           setIsLoadingMembers(false)
@@ -140,6 +141,7 @@ export default function SubtorneoDetails() {
           //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
           const result = await axios.get(`http://localhost:4000/api/getSubtorneoGrupos/${params.idSubTorneo}`)
           setGroups(result.data);
+          setGroupsStatus(result.data[0].isPublicado);
           console.log("GetSubtorneoGrupos: " + result.data);
       } catch (error) { 
           
@@ -319,9 +321,13 @@ export default function SubtorneoDetails() {
           </Link>
 
             {
+              GroupsStatus ===1 ?
+              
               Groups.map((g, index)=>(
                 <GetGroupsMembers idGrupo={g.id_grupo} key={index} idSubtorneo={params.idSubTorneo} modalidad={params.modalidad} NotAdmin={NotAdmin}/>
               ))
+              :
+              <p>Los grupos aun no han sido publicados</p>
             }
             
         </div>

@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import './TennisReservation.css'
 import Reservation from './Reservation'
 import { RotatingLines } from  'react-loader-spinner'
+import ReservationDescription from './ReservationDescription'
 
 export default function CanchaReservation() {
 
@@ -85,6 +86,7 @@ useEffect(() => {
             <thead>
               <tr>
                 <td>Hora</td>
+                <td>Propietario</td>
                 <td>Descripcion</td>
               </tr>
             </thead>
@@ -92,17 +94,27 @@ useEffect(() => {
                 {
                   Horarios.map((h, index)=>(
                   <tr key={index}>
-                  <td>{h.inicio}</td>
+                    <td>{h.inicio}</td>
                   {
                     Reservaciones.find(r => r.id_horario === h.id_horario)!== undefined ?
+                    <>
                     <td style={{backgroundColor:"yellow"}} key={index}><Reservation idHorario={h.id_horario}/></td>
+                    <td style={{backgroundColor:"yellow"}} key={index}><ReservationDescription idHorario={h.id_horario}/></td>
+                    </>
                     :
                       ((((new Date() - new Date(Fecha + ', ' + h.hora_inicio)) / (1000 * 60 * 60)>=0)) || (((new Date() - new Date(Fecha + ', ' + h.hora_inicio)) / (1000 * 60 * 60)<= -48)) ) ?
-                      <td style={{backgroundColor:"#0b7037", cursor:"not-allowed"}} key={index}><strong>No Disponible</strong></td>
+                    <>
+                    <td style={{backgroundColor:"#0b7037", cursor:"not-allowed"}} key={index}><strong>No Disponible</strong></td>
+                    <td style={{backgroundColor:"#0b7037", cursor:"not-allowed"}} key={index}></td>
+                    </>
                     :
-                      <td style={{backgroundColor:"#0b7037"}} key={index} onClick={()=>HandleReservation(h.id_horario)}><strong>Libre</strong></td>
+                    <>
+                    <td style={{backgroundColor:"#0b7037"}} key={index} onClick={()=>HandleReservation(h.id_horario)}><strong>Libre</strong></td>
+                    <td style={{backgroundColor:"#0b7037"}} key={index} onClick={()=>HandleReservation(h.id_horario)}></td>
+                    </>
 
                   }
+
             </tr>
                 ))}
             </tbody>

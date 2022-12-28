@@ -46,7 +46,7 @@ export default function Reservaciones() {
                 {
                     CanchasTennis.map((cancha, index)=>(
                     <>  
-                            <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}/categoriaCancha=${cancha.id_categoriacancha}`}>
+                            <Link key={index} className="cancha_item" to={`tennis/idCancha=${cancha.id_cancha}/${Fecha}/categoriaCancha=${cancha.id_categoriacancha}`} style={{pointerEvents: parseInt(cancha.estatus_cancha)===0 ? "none" : "auto"}}>
                             <div className="img_cancha_container">
                                 <img src="https://img.freepik.com/vector-premium/cancha-tenis-vista-superior_97886-10983.jpg" alt="" />
                                 <h4>{cancha.nombre_cancha}</h4>

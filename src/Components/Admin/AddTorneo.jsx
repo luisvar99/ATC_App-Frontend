@@ -22,7 +22,8 @@ export default function AddTorneo() {
     const [Confirmation, setConfirmation] = useState("")
 
     useEffect(() => {
-        console.log(IsTorneoColores);
+        console.log(IsTorneoColores === "true");
+        //console.log(typeof IsTorneoColores);
     }, [IsTorneoColores])
     
     const AddNewTorneo = async (e) =>{
@@ -42,7 +43,8 @@ export default function AddTorneo() {
                     fecha_fin_inscripcion: Fin_inscripcion,
                     id_categoria: Category,
                     descripcion: Description,
-                    modalidad: Modalidad
+                    modalidad: Modalidad,
+                    is_colores: IsTorneoColores === "true" ? true : false,
                 })
                 if(response.data.success===true){
                     setConfirmation("Se ha creado el torneo correctamente");
@@ -116,7 +118,7 @@ export default function AddTorneo() {
                 <p style={{fontSize:"14px"}}>{Confirmation}</p>
                 <div className="btn_addCancha_container">
                     <button type="submit">Agregar</button>
-                    <button type="submit"><Link to="/admin/manageCanchas" className="link_go_back">Volver</Link></button>
+                    <button type="submit"><Link to="/admin/manageTorneos" className="link_go_back">Volver</Link></button>
                 </div>
                 
             </form>

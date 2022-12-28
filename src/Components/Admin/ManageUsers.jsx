@@ -25,7 +25,7 @@ export default function ManageUsers() {
             setLoadingUsers(false)
         
         } catch (error){
-
+            alert(error.message)
         }
         
       }

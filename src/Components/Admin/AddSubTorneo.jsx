@@ -23,7 +23,8 @@ export default function AddSubTorneo() {
         }else{
             setConfirmation("Agregando competencia")
             try {
-                await axios.post('https://atcbackend.herokuapp.com/api/addSubtorneo',
+                //await axios.post('https://atcbackend.herokuapp.com/api/addSubtorneo',
+                await axios.post('http://localhost:4000/api/addSubtorneo',
                 {
                     id_torneo: params.idTorneo,
                     nombre: Name,
@@ -52,7 +53,7 @@ export default function AddSubTorneo() {
                 <p style={{fontSize:"14px"}}>{Confirmation}</p>
                 <div className="btn_addCancha_container">
                     <button type="submit">Agregar</button>
-                    <button type="submit"><Link to="/admin/manageCanchas" className="link_go_back">Volver</Link></button>
+                    <button type="submit"><Link to="/admin/manageTorneos" className="link_go_back">Volver</Link></button>
                 </div>
             </form>
         </div>

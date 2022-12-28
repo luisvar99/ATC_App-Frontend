@@ -89,11 +89,16 @@ export default function TennisReservationForm() {
             id_inv_dos: UserTwo,
             descripcion: Descripcion
           })
-          setIsLoadingReservation(false)
-          console.log("CreateReservation-> " + JSON.stringify(result.data));
-          navigate(-1)
+          if(result.data.validReservation===false){
+            alert("Usted ha excedido el limite de reservaciones el dia de hoy")
+            setIsLoadingReservation(false)
+          }else{
+            setIsLoadingReservation(false)
+            console.log("CreateReservation-> " + JSON.stringify(result.data));
+            navigate(-1)
+          }
         } catch (error) {
-          
+          alert(error.message)
         }
       }
       
