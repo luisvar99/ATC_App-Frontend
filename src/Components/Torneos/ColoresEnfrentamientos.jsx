@@ -23,7 +23,7 @@ export default function ColoresEnfrentamientos({isAdmin}) {
             setEnfrentamientos(result.data);
             //console.log("result.data: " + JSON.stringify(result.data));
         }catch (error) {
-        alert(error.message)
+        alert("COLORES: " + error.message)
     
         }
     }

@@ -23,16 +23,15 @@ export default function GetColoresEnfretamientosPlayers({id_partido, id_torneo})
         try {
             setIsLoadingEnfrentamientos(true)
             const result = await axios.get(`http://localhost:4000/api/GetColoresEnfretamientosPlayers/${id_torneo}/${id_partido}`);
+            console.log("getColoresEnfrentamientosByIdPartido: " + JSON.stringify(result.data));
             setEnfrentamiento(result.data);
             setFechaEnfrentamiento(result.data[0].fecha);
             setRondaEnfrentamientos(result.data[0].nombre);
             setNombreCancha(result.data[0].nombre_cancha)
             setResultado(result.data[0].resultado || "Partido sin jugar")
             setIsLoadingEnfrentamientos(false)
-            //console.log("result.data: " + JSON.stringify(result.data));
         }catch (error) {
-        alert(error.message)
-    
+            alert("getColoresEnfrentamientosByIdPartido: " + error.message)
         }
     }
 

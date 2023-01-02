@@ -37,7 +37,11 @@ useEffect(() => {
     <div className='navbar'>
       <div>
         <Link to="/home">Inicio</Link>
-        <Link to="/home">Noticias</Link>
+
+        { sessionStorage.getItem('userId')!=="null" &&
+          <Link to={`/Profile/${sessionStorage.getItem('userId')}`}>Mi Cuenta</Link>
+        }
+
         { sessionStorage.getItem('userRole')==="ADMIN" &&
           
           <Link to="/admin">Admin Panel</Link>
@@ -54,9 +58,11 @@ useEffect(() => {
           </div>
         </div> 
       </div>
-      <div className="logout_btn_container">
-        <button className="logout_btn" onClick={Logout}>Cerrar Sesión</button>
-      </div>
+      { sessionStorage.getItem('userId')!=="null" &&
+        <div className="logout_btn_container">
+          <button className="logout_btn" onClick={Logout}>Cerrar Sesión</button>
+        </div>
+      }
     </div>
   )
 }

@@ -63,11 +63,12 @@ export default function ReservationDetails() {
           setIsLoadingReservation(true)
 
           const result = await axios.get(`http://localhost:4000/api/getReservaDetails/${params.idReserva}/${sessionStorage.getItem("userId")}`)
-          console.log("Reservation Found: " + JSON.stringify(result.data));
+          //console.log("Reservation Found: " + JSON.stringify(result.data));
           
           setReservationDetails(result.data)
           if(result.data.length>1){
-            alert("RESULT.DATA ES MAYOR A 1")
+            //alert("RESULT.DATA ES MAYOR A 1")
+            setIsDobles(true)
             setUserTwo(result.data[1].id)
             setInvitadoDos(result.data[1].invitados)
           }
@@ -90,21 +91,26 @@ export default function ReservationDetails() {
       
 
       const UpdateReservation = async () => {
-
-        try { 
-          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
-          const result = await axios.put(`http://localhost:4000/api/updateReservation/${params.idReserva}`,{
-            idCancha: params.idCancha,
-            idHorario: Id_horario,
-            idSocio: sessionStorage.getItem('userId'),
-            id_inv_uno: UserOne,
-            id_inv_dos: UserTwo
-          })
-          console.log("CreateReservation-> " + JSON.stringify(result.data));
-          navigate(-1)
-        } catch (error) {
-          
+        var auxUserTwo;
+        if(IsDobles===false){
+          auxUserTwo = 0;
+        }else{
+          auxUserTwo = UserTwo;
         }
+          try { 
+            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
+            const result = await axios.put(`http://localhost:4000/api/updateReservation/${params.idReserva}`,{
+              idCancha: params.idCancha,
+              idHorario: Id_horario,
+              idSocio: sessionStorage.getItem('userId'),
+              id_inv_uno: UserOne,
+              id_inv_dos: auxUserTwo
+            })
+            console.log("CreateReservation-> " + JSON.stringify(result.data));
+            navigate(-1)
+          } catch (error) {
+            
+          }
       }
       const DeleteReservation = async (idReservation) => {
 
@@ -122,9 +128,12 @@ export default function ReservationDetails() {
       useEffect(() => {
         GetReservationDetails();
         GetUsers();
-        console.log("PARAMS" + JSON.stringify(params) );
+        //console.log("PARAMS" + JSON.stringify(params) );
       // eslint-disable-next-line react-hooks/exhaustive-deps
       },[])
+      useEffect(() => {
+        console.log(IsDobles);
+      },[IsDobles])
 
   return (
     <div className="make_reservation_main_container">
@@ -148,23 +157,39 @@ export default function ReservationDetails() {
                         
                         <p>Modalidad</p>
                         {
-                          ReservationDetails.length===2 ?
-                        <input checked type="radio" id="modalidad" value="single" name="modalidad" onChange={()=> setIsDobles(false)} required/>
+                          ReservationDetails.length===1 ?
+                          <>
+                            <label htmlFor="singles">Singles</label>
+                            <input type="radio" id="singles" value="single" name="modalidad" onChange={()=> setIsDobles(false)} required/>
+                            <label htmlFor="dobles">Dobles</label>
+                            <input type="radio" id="dobles" value="dobles" name="modalidad" onChange={()=> setIsDobles(true)} required/>
+                          </>
                         :
-                        <input type="radio" id="modalidad" value="single" name="modalidad" onChange={()=> setIsDobles(false)} required/>
+                        <>
+                          <label htmlFor="singles">Singles.</label>
+                          <input type="radio" id="singles" value="single" name="modalidad" onChange={()=> setIsDobles(false)} required/>
+                          <br />
+                          <label htmlFor="dobles">Dobles.</label>
+                          <input type="radio" id="dobles" value="dobles" name="modalidad" onChange={()=> setIsDobles(true)} required/>
+                        </>
                         }
-                        <label htmlFor="singles">Singles</label>
-                        <br />
                         
-                        { 
-                        ReservationDetails.length>2 ?
-                        <input checked type="radio" id="modalidad" value="dobles" name="modalidad" onChange={()=> setIsDobles(true)} required/>
+                        {/* { 
+                        ReservationDetails.length>1 ?
+                        <>
+                          <label htmlFor="dobles">Singles</label>
+                          <input checked type="radio" id="dobles" value="dobles" name="modalidad" onChange={()=> setIsDobles(true)} required/>
+                          <label htmlFor="singles">Singles</label>
+                          <input type="radio" id="singles" value="single" name="modalidad" onChange={()=> setIsDobles(false)} required/>
+                        </>
                         :
-                        <input type="radio" id="modalidad" value="dobles" name="modalidad" onChange={()=> setIsDobles(true)} required/>
-                        }
-                        <label htmlFor="dobles">Dobles</label>
+                        <>
+                          <input type="radio" id="dobles" value="dobles" name="modalidad" onChange={()=> setIsDobles(true)} required/>
+                        </>
+                        } */}
                         <br />
                         <br />
+
                       <div className="horasReserva">
                         <label htmlFor="horaInicio">Hora Inicio</label>
                         <input type="text" id="horaInicio" value={HorarioInicio} readOnly/>
@@ -186,7 +211,7 @@ export default function ReservationDetails() {
                     <div className="select_container">
                       <p>Participantes</p>
                       {
-                        InvitadoUno!=="" &&
+                        (InvitadoUno!=="" /* || IsDobles===false */) &&
                         <Select 
                           /* value={UserOne} */
                           onChange={(item) => {
@@ -199,7 +224,7 @@ export default function ReservationDetails() {
                           defaultValue={{label: InvitadoUno}}
                         />}
                       {
-                        (ReservationDetails.length>2 || IsDobles) &&
+                        (/* ReservationDetails.length>1 || */ IsDobles===true) &&
                         <>
                           <Select 
                           /* value={UserTwo} */

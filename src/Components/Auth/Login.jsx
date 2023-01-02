@@ -77,9 +77,7 @@ export default function Login() {
                 visible={true}
             />
                 }
-            {/* <Link to="dashboard" className="forgot_password_link">He olvidado mi contraseña</Link>
-            <Link to="/admin" className="forgot_password_link">Admin Panel</Link>
-            <Link to="/signup" className="forgot_password_link">Crear una cuenta</Link> */}
+            <Link to="/resetPassword" className="forgot_password_link">He olvidado mi contraseña</Link>
             
         </div>
     </div>

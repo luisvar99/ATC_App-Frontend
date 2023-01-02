@@ -36,9 +36,9 @@ export default function SubtorneoDetails() {
     }else{
       const duplicateInscriptionSingles = Participants.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
       const duplicateInscriptionParejas = Parejas.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
-      //const duplicateInscriptionParejasTwo = Parejas.find(e=>e.id === parseInt(sessionStorage.getItem('userId')));
-      if(duplicateInscriptionSingles !== undefined || duplicateInscriptionParejas !== undefined){
-        alert("Usted ya se encuentra inscrito en este torneo")
+      const duplicateInscriptionParejasAux = Parejas.find(e=>e.id === parseInt(MyParejaId));
+      if(duplicateInscriptionSingles !== undefined || duplicateInscriptionParejas !== undefined || duplicateInscriptionParejasAux !== undefined){
+        alert("Usted o su pareja ya se encuentra inscrito en este torneo")
       }else{
         setIsLoading(true)
         
@@ -189,6 +189,10 @@ export default function SubtorneoDetails() {
     useEffect(() => {
       GetUsers();
     },[NumberOfParticipants])
+    
+    useEffect(() => {
+      console.log(typeof MyParejaId);
+    },[MyParejaId])
 
   return (
     <div className="subtorneoDetails_main_container">

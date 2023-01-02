@@ -45,6 +45,8 @@ import EditColoresEquipos from './Components/Admin/EditColoresEquipos';
 import EditColoresGrupo from './Components/Admin/EditColoresGrupo';
 import ColoresEnfrentamientosForUsers from './Components/Torneos/ColoresEnfrentamientosForUsers';
 import EditUser from './Components/Admin/EditUser';
+import UserProfile from './Components/Common/UserProfile';
+import ResetPassword from './Components/Common/ResetPassword';
 
 
 function App() {
@@ -323,6 +325,18 @@ function App() {
             <PrivateRoutes>
                 <ColoresEnfrentamientosForUsers/>
             </PrivateRoutes>
+          }/>
+
+        <Route path="/Profile/:user_id/" 
+          element={
+            <PrivateRoutes>
+                <UserProfile/>
+            </PrivateRoutes>
+          }/>
+
+        <Route path="/resetPassword" 
+          element={
+                <ResetPassword/>
           }/>
         
 
