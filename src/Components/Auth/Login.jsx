@@ -78,6 +78,7 @@ export default function Login() {
             />
                 }
             <Link to="/resetPassword" className="forgot_password_link">He olvidado mi contraseña</Link>
+            <Link to="" className="forgot_password_link">FALTA MOSTRAR BOMBOS CON EQUIPOS COLORES A LOS USARIOS REGULARES: FILTRARLOS POR ISPUBLICADO</Link>
             
         </div>
     </div>

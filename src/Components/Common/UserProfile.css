@@ -1,4 +1,15 @@
-.form_myProfile input{
+.form_myProfile #name{
     background-color: rgb(218, 212, 212);
-    border: 1px solid;
+    border: 1px solid grey;
+}
+
+.myProfile_container{
+    border: 3px #CED4DA solid;
+    border-radius: 5px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    max-width: 38%;
+}
+.myProfile_container input{ 
+    padding: 0.3rem;
 }

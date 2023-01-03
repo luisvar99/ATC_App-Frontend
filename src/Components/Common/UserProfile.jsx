@@ -40,31 +40,22 @@ export default function UserProfile() {
         }
     }
     
-    const EditUsers = async (e) =>{
+    const EditPassword = async (e) =>{
         e.preventDefault();
         if(Sexo==="empty" || Role==="empty"){
             setConfirmation("Complete todos los campos")
         }else{
             setConfirmation("Editando Usuario")
             try {
-                const result = await axios.put(`http://localhost:4000/api/EditUsers/${params.user_id}`,
+                const result = await axios.put(`http://localhost:4000/api/ChangePassword/${params.user_id}`,
                 {
-                    username: User.toLowerCase(),
                     password: Contrasena,
-                    nombres: Nombres,
-                    apellidos: Apellidos,
-                    cedula: Cedula,
-                    accion: Accion,
-                    fecha_nacimiento: FNacimiento,
-                    correo_electronico: Correo,
-                    sexo: Sexo,
-                    role:Role
                 })
                 if(result.data.loggedIn === false){
-                    alert("El usuario ya pertence a otra persona")
+                    alert("Ha ocurrido un error")
                     setConfirmation("No se ha podido realizar el registro")
                 }else{
-                    setConfirmation("Se ha actualizado el usuario correctamente")
+                    setConfirmation("Se ha actualizado la contrasena correctamente")
                 }
             } catch (error) {
                 setConfirmation("Ha ocurrido un error")
@@ -82,8 +73,8 @@ export default function UserProfile() {
   return (
     <div className="main_addUser_container">
         <h3>Mis Datos Personales</h3>
-        <div className="Add_userform_container">
-            <form onSubmit={EditUsers} className="form_myProfile">
+        <div className="myProfile_container">
+            <form onSubmit={EditPassword} className="form_myProfile">
                 <div className="left_right_side_container">
                 <div className="left_side_container">
                     <div className="name_input_container">
@@ -114,7 +105,7 @@ export default function UserProfile() {
                     </div>
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Contrasena</label>
-                        <input readOnly value={Contrasena} type="text" id="name" onChange={(e)=>setContrasena(e.target.value)} required/>
+                        <input type="text" id="" className='password' onChange={(e)=>setContrasena(e.target.value)} minlength="8" required/>
                     </div>
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Accion</label>

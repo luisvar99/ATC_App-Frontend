@@ -49,7 +49,7 @@ export default function ReservationDetails() {
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
           response.map((user) => {
-          return arr.push({label: user.accion+ ' - ' + user.username, user_id: user.id});
+          return arr.push({label: user.accion + ' - ' + user.nombres + ' ' + user.apellidos, user_id: user.id});
         });
           setUsers(arr)
         } catch (error) {

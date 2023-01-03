@@ -42,7 +42,7 @@ export default function TennisReservationForm() {
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
           response.map((user) => {
-          return arr.push({label: user.username, user_id: user.id});
+          return arr.push({label: user.accion + ' ' + user.nombres + ' ' + user.apellidos, user_id: user.id});
         });
           setUsers(arr)
         } catch (error) {
@@ -76,29 +76,35 @@ export default function TennisReservationForm() {
       }
       const CreateReservation = async (e) => {
         e.preventDefault();
-        console.log("Creando Reservacion");
-        setIsLoadingReservation(true)
-        try { 
-          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
-          const result = await axios.post(`http://localhost:4000/api/createReservation`,{
-            idCancha: params.idCancha,
-            idHorario: params.idHorario,
-            idSocio: sessionStorage.getItem('userId'),
-            fecha: params.ano+'/'+params.mes+'/'+params.dia,
-            id_inv_uno: UserOne,
-            id_inv_dos: UserTwo,
-            descripcion: Descripcion
-          })
-          if(result.data.validReservation===false){
-            alert("Usted ha excedido el limite de reservaciones el dia de hoy")
-            setIsLoadingReservation(false)
-          }else{
-            setIsLoadingReservation(false)
-            console.log("CreateReservation-> " + JSON.stringify(result.data));
-            navigate(-1)
+        if(IsDobles===false && UserOne===0){
+          alert("Debe seleccionar un participante")
+        }else if(IsDobles===true && (UserOne===0 || UserTwo===0)){
+          alert("Debe seleccionar dos participantes")
+        }else{
+
+          setIsLoadingReservation(true)
+          try { 
+            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
+            const result = await axios.post(`http://localhost:4000/api/createReservation`,{
+              idCancha: params.idCancha,
+              idHorario: params.idHorario,
+              idSocio: sessionStorage.getItem('userId'),
+              fecha: params.ano+'/'+params.mes+'/'+params.dia,
+              id_inv_uno: UserOne,
+              id_inv_dos: UserTwo,
+              descripcion: Descripcion
+            })
+            if(result.data.validReservation===false){
+              alert("Usted ha excedido el limite de reservaciones el dia de hoy")
+              setIsLoadingReservation(false)
+            }else{
+              setIsLoadingReservation(false)
+              console.log("CreateReservation-> " + JSON.stringify(result.data));
+              navigate(-1)
+            }
+          } catch (error) {
+            alert(error.message)
           }
-        } catch (error) {
-          alert(error.message)
         }
       }
       

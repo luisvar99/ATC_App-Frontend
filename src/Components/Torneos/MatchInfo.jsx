@@ -3,6 +3,7 @@ import axios from 'axios'
 import {Link, useNavigate} from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
+import './MatchInfo.css'
 
 export default function MatchInfo({idPartido, IsAdmin}) {
 
