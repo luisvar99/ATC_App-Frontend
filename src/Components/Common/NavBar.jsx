@@ -38,7 +38,8 @@ useEffect(() => {
       <div>
         <Link to="/home">Inicio</Link>
 
-        { sessionStorage.getItem('userId')!=="null" &&
+        { 
+          (sessionStorage.getItem('userId')!=="null" && sessionStorage.getItem('userId')!==null) &&
           <Link to={`/Profile/${sessionStorage.getItem('userId')}`}>Mi Cuenta</Link>
         }
 
@@ -47,18 +48,20 @@ useEffect(() => {
           <Link to="/admin">Admin Panel</Link>
         
         }
-        <div className="dropdown">
-          <button className="dropbtn">Juegos 
-            <i className="fa fa-caret-down"></i>
-          </button>
-          <div className="dropdown-content">
-              <Link to="/Reservaciones">Reservas</Link>
-              <Link to="/torneos">Torneos Regulares</Link>
-              <Link to={`/torneoColores/${CurrentColores.id_torneo}`}>Torneo Colores</Link>
-          </div>
-        </div> 
+        {(sessionStorage.getItem('userId')!=="null" && sessionStorage.getItem('userId')!==null) &&
+          <div className="dropdown">
+            <button className="dropbtn">Juegos 
+              <i className="fa fa-caret-down"></i>
+            </button>
+            <div className="dropdown-content">
+                <Link to="/Reservaciones">Reservas</Link>
+                <Link to="/torneos">Torneos Regulares</Link>
+                <Link to={`/torneoColores/${CurrentColores.id_torneo}`}>Torneo Colores</Link>
+            </div>
+          </div> 
+        }
       </div>
-      { sessionStorage.getItem('userId')!=="null" &&
+      { (sessionStorage.getItem('userId')!=="null" && sessionStorage.getItem('userId')!==null) &&
         <div className="logout_btn_container">
           <button className="logout_btn" onClick={Logout}>Cerrar Sesión</button>
         </div>

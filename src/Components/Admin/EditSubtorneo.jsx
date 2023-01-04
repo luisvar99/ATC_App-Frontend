@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom'
 import './EditSubtorneo.css'
 import { RotatingLines } from  'react-loader-spinner'
 import GetGroupsMembers from '../Torneos/GetGroupsMembers'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -331,9 +333,10 @@ export default function EditSubtorneo() {
                                         <td>{params.modalidad.trim()==="Dobles" && (participant.id_pareja)}</td>
                                         {
                                             params.modalidad.trim()==="Dobles" ?
-                                            <td><button onClick={()=> DeleteSubTorneoPareja(participant.id_pareja)} className="editTorneoDeleteParticipant">Eliminar Pareja</button></td>
+                                            <td><FontAwesomeIcon icon={faTrash} size="2x" className="deleteIcon" onClick={(e) => DeleteSubTorneoPareja(participant.id_pareja)} style={{cursor: "pointer"}}/></td>
                                             :
                                             <td><button onClick={()=> DeleteSubTorneoParticipant(participant.id)} className="editTorneoDeleteParticipant">Eliminar</button></td>
+                                            
                                         }
                                     </tr>
                                     ))

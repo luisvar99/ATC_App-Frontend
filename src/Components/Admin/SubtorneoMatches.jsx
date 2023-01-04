@@ -122,14 +122,14 @@ export default function SubtorneoMatches() {
       }
 
       const CreateReservation = async (e) => {
-        console.log("Creando Reservacion");
+        alert("Creando Reservacion");
         try { 
           //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
           const result = await axios.post(`http://localhost:4000/api/createReservation`,{
             idCancha: IDCancha,
             idHorario: IDHorario,
             idSocio: sessionStorage.getItem('userId'),
-            fecha: new Date(Fecha).toLocaleDateString("EN-US"),
+            fecha: Fecha,
             id_inv_uno: Id_player_uno,
             id_inv_dos: Id_player_dos,
             descripcion: "Torneo Regular"
@@ -158,6 +158,13 @@ export default function SubtorneoMatches() {
         GetAllCanchas();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
+
+    /* useEffect(() => {
+        console.log(new Date(Fecha).toLocaleDateString("es-MX"));
+        console.log(Fecha);
+
+    }, [Fecha]) */
+    
      
 
   return (

@@ -117,7 +117,7 @@ export default function ReservationDetails() {
         try { 
           setDeletingReservation(true)
           //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
-          const result = await axios.delete(`http://localhost:4000/api/deleteReserva/${idReservation}`)
+          await axios.delete(`http://localhost:4000/api/deleteReserva/${idReservation}`)
           setDeletingReservation(false)
           navigate(-1)
         } catch (error) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import {Link, useNavigate} from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+/* import {Link, useNavigate} from 'react-router-dom'
+import { useParams } from 'react-router-dom' */
 import { RotatingLines } from  'react-loader-spinner'
 import './MatchInfo.css'
 
@@ -34,6 +34,7 @@ export default function MatchInfo({idPartido, IsAdmin}) {
 
     useEffect(() => {
         GetSubtorneoMatches()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
   return (

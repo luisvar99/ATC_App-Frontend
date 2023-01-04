@@ -49,7 +49,7 @@ export default function SubtorneoDetails() {
           modalidad: params.modalidad,
           myParejaId: MyParejaId
         })
-        console.log(result.data); 
+        //console.log(result.data); 
         
         if(params.modalidad === "Dobles"){
           await inscripcionPareja()
@@ -140,11 +140,11 @@ export default function SubtorneoDetails() {
       try { 
           //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
           const result = await axios.get(`http://localhost:4000/api/getSubtorneoGrupos/${params.idSubTorneo}`)
+          console.log("GetSubtorneoGrupos: " + JSON.stringify(result.data[0]))
+          setGroupsStatus(result.data[0] === undefined ? GroupsStatus: result.data[0].isPublicado);
           setGroups(result.data);
-          setGroupsStatus(result.data[0].isPublicado);
-          console.log("GetSubtorneoGrupos: " + result.data);
       } catch (error) { 
-          
+          alert("GetSubtorneoGrupos Error: " + error.message)
       }
     }
 
@@ -154,7 +154,7 @@ export default function SubtorneoDetails() {
         await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
       } catch (error) {
-        console.log("Error: " + error.message);
+        alert("Error: " + error.message);
       }
     }
 
@@ -165,7 +165,7 @@ export default function SubtorneoDetails() {
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
         setUsers(result.data)
       } catch (error) {
-        
+        alert("Error: " + error.message);
       }
     }
 
