@@ -36,8 +36,14 @@ export default function ManageTorneoColores() {
     const [NombreEquipo, setNombreEquipo] = useState("")
     const [ColorEquipo, setColorEquipo] = useState("")
     const [GrupoEquipo, setGrupoEquipo] = useState("")
-    const [ParejaId_one, setParejaId_one] = useState(0)
-    const [ParejaId_two, setParejaId_two] = useState(0)
+    const [UserId_one, setUserId_one] = useState(0)
+    const [UserId_two, setUserId_two] = useState(0)
+
+    const [Id_player_one, setId_player_one] = useState(0)
+    const [Id_player_two, setId_player_two] = useState(0)
+    const [Id_player_three, setId_player_three] = useState(0)
+    const [Id_player_four, setId_player_four] = useState(0)
+
     const [IDHorario, setIDHorario] = useState(0)
     const [IDCancha, setIDCancha] = useState(0)
     const [IdRonda, setIdRonda] = useState(0)
@@ -140,8 +146,8 @@ export default function ManageTorneoColores() {
 
     const CreateColoresMatch = async (e)=> {
         e.preventDefault();
-        if(ParejaId_one===ParejaId_two){
-            alert("Las parejas seleccionadas deben ser diferentes")
+        if(Id_player_one===Id_player_two || Id_player_three===Id_player_four){
+            alert("Los jugaores seleccionados deben ser diferentes")
         }else if(IdRonda===0){
             alert("Seleccione una ronda")
         }else{
@@ -150,8 +156,10 @@ export default function ManageTorneoColores() {
                 const result = await axios.post('http://localhost:4000/api/addColoresMatch',
                 {
                     id_torneo: params.id,
-                    id_pareja_one: ParejaId_one,
-                    id_pareja_two: ParejaId_two,
+                    player_one: Id_player_one,
+                    player_two: Id_player_two,
+                    player_three: Id_player_three,
+                    player_four: Id_player_four,
                     fecha: Fecha,
                     resultado: Resultado,
                     idRonda: IdRonda,
@@ -181,7 +189,7 @@ export default function ManageTorneoColores() {
         e.preventDefault();
         setIsPublishingEquipos(true)
         try {
-            const result = await axios.put(`http://localhost:4000/api/PublishColoresEquipo/${params.id}`,
+            const result = await axios.put(`http://localhost:4000/api/PublishColoresTeams/${params.id}`,
             {
                 isPublicado: 1
             });
@@ -210,11 +218,11 @@ export default function ManageTorneoColores() {
         try { 
             const arr = [];
           //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-          const result = await axios.get(`http://localhost:4000/api/GetColoresParejasMoreInfo/${params.id}`)
+          const result = await axios.get(`http://localhost:4000/api/GetColoresParticipantesMoreInfo/${params.id}`)
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
           response.map((user, index) => {
-          return arr.push({label: user.id_pareja + ' - ' + user.nombres + ' ' + user.apellidos, id_pareja: user.id_pareja});
+          return arr.push({label: user.accion + ' - ' + user.nombres + ' ' + user.apellidos + ` (${user.nombre_equipo})`, id_pareja: user.id_pareja, userId: user.id});
         });
           setColoresParejasDropdown(arr)
           setIsLoadingColoresParejasDropdown(false)
@@ -243,8 +251,8 @@ export default function ManageTorneoColores() {
             idHorario: IDHorario,
             idSocio: sessionStorage.getItem('userId'),
             fecha: Fecha,
-            id_inv_uno: 0,
-            id_inv_dos: 0,
+            id_inv_uno: UserId_one,
+            id_inv_dos: UserId_two,
             descripcion: "Torneo Colores"
           })
           console.log("CreateReservation-> " + JSON.stringify(result.data));
@@ -388,7 +396,7 @@ export default function ManageTorneoColores() {
             </div>
         <hr className="new1"/> 
         
-        <Link to={`/coloresParejas/${params.id}`} className="goToParejas_inscritas">Ver Parejas Inscritas</Link>
+        <Link to={`/coloresParticipantes/${params.id}`} className="goToParejas_inscritas">Participantes</Link>
 
 
         <hr className="new1"/> 
@@ -530,30 +538,60 @@ export default function ManageTorneoColores() {
 
                         
                             <div className='parejas_dropdown_container'>
-                                <p style={{margin:"0"}}>Pareja 1</p>
+                                <p style={{margin:"0"}}>Jugador 1</p>
                                 <Select 
                                     /* value={Users} */
                                     onChange={(item) => {
-                                        console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
-                                        setParejaId_one(item.id_pareja);
+                                        console.log("userId: "+ JSON.stringify(item.userId));
+                                        setId_player_one(item.userId);
+                                        setUserId_one(item.id)
                                     }}
                                     options = {ColoresParejasDropdown}
                                     styles = {customStyles}
                                     placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
                                 />
-                                <p style={{margin:"0.3rem 0"}}>Pareja 2</p>
+                                <p style={{margin:"0.3rem 0"}}>Jugador 2</p>
                                 <Select 
                                     /* value={Users} */
                                     onChange={(item) => {
-                                        console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
-                                        setParejaId_two(item.id_pareja);
+                                        console.log("id_pareja: "+ JSON.stringify(item.userId));
+                                        setId_player_two(item.userId);
+                                        setUserId_two(item.id)
                                     }}
                                     options = {ColoresParejasDropdown}
                                     styles = {customStyles}
                                     
                                     placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
                                 />
-                                <div className="coloresMatchRonda">
+                                <p style={{margin:"0.3rem 0"}}>Jugador 3</p>
+                                <Select 
+                                    /* value={Users} */
+                                    onChange={(item) => {
+                                        console.log("userId: "+ JSON.stringify(item.userId));
+                                        setId_player_three(item.userId);
+                                        setUserId_one(item.id)
+                                    }}
+                                    options = {ColoresParejasDropdown}
+                                    styles = {customStyles}
+                                    placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
+                                />
+                                <p style={{margin:"0.3rem 0"}}>Jugador 4</p>
+                                <Select 
+                                    /* value={Users} */
+                                    onChange={(item) => {
+                                        console.log("id_pareja: "+ JSON.stringify(item.userId));
+                                        setId_player_four(item.userId);
+                                        setUserId_two(item.id)
+                                    }}
+                                    options = {ColoresParejasDropdown}
+                                    styles = {customStyles}
+                                    
+                                    placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
+                                />
+                                
+                            </div>
+                            <div className="coloresMatchRightSide">
+                            <div className="coloresMatchRonda">
                                     <label htmlFor="matchDate">Fecha</label>
                                     <input type="date" id="matchDate" onChange={(e)=>setFecha(e.target.value)} required/>
                                 </div>
@@ -569,8 +607,6 @@ export default function ManageTorneoColores() {
                                         }
                                     </select>
                                 </div>
-                            </div>
-                            <div className="coloresMatchRightSide">
                                 <div className="coloresMatchRonda">
                                 <label htmlFor="cantPersonas">Horario</label>
                                 <select type="number" id="cantPersonas" onChange={(e)=>setIDHorario(e.target.value)} required>

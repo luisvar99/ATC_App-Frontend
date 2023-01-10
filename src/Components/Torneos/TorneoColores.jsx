@@ -17,11 +17,11 @@ export default function TorneoColores() {
 
   const params = useParams();
 
-    const [ColoresParejas, setColoresParejas] = useState([])
+    const [ColoresParticipantes, setColoresParticipantes] = useState([])
     const [ColoresEquipos, setColoresEquipos] = useState([])
     const [IdEquipo, setIdEquipo] = useState(0)
 
-    const getColoresParejas = async ()=> {
+    /* const getColoresParejas = async ()=> {
         try {
             const result = await axios.get(`http://localhost:4000/api/getColoresParejas/${params.id}`);
             setColoresParejas(result.data);
@@ -29,15 +29,15 @@ export default function TorneoColores() {
         }catch (error) {
           alert(error.message)
         }
-    }
+    } */
 
 useEffect(() => {
-  getColoresParejas();
+  /* getColoresParejas(); */
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
 
 
-  const customStyles = {
+/*   const customStyles = {
     option: (provided, state) => ({
       ...provided,
       borderBottom: '2px solid #F8F8F8',
@@ -49,9 +49,9 @@ useEffect(() => {
       ...provided,
       marginTop: "0%",
     })
-  }
+  } */
 
-  const GetUsers = async () => {
+/*   const GetUsers = async () => {
     try { 
         const arr = [];
       //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
@@ -65,18 +65,13 @@ useEffect(() => {
     } catch (error) {
       alert(error.message)
     }
-  }
+  } */
 
   const MakeColoresInscripcion = async (e) => {
-    const valid_inscripcion = ColoresParejas.find(p => p.id_user_one===parseInt(sessionStorage.getItem("userId")))
-    const valid_inscripcion_userTwo = ColoresParejas.find(p => p.id_user_two===ParejaId)
-    const valid_inscripcion_extra = ColoresParejas.find(p => p.id_user_one===ParejaId)
-    console.log(valid_inscripcion);
+    const valid_inscripcion = ColoresParticipantes.find(p => p.id_user_one===parseInt(sessionStorage.getItem("userId")))
     e.preventDefault()
-    if (ParejaId===0) {
-      alert("Por favor, seleccione una pareja");
-    }else if(valid_inscripcion!== undefined || valid_inscripcion_userTwo!== undefined || valid_inscripcion_extra!== undefined) {
-      alert("Usted o su pareja ya se encuentran inscritos en el torneo");
+    if(valid_inscripcion!== undefined) {
+      alert("Usted ya se encuentran inscritos en el torneo");
     }else{
       setIsCreatingInscripcion(true)
       try { 
@@ -84,9 +79,7 @@ useEffect(() => {
         const result = await axios.post(`http://localhost:4000/api/MakeColoresInscripcion`,
         {
           id_torneo: params.id,
-          id_user_one: sessionStorage.getItem("userId"),
-          id_user_two: ParejaId,
-          id_equipo: null
+          user_id: sessionStorage.getItem("userId")
         })
         console.log(result.data)
         setIsCreatingInscripcion(false)
@@ -95,14 +88,9 @@ useEffect(() => {
         alert(error.message)
         setIsCreatingInscripcion(false)
       }
-
     }
+
   }
-        
-  useEffect(() => {
-    GetUsers();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
   
 
   return (
@@ -110,9 +98,8 @@ useEffect(() => {
       <div className="TorneoColoresSubContainer">
           <div className="inscripcionColoresFormContainer">
             <form className="inscripcionColoresForm" onSubmit={MakeColoresInscripcion}>
-              <p>Seleccione una pareja</p>
+              {/* <p>Seleccione una pareja</p>
               <Select 
-              /* value={Users} */
               onChange={(item) => {
                 console.log("Item: "+ JSON.stringify(item.user_id));
                 setParejaId(item.user_id);
@@ -120,7 +107,7 @@ useEffect(() => {
               options = {Users}
               styles = {customStyles}
               placeholder = "Buscar por nombre o accion"
-              />
+              /> */}
               <div className="ColoresInscripcionBtnContainer">
                 <button type="submit" className="ColoresInscripcionBtn">Completar Inscripcion</button>
                 { IsCreatingInscripcion && 
@@ -136,9 +123,10 @@ useEffect(() => {
           </div>
         <div className="btnColoresNextEnfretamientos">
           <Link to="enfrentamientos" className='goToColoresEnfrentamientos'>Enfrentamientos</Link>
+          <Link to={`/EquiposColores/${params.id}`} className='goToColoresEnfrentamientos'>Equipos</Link>
         </div>
       </div>
-      <div className="coloresParticipantsContainer">
+      {/* <div className="coloresParticipantsContainer">
 
             {
                 ColoresParejas.map((p, index)=>(
@@ -149,7 +137,7 @@ useEffect(() => {
                 </div>
                     ))
                 }
-            </div>
+      </div> */}
     </div>
   )
 }

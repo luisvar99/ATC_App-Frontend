@@ -1,5 +1,5 @@
 import React from 'react'
-import './ColoresDashboard.css'
+import './ColoresEquiposForUsers.css'
 
 export default function ColoresDashboard() {
   return (

@@ -14,10 +14,10 @@ export default function EditColoresEnfrentamiento() {
     const [ColoresParejasDropdown, setColoresParejasDropdown] = useState([])
     const [Horarios, setHorarios] = useState([])
 
-    const [Pareja_one_name_one, setPareja_one_name_one] = useState("")
-    const [Pareja_one_name_two, setPareja_one_name_two] = useState("")
-    const [Pareja_two_name_one, setPareja_two_name_one] = useState("")
-    const [Pareja_two_name_two, setPareja_two_name_two] = useState("")
+    const [Player_one_name, setPlayer_one_name] = useState("")
+    const [Player_two_name, setPlayer_two_name] = useState("")
+    const [Player_three_name, setPlayer_three_name] = useState("")
+    const [Player_four_name, setPlayer_four_name] = useState("")
 
     const [Id_pareja_one, setId_pareja_one] = useState(0)
     const [Id_pareja_two, setId_pareja_two] = useState(0)
@@ -57,18 +57,15 @@ export default function EditColoresEnfrentamiento() {
     const GetColoresMatchById = async () => {
         try {
             const result = await axios.get(`http://localhost:4000/api/GetColoresMatchById/${params.id}/${params.id_partido}`);
-            setId_pareja_one(result.data[0].id_pareja)
-            setId_pareja_two(result.data[2].id_pareja)
+            setPlayer_one_name(result.data[0].nombres + ' ' + result.data[0].apellidos)
+            setPlayer_two_name(result.data[1].nombres + ' ' + result.data[0].apellidos)
+            setPlayer_three_name(result.data[2].nombres + ' ' + result.data[0].apellidos)
+            setPlayer_four_name(result.data[3].nombres + ' ' + result.data[0].apellidos)
             setFecha(result.data[0].fecha)
             setResultado(result.data[0].resultado)
             setIdRonda(result.data[0].id_ronda)
             setIdHorario(result.data[0].id_horario)
             setIdCancha(result.data[0].id_cancha)
-            setPareja_one_name_one(result.data[0].nombres + " " + (result.data[0].apellidos))
-            setPareja_one_name_two(result.data[1].nombres + " " + (result.data[1].apellidos))
-            setPareja_two_name_one(result.data[2].nombres + " " + (result.data[2].apellidos))
-            setPareja_two_name_two(result.data[3].nombres + " " + (result.data[3].apellidos))
-            
             setNombreCancha(result.data[0].nombre_cancha)
             setInicioHorario(result.data[0].inicio)
             setNombreRonda(result.data[0].nombre)
@@ -94,11 +91,11 @@ export default function EditColoresEnfrentamiento() {
         try { 
             const arr = [];
           //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-          const result = await axios.get(`http://localhost:4000/api/GetColoresParejasMoreInfo/${params.id}`)
+          const result = await axios.get(`http://localhost:4000/api/GetColoresParticipantesMoreInfo/${params.id}`)
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
           response.map((user, index) => {
-          return arr.push({label: user.id_pareja + ' - ' + user.nombres + ' ' + user.apellidos, id_pareja: user.id_pareja});
+          return arr.push({label: user.accion + ' - ' + user.nombres + ' ' + user.apellidos + ` (${user.nombre_equipo})`, id_pareja: user.id_pareja, userId: user.id});
         });
           setColoresParejasDropdown(arr)
           setIsLoadingColoresParejasDropdown(false)
@@ -176,7 +173,7 @@ export default function EditColoresEnfrentamiento() {
                                 <p style={{margin:"0"}}>Pareja 1</p>
 
                                 {
-                                    (Pareja_one_name_one!=="" && Id_pareja_two!==0) &&
+                                    (Player_one_name!=="") &&
                                     <Select 
                                     onChange={(item) => {
                                         console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
@@ -185,12 +182,12 @@ export default function EditColoresEnfrentamiento() {
                                     options = {ColoresParejasDropdown}
                                     styles = {customStyles}
                                     placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
-                                    defaultValue = {{label: Id_pareja_one + ' - ' + Pareja_one_name_one}}
+                                    defaultValue = {{label: Player_one_name}}
                                     /> 
                                 }
                                 <p style={{margin:"0.3rem 0"}}>Pareja 2</p>
                                 {
-                                    (Pareja_two_name_two!=="" && Id_pareja_two!==0) &&
+                                    (Player_two_name!=="") &&
                                     <Select 
                                     onChange={(item) => {
                                         console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
@@ -199,7 +196,33 @@ export default function EditColoresEnfrentamiento() {
                                     options = {ColoresParejasDropdown}
                                     styles = {customStyles}
                                     placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
-                                    defaultValue = {{label: Id_pareja_two + ' - ' + Pareja_two_name_one}}
+                                    defaultValue = {{label: Player_two_name}}
+                                    /> 
+                                }
+                                {
+                                    (Player_two_name!=="") &&
+                                    <Select 
+                                    onChange={(item) => {
+                                        console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
+                                        setId_pareja_one(item.id_pareja);
+                                    }}
+                                    options = {ColoresParejasDropdown}
+                                    styles = {customStyles}
+                                    placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
+                                    defaultValue = {{label: Player_three_name}}
+                                    /> 
+                                }
+                                {
+                                    (Player_three_name!=="") &&
+                                    <Select 
+                                    onChange={(item) => {
+                                        console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
+                                        setId_pareja_one(item.id_pareja);
+                                    }}
+                                    options = {ColoresParejasDropdown}
+                                    styles = {customStyles}
+                                    placeholder = {IsLoadingColoresParejasDropdown ? "Cargando usuarios..." : "Buscar por nombre"}
+                                    defaultValue = {{label: Player_four_name}}
                                     /> 
                                 }
                                 <div className="coloresMatchRonda">

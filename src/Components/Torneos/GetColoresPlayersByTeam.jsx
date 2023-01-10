@@ -12,7 +12,7 @@ export default function GetColoresPlayersByTeam({id_equipo}) {
     try {
       const result = await axios.get(`http://localhost:4000/api/getPlayersByTeam/${id_equipo}`);
       setPlayersByTeam(result.data);
-      //console.log("getPlayersByTeam: " + JSON.stringify(result.data));
+      console.log("getPlayersByTeam: " + JSON.stringify(result.data));
   }catch (error) {
     alert(error.message)
 
@@ -29,7 +29,7 @@ export default function GetColoresPlayersByTeam({id_equipo}) {
     <>
       { PlayersByTeam.map((ply, index)=>(
         <tr key={index}>
-          <td style={{padding: '5px 0px'}}>{ply.nombres} {ply.apellidos} - {ply.id_pareja}</td>
+          <td style={{padding: '5px 0px'}}>{ply.accion}  - {ply.nombres} {ply.apellidos}</td>
         </tr>
       ))
       }

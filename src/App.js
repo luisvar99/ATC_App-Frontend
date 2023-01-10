@@ -111,7 +111,7 @@ function App() {
           }/>
 
 
-          <Route path="/coloresParejas/:id" 
+          <Route path="/coloresParticipantes/:id" 
           element={
             <AdminPrivateRoutes>
                 <GetColoresParejas/>

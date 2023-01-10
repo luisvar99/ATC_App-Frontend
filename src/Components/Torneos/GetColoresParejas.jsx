@@ -10,17 +10,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 
-export default function GetColoresParejas(/* {id_pareja} */) {
+export default function GetColoresParejas() {
 
     
     const [ColoresParejas, setColoresParejas] = useState([])
+    const [ColoresParticipantes, setColoresParticipantes] = useState([])
     const [ColoresEquipos, setColoresEquipos] = useState([])
     const [IdEquipo, setIdEquipo] = useState(0)
 
 
     const params = useParams();
 
-    const getColoresParejas = async ()=> {
+/*     const getColoresParejas = async ()=> {
         try {
             const result = await axios.get(`http://localhost:4000/api/getColoresParejas/${params.id}`);
             setColoresParejas(result.data);
@@ -28,6 +29,16 @@ export default function GetColoresParejas(/* {id_pareja} */) {
         }catch (error) {
         alert(error.message)
     
+        }
+    } */
+
+    const getColoresParticipantes = async ()=> {
+        try {
+            const result = await axios.get(`http://localhost:4000/api/getColoresParticipantes/${params.id}`);
+            console.log("getColoresParticipantes: " + JSON.stringify(result.data));
+            setColoresParticipantes(result.data);
+        }catch (error) {
+            alert(error.message)
         }
     }
 
@@ -43,12 +54,12 @@ export default function GetColoresParejas(/* {id_pareja} */) {
         }
     }
     
-    const setTeamToPareja = async (id_pareja) => {
+    const setTeamToParticipante = async (id_pareja) => {
         if(IdEquipo===0){
             alert("Seleccione un equipo")
         }else{
             try {
-                const result = await axios.put(`http://localhost:4000/api/setEquipoToPareja/${id_pareja}`,
+                const result = await axios.put(`http://localhost:4000/api/setEquipoToPareja/${id_pareja}/${params.id}`,
                 {
                     id_equipo: IdEquipo
                 });
@@ -59,7 +70,7 @@ export default function GetColoresParejas(/* {id_pareja} */) {
         }
     }
 
-    const DeleteColoresPareja = async (id_pareja) => {
+   /*  const DeleteColoresPareja = async (id_pareja) => {
         
         try {
             const result = await axios.delete(`http://localhost:4000/api/DeleteColoresPareja/${id_pareja}`);
@@ -68,10 +79,21 @@ export default function GetColoresParejas(/* {id_pareja} */) {
         }catch (error) {
             alert(error.message)
         }
+    } */
+    const DeleteColoresParticipante = async (id_pareja) => {
+        
+        try {
+            const result = await axios.delete(`http://localhost:4000/api/DeleteColoresParticipante/${id_pareja}/${params.id}`);
+            console.log("Pareja " + JSON.stringify(result.data));
+            window.location.reload();
+        }catch (error) {
+            alert(error.message)
+        }
     }
 
     useEffect(() => {
-        getColoresParejas();
+        /* getColoresParejas(); */
+        getColoresParticipantes();
         GetEquiposColores();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -79,7 +101,7 @@ export default function GetColoresParejas(/* {id_pareja} */) {
   return (
             
         <>
-        <div className="coloresParticipantsContainer">
+        {/* <div className="coloresParticipantsContainer">
 
             {
                 ColoresParejas.map((p, index)=>(
@@ -101,7 +123,47 @@ export default function GetColoresParejas(/* {id_pareja} */) {
                 </div>
                     ))
                 }
-            </div>
+        </div> */}
+        <div className="coloresParticipantsContainer">
+        {
+            ColoresParticipantes.map((cp, index)=>(
+                <>
+                
+                <div key={index} className="coloresParticipantesTableContainer">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Accion</td>
+                                <td>Nombres</td>
+                                <td>Apellidos</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{cp.accion}</td>
+                                <td>{cp.nombres}</td>
+                                <td>{cp.apellidos}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style={{marginTop:"0.5rem", width: "100%"}}>
+                        <select onChange={(e) => setIdEquipo(e.target.value)} style={{fontSize:"0.8rem", width: "100%"}}>
+                            <option value="" >Seleccione un Equipo</option>
+                            {ColoresEquipos.map((ce,index)=>(
+                                <option key={index} value={ce.id_equipo}>{ce.nombre_equipo}</option>
+                                ))
+                            }
+                        </select>
+                        <div style={{display:"flex", width: "100%", justifyContent:"space-between", marginTop:"0.3rem", alignItems:"center"}}>
+                            <button onClick={(e) => setTeamToParticipante(cp.id)} style={{padding:"0.4rem", width: "85%", fontSize:"0.8rem"}}>Guardar Cambios</button>
+                            <FontAwesomeIcon icon={faTrash} className="deleteColoresParejaIcon" onClick={(e) => DeleteColoresParticipante(cp.id)} style={{cursor: "pointer", fontSize:"2rem", color: "#515151"}}/>                            
+                        </div>
+                    </div>
+                </div>
+                </>
+            ))}
+        </div>
+        
         </>
   )
 }

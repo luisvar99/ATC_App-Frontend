@@ -58,12 +58,11 @@ export default function ReservationDetails() {
       }
 
       const GetReservationDetails = async () => {
-
         try { 
           setIsLoadingReservation(true)
 
           const result = await axios.get(`http://localhost:4000/api/getReservaDetails/${params.idReserva}/${sessionStorage.getItem("userId")}`)
-          //console.log("Reservation Found: " + JSON.stringify(result.data));
+          console.log("Reservation Found: " + JSON.stringify(result.data));
           
           setReservationDetails(result.data)
           if(result.data.length>1){
