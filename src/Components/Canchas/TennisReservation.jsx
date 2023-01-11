@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
 import './TennisReservation.css'
@@ -97,21 +97,21 @@ useEffect(() => {
                     <td>{h.inicio}</td>
                   {
                     Reservaciones.find(r => r.id_horario === h.id_horario)!== undefined ?
-                    <>
-                    <td style={{backgroundColor:"yellow"}} key={index}><Reservation idHorario={h.id_horario}/></td>
-                    <td style={{backgroundColor:"yellow"}} key={index}><ReservationDescription idHorario={h.id_horario}/></td>
-                    </>
+                    <Fragment key={index}>
+                    <td style={{backgroundColor:"yellow"}} ><Reservation idHorario={h.id_horario}/></td>
+                    <td style={{backgroundColor:"yellow"}} ><ReservationDescription idHorario={h.id_horario}/></td>
+                    </Fragment>
                     :
                       ((((new Date() - new Date(Fecha + ', ' + h.hora_inicio)) / (1000 * 60 * 60)>=0)) || (((new Date() - new Date(Fecha + ', ' + h.hora_inicio)) / (1000 * 60 * 60)<= -48)) ) ?
-                    <>
-                    <td style={{backgroundColor:"#0b7037", cursor:"not-allowed"}} key={index}><strong>No Disponible</strong></td>
-                    <td style={{backgroundColor:"#0b7037", cursor:"not-allowed"}} key={index}></td>
-                    </>
+                    <Fragment key={index}>
+                    <td style={{backgroundColor:"#0b7037", cursor:"not-allowed"}}><strong>No Disponible</strong></td>
+                    <td style={{backgroundColor:"#0b7037", cursor:"not-allowed"}} ></td>
+                    </Fragment>
                     :
-                    <>
-                    <td style={{backgroundColor:"#0b7037"}} key={index} onClick={()=>HandleReservation(h.id_horario)}><strong>Libre</strong></td>
-                    <td style={{backgroundColor:"#0b7037"}} key={index} onClick={()=>HandleReservation(h.id_horario)}></td>
-                    </>
+                    <Fragment key={index}>
+                    <td style={{backgroundColor:"#0b7037"}} onClick={()=>HandleReservation(h.id_horario)}><strong>Libre</strong></td>
+                    <td style={{backgroundColor:"#0b7037"}} onClick={()=>HandleReservation(h.id_horario)}></td>
+                    </Fragment>
 
                   }
 

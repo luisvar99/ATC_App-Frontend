@@ -4,3 +4,26 @@
     align-items: center;
     margin-top: 2rem;
 }
+
+.parejas_dropdown_container_edit_enfrentamientos{
+    min-width: 50%;
+    max-width: 50%;
+}
+
+.editColoresMatchForm {
+    border: #0b7037 solid 1px;
+    padding: 2rem;
+    border-radius: 5px;
+    margin-bottom: 3rem;
+    min-width: 55%;
+    max-width: 55%;
+}
+
+.coloresEditmatchrightleftside {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1rem;
+    min-width: 90%;
+    max-width: 90%;
+}

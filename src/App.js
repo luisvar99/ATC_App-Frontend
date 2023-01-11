@@ -47,6 +47,7 @@ import ColoresEnfrentamientosForUsers from './Components/Torneos/ColoresEnfrenta
 import EditUser from './Components/Admin/EditUser';
 import UserProfile from './Components/Common/UserProfile';
 import ResetPassword from './Components/Common/ResetPassword';
+import ColoresEquiposAndGruposUsers from './Components/Torneos/ColoresEquiposAndGruposUsers';
 
 
 function App() {
@@ -337,6 +338,13 @@ function App() {
         <Route path="/resetPassword" 
           element={
                 <ResetPassword/>
+          }/>
+
+        <Route path="/EquiposColores/:id_torneo" 
+          element={
+            <PrivateRoutes>
+              <ColoresEquiposAndGruposUsers/>
+            </PrivateRoutes>
           }/>
         
 

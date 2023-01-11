@@ -6,14 +6,14 @@ import moment from 'moment'
 import {Link} from 'react-router-dom'
 import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import { faCircleExclamation} from '@fortawesome/free-solid-svg-icons'
 import './ColoresEnfrentamientos.css'
 import GetColoresEnfretamientosPlayers from './GetColoresEnfretamientosPlayers'
+
 
 export default function ColoresEnfrentamientos({isAdmin}) {
 
     const [Enfrentamientos, setEnfrentamientos] = useState([])
-
 
     const params = useParams();
 
@@ -39,6 +39,7 @@ export default function ColoresEnfrentamientos({isAdmin}) {
             alert(error.message)
         }
     }
+    
 
     useEffect(() => {
         getColoresEnfrentamientos();
@@ -51,6 +52,7 @@ export default function ColoresEnfrentamientos({isAdmin}) {
         <div className='ColoresEnfrentamientos_sub_container'>
             {
                 Enfrentamientos.length===0 ?
+
                 <p>En este momento no hay enfrentamientos creados</p>
                 :
                 Enfrentamientos.map((e, index)=>(

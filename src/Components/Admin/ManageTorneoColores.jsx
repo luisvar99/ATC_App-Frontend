@@ -185,18 +185,22 @@ export default function ManageTorneoColores() {
     }
     
 
-    const PublishColoresEquipos = async (e)=> {
+    const PublishColoresEquiposAndGroups = async (e)=> {
         e.preventDefault();
         setIsPublishingEquipos(true)
         try {
-            const result = await axios.put(`http://localhost:4000/api/PublishColoresTeams/${params.id}`,
+            const result = await axios.put(`http://localhost:4000/api/PublishColoresTeamsAndGroups/${params.id}`,
             {
                 isPublicado: 1
             });
             
             //console.log("result.data: " + JSON.stringify(result.data));
             setIsPublishingEquipos(false)
-            window.location.reload()
+            if(result.data.success===true){
+                window.location.reload()
+            }else{
+                alert("Ha ocurrido un error publicando los grupos y equipos")
+            }
         }catch (error) {
             alert(error.message)
         }
@@ -251,8 +255,8 @@ export default function ManageTorneoColores() {
             idHorario: IDHorario,
             idSocio: sessionStorage.getItem('userId'),
             fecha: Fecha,
-            id_inv_uno: UserId_one,
-            id_inv_dos: UserId_two,
+            id_inv_uno: Id_player_one,
+            id_inv_dos: Id_player_two,
             descripcion: "Torneo Colores"
           })
           console.log("CreateReservation-> " + JSON.stringify(result.data));
@@ -508,7 +512,17 @@ export default function ManageTorneoColores() {
         <hr className="new1"/> 
 
             <div className='Grupos_equipos_players_container'>
-                <button className="publicarColoresEquiposBtn" onClick={PublishColoresEquipos}>Publicar Equipos</button>
+                <div style={{display: "flex"}}>
+                    <button className="publicarColoresEquiposBtn" onClick={PublishColoresEquiposAndGroups}>Publicar Grupos y Equipos</button>
+                    { IsPublishingEquipos && 
+                        <RotatingLines
+                        strokeColor="green"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="35"
+                        visible={true}
+                    />}
+                </div>
             {
                 ColoresGrupos.map((grupo, index)=> (
                     <div key={index}>

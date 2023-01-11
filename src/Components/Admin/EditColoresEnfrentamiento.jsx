@@ -19,8 +19,10 @@ export default function EditColoresEnfrentamiento() {
     const [Player_three_name, setPlayer_three_name] = useState("")
     const [Player_four_name, setPlayer_four_name] = useState("")
 
-    const [Id_pareja_one, setId_pareja_one] = useState(0)
-    const [Id_pareja_two, setId_pareja_two] = useState(0)
+    const [Id_player_one, setId_player_one] = useState(0)
+    const [Id_player_two, setId_player_two] = useState(0)
+    const [Id_player_three, setId_player_three] = useState(0)
+    const [Id_player_four, setId_player_four] = useState(0)
     const [Fecha, setFecha] = useState(new Date().toLocaleDateString("EN-US"))
     const [Resultado, setResultado] = useState("")
     const [IdRonda, setIdRonda] = useState(0)
@@ -50,6 +52,7 @@ export default function EditColoresEnfrentamiento() {
           ...provided,
           marginTop: "2%",
           fontSize: "0.9rem",
+          maxWidth: "100%",
         })
       }
 
@@ -58,9 +61,9 @@ export default function EditColoresEnfrentamiento() {
         try {
             const result = await axios.get(`http://localhost:4000/api/GetColoresMatchById/${params.id}/${params.id_partido}`);
             setPlayer_one_name(result.data[0].nombres + ' ' + result.data[0].apellidos)
-            setPlayer_two_name(result.data[1].nombres + ' ' + result.data[0].apellidos)
-            setPlayer_three_name(result.data[2].nombres + ' ' + result.data[0].apellidos)
-            setPlayer_four_name(result.data[3].nombres + ' ' + result.data[0].apellidos)
+            setPlayer_two_name(result.data[1].nombres + ' ' + result.data[1].apellidos)
+            setPlayer_three_name(result.data[2].nombres + ' ' + result.data[2].apellidos)
+            setPlayer_four_name(result.data[3].nombres + ' ' + result.data[3].apellidos)
             setFecha(result.data[0].fecha)
             setResultado(result.data[0].resultado)
             setIdRonda(result.data[0].id_ronda)
@@ -95,7 +98,7 @@ export default function EditColoresEnfrentamiento() {
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
           response.map((user, index) => {
-          return arr.push({label: user.accion + ' - ' + user.nombres + ' ' + user.apellidos + ` (${user.nombre_equipo})`, id_pareja: user.id_pareja, userId: user.id});
+          return arr.push({label: user.accion + ' - ' + user.nombres + ' ' + user.apellidos + ` (${user.nombre_equipo})`, userId: user.id});
         });
           setColoresParejasDropdown(arr)
           setIsLoadingColoresParejasDropdown(false)
@@ -133,15 +136,21 @@ export default function EditColoresEnfrentamiento() {
                 //const editResult = await axios.put(`https://atcbackend.herokuapp.com/api/editTorneo/${params.idTorneo}`,
                 const editResult = await axios.put(`http://localhost:4000/api/editColoresMatch/${params.id_partido}`,
                 {
-                  id_pareja_one: Id_pareja_one,
-                  id_pareja_two: Id_pareja_two,
+                  id_player_one: Id_player_one,
+                  id_player_two: Id_player_two,
+                  id_player_three: Id_player_three,
+                  id_player_four: Id_player_four,
                   fecha: Fecha,
                   resultado: Resultado,
                   id_ronda: IdRonda,
                   id_horario: IdHorario,
                   id_cancha: IdCancha,
                 })
-                setConfirmation("Se ha actualizado el Enfrentamiento correctamente")
+                if(editResult.data.success===true){
+                    setConfirmation("Se ha actualizado el Enfrentamiento correctamente")
+                }else{
+                    setConfirmation("Ha ocurrido un error actualizando el enfrentamiento")
+                }
                 /* window.location.reload(); */
             } catch (error) {
                 setConfirmation("Ha ocurrido un error")
@@ -164,20 +173,20 @@ export default function EditColoresEnfrentamiento() {
         <div className="EditColoresMatchContainer">
                 <div className="EditColoresMatchFormContainer">
 
-                    <form className="createColoresMatchForm" onSubmit={EditColoresMatch}>
+                    <form className="editColoresMatchForm" onSubmit={EditColoresMatch}>
                         <h3 style={{ margin:"0", textAlign:"center" }}>Editar Enfrentamiento</h3>
-                        <div className="coloresmatchrightleftside">
+                        <div className="coloresEditmatchrightleftside">
 
                         
-                            <div className='parejas_dropdown_container'>
-                                <p style={{margin:"0"}}>Pareja 1</p>
+                            <div className='parejas_dropdown_container_edit_enfrentamientos'>
+                                <p style={{margin:"0"}}>Jugador 1</p>
 
                                 {
                                     (Player_one_name!=="") &&
                                     <Select 
                                     onChange={(item) => {
-                                        console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
-                                        setId_pareja_one(item.id_pareja);
+                                        console.log("id_pareja: "+ JSON.stringify(item.userId));
+                                        setId_player_one(item.userId);
                                     }}
                                     options = {ColoresParejasDropdown}
                                     styles = {customStyles}
@@ -185,13 +194,13 @@ export default function EditColoresEnfrentamiento() {
                                     defaultValue = {{label: Player_one_name}}
                                     /> 
                                 }
-                                <p style={{margin:"0.3rem 0"}}>Pareja 2</p>
+                                <p style={{margin:"0.3rem 0"}}>Jugador 2</p>
                                 {
                                     (Player_two_name!=="") &&
                                     <Select 
                                     onChange={(item) => {
-                                        console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
-                                        setId_pareja_one(item.id_pareja);
+                                        console.log("id_pareja: "+ JSON.stringify(item.userId));
+                                        setId_player_two(item.userId);
                                     }}
                                     options = {ColoresParejasDropdown}
                                     styles = {customStyles}
@@ -199,12 +208,13 @@ export default function EditColoresEnfrentamiento() {
                                     defaultValue = {{label: Player_two_name}}
                                     /> 
                                 }
+                                <p style={{margin:"0.3rem 0"}}>Jugador 3</p>
                                 {
                                     (Player_two_name!=="") &&
                                     <Select 
                                     onChange={(item) => {
-                                        console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
-                                        setId_pareja_one(item.id_pareja);
+                                        console.log("id_pareja: "+ JSON.stringify(item.userId));
+                                        setId_player_three(item.userId);
                                     }}
                                     options = {ColoresParejasDropdown}
                                     styles = {customStyles}
@@ -212,12 +222,13 @@ export default function EditColoresEnfrentamiento() {
                                     defaultValue = {{label: Player_three_name}}
                                     /> 
                                 }
+                                <p style={{margin:"0.3rem 0"}}>Jugador 4</p>
                                 {
                                     (Player_three_name!=="") &&
                                     <Select 
                                     onChange={(item) => {
-                                        console.log("id_pareja: "+ JSON.stringify(item.id_pareja));
-                                        setId_pareja_one(item.id_pareja);
+                                        console.log("id_pareja: "+ JSON.stringify(item.userId));
+                                        setId_player_four(item.userId);
                                     }}
                                     options = {ColoresParejasDropdown}
                                     styles = {customStyles}
@@ -225,6 +236,10 @@ export default function EditColoresEnfrentamiento() {
                                     defaultValue = {{label: Player_four_name}}
                                     /> 
                                 }
+                                
+                            </div>
+                            <div className="coloresMatchRightSide">
+
                                 <div className="coloresMatchRonda">
                                     <label htmlFor="matchDate">Fecha</label>
                                     <input value={moment(Fecha).format('YYYY-MM-DD')} type="date" id="matchDate" onChange={(e)=>setFecha(e.target.value)} required/>
@@ -240,8 +255,6 @@ export default function EditColoresEnfrentamiento() {
                                         }
                                     </select>
                                 </div>
-                            </div>
-                            <div className="coloresMatchRightSide">
                                 <div className="coloresMatchRonda">
                                 <label htmlFor="cantPersonas">Horario</label>
                                 <select value={IdHorario} type="number" id="cantPersonas" onChange={(e)=>setIdHorario(e.target.value)} required>

@@ -4,6 +4,12 @@ import Select from 'react-select';
 import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
+/* import Modal from 'react-modal'; */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
 
 
 export default function TennisReservationForm() {
@@ -17,6 +23,9 @@ export default function TennisReservationForm() {
     const [CanchaName, setCanchaName] = useState("")
     const [IsLoadingReservation, setIsLoadingReservation] = useState(false)
     const [Descripcion, setDescripcion] = useState("")
+
+    const [modalIsOpen, setIsOpen] = useState(false);
+
     const navigate = useNavigate();
     const params = useParams();
 
@@ -99,15 +108,40 @@ export default function TennisReservationForm() {
               setIsLoadingReservation(false)
             }else{
               setIsLoadingReservation(false)
+              setIsOpen(true)
               console.log("CreateReservation-> " + JSON.stringify(result.data));
-              navigate(-1)
+              
             }
           } catch (error) {
+            setIsLoadingReservation(false)
             alert(error.message)
           }
         }
       }
+
+      function afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        //subtitle.style.color = '#f00';
+      }
+    
+      function closeModal() {
+        setIsOpen(false);
+        navigate(-1)
+      }
       
+      
+      const customModalStyles = {
+        content: {
+          top: '50%',
+          left: '100%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+          border: '1px solid #838080'
+        },
+      };
+
       useEffect(() => {
         GetHorarioDetails();
         GetUsers();
@@ -115,13 +149,28 @@ export default function TennisReservationForm() {
         //console.log("Users" + JSON.stringify(Users) );
       // eslint-disable-next-line react-hooks/exhaustive-deps
       },[])
-
+      
   return (
     <div className="make_reservation_main_container">
         <div className="make_reservation_second_main_container">
             <div className="make_reservation_form_container">
               <h3>Nueva reservacion</h3>
                 <div className="make_reservation_form">
+                  <div className="modal_wrapper">
+                    <Modal
+                      open={modalIsOpen}
+                      /* onAfterOpen={afterOpenModal} */
+                      onClose={closeModal}
+                      style={customModalStyles}
+                      /* className="Modal" */
+                    >
+                      <h2>Se ha realizado la reserva de forma correcta</h2>
+                      <div className="modal_container">
+                        <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                        <button onClick={closeModal}>Aceptar</button>
+                      </div>
+                    </Modal>
+                  </div>
                   <form onSubmit={CreateReservation}>
                       <div className='modalidad_reservation'>
                         <button className='btn_make_reservation' type="submit">Crear</button>

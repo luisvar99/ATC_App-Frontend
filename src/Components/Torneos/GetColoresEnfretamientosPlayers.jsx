@@ -60,16 +60,16 @@ export default function GetColoresEnfretamientosPlayers({id_partido, id_torneo})
                     <thead>
                         <tr>
                             <td>Jugadores</td>
-                            <td>Fecha</td>
-                            <td>Codigo Pareja</td>
+                            {/* <td>Fecha</td> */}
+                            {/* <td>Codigo Pareja</td> */}
                         </tr>
                     </thead>
                     <tbody >
                         {  Enfrentamiento.map((e, index)=>(
                             <tr key={index}>
                                 <td style={{backgroundColor:e.color, color:"white"}}>{e.nombres} {e.apellidos}</td>
-                                <td>{new Date(e.fecha).toLocaleDateString('ES-MX')}</td>
-                                <td style={{width:"5%"}}>{e.id_pareja}</td>
+                                {/* <td>{new Date(e.fecha).toLocaleDateString('ES-MX')}</td> */}
+                                {/* <td style={{width:"5%"}}>{e.id_pareja}</td> */}
                             </tr>
                         ))
                     }

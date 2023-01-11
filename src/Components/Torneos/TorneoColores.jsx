@@ -4,14 +4,17 @@ import axios from 'axios'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
 import './TorneoColores.css'
-import GetColoresParejasMembers from './GetColoresParejasMembers'
-
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 
 export default function TorneoColores() {
 
   const [Users, setUsers] = useState([])
   const [ParejaId, setParejaId] = useState(0)
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const [IsCreatingInscripcion, setIsCreatingInscripcion] = useState(false)
 
@@ -31,12 +34,26 @@ export default function TorneoColores() {
         }
     } */
 
-useEffect(() => {
-  /* getColoresParejas(); */
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, [])
+    const getColoresParticipantes = async ()=> {
+      try {
+          const result = await axios.get(`http://localhost:4000/api/getColoresParticipantes/${params.id}`);
+          console.log("getColoresParticipantes: " + JSON.stringify(result.data));
+          setColoresParticipantes(result.data);
+      }catch (error) {
+          alert(error.message)
+      }
+  }
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    //subtitle.style.color = '#f00';
+  }
 
+  function closeModal() {
+    setIsOpen(false);
+  }
 
+  
+  
 /*   const customStyles = {
     option: (provided, state) => ({
       ...provided,
@@ -68,7 +85,7 @@ useEffect(() => {
   } */
 
   const MakeColoresInscripcion = async (e) => {
-    const valid_inscripcion = ColoresParticipantes.find(p => p.id_user_one===parseInt(sessionStorage.getItem("userId")))
+    const valid_inscripcion = ColoresParticipantes.find(p => p.id===parseInt(sessionStorage.getItem("userId")))
     e.preventDefault()
     if(valid_inscripcion!== undefined) {
       alert("Usted ya se encuentran inscritos en el torneo");
@@ -81,9 +98,12 @@ useEffect(() => {
           id_torneo: params.id,
           user_id: sessionStorage.getItem("userId")
         })
-        console.log(result.data)
-        setIsCreatingInscripcion(false)
-        window.location.reload();
+        if(result.data.success===true){
+          setIsCreatingInscripcion(false)
+          setIsOpen(true)
+        }else{
+          setIsCreatingInscripcion(false)
+        }
       } catch (error) {
         alert(error.message)
         setIsCreatingInscripcion(false)
@@ -91,12 +111,43 @@ useEffect(() => {
     }
 
   }
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      border: '1px solid #838080'
+    },
+  };
   
+  useEffect(() => {
+    /* getColoresParejas(); */
+    getColoresParticipantes();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="TorneoColoresMainContainer">
       <div className="TorneoColoresSubContainer">
           <div className="inscripcionColoresFormContainer">
+          <Modal
+            open={modalIsOpen}
+            /* onAfterOpen={afterOpenModal} */
+            onClose={closeModal}
+            style={customStyles}
+            /* contentLabel="Example Modal" */
+          >
+            <h2>Su inscripcion se ha realizado correctamente</h2>
+            <div className="modal_container">
+              <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+              <button onClick={closeModal}>Aceptar</button>
+            </div>
+          </Modal>
+
             <form className="inscripcionColoresForm" onSubmit={MakeColoresInscripcion}>
               {/* <p>Seleccione una pareja</p>
               <Select 
@@ -109,7 +160,7 @@ useEffect(() => {
               placeholder = "Buscar por nombre o accion"
               /> */}
               <div className="ColoresInscripcionBtnContainer">
-                <button type="submit" className="ColoresInscripcionBtn">Completar Inscripcion</button>
+                <button type="submit" className="ColoresInscripcionBtn">Inscribirme</button>
                 { IsCreatingInscripcion && 
                         <RotatingLines
                         strokeColor="green"
@@ -120,11 +171,11 @@ useEffect(() => {
                     />}
               </div>
             </form>
+            <div className="btnColoresNextEnfretamientos">
+              <Link to="enfrentamientos" className='goToColoresEnfrentamientos'>Enfrentamientos</Link>
+              <Link to={`/EquiposColores/${params.id}`} className='goToColoresEnfrentamientos'>Equipos</Link>
+            </div>
           </div>
-        <div className="btnColoresNextEnfretamientos">
-          <Link to="enfrentamientos" className='goToColoresEnfrentamientos'>Enfrentamientos</Link>
-          <Link to={`/EquiposColores/${params.id}`} className='goToColoresEnfrentamientos'>Equipos</Link>
-        </div>
       </div>
       {/* <div className="coloresParticipantsContainer">
 
