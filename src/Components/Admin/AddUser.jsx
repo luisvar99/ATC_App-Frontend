@@ -16,6 +16,7 @@ export default function AddUser() {
     const [Contrasena, setContrasena] = useState("")
     const [User, setUser] = useState("")
     const [Role, setRole] = useState("")
+    const [Categoria, setCategoria] = useState(0)
 
     const [Confirmation, setConfirmation] = useState("")
 
@@ -41,7 +42,8 @@ export default function AddUser() {
                     fecha_nacimiento: FNacimiento,
                     correo_electronico: Correo,
                     sexo: Sexo,
-                    role:Role
+                    role:Role,
+                    categoria: Categoria
                 })
                 if(result.data.loggedIn === false){
                     alert("El usuario ya pertence a otra persona")
@@ -105,6 +107,20 @@ export default function AddUser() {
                         <label htmlFor="nameCancha">Fecha de nacimiento</label>
                         <input type="date" id="name" onChange={(e)=>setFNacimiento(e.target.value)} required/>
                     </div>
+
+                    <div className="name_input_container">
+                        <label htmlFor="sexo">Categoria</label>
+                        <select id="sexo" onChange={(e)=>setCategoria(e.target.value)} required>
+                            <option value="empty">----Seleccione una opcion----</option>
+                            <option value="1">Primera</option>
+                            <option value="2">Segunda</option>
+                            <option value="3">Tercera</option>
+                            <option value="4">Cuarta</option>
+                            <option value="5">Quinta</option>
+                            <option value="6">Sexta</option>
+                        </select>
+                    </div>
+
                     <div className="name_input_container">
                         <label htmlFor="sexo">Rol</label>
                         <select id="sexo" onChange={(e)=>setRole(e.target.value)} required>

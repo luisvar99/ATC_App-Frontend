@@ -50,6 +50,7 @@ export default function TorneoColores() {
 
   function closeModal() {
     setIsOpen(false);
+    window.location.reload();
   }
 
   
@@ -86,6 +87,7 @@ export default function TorneoColores() {
 
   const MakeColoresInscripcion = async (e) => {
     const valid_inscripcion = ColoresParticipantes.find(p => p.id===parseInt(sessionStorage.getItem("userId")))
+    console.log(valid_inscripcion);
     e.preventDefault()
     if(valid_inscripcion!== undefined) {
       alert("Usted ya se encuentran inscritos en el torneo");
@@ -101,6 +103,7 @@ export default function TorneoColores() {
         if(result.data.success===true){
           setIsCreatingInscripcion(false)
           setIsOpen(true)
+          
         }else{
           setIsCreatingInscripcion(false)
         }

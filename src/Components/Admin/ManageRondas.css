@@ -33,3 +33,18 @@
    padding: 0.3rem;
    width: 100%;
 }
+
+@media only screen and (max-width: 600px) {
+    .ManageRondas_main_container{
+        margin-top: 3rem;
+    }
+    .manageRondasSubContainer{
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .manageRondasTableContainer{
+        margin: 3rem 0rem;
+    }
+
+}

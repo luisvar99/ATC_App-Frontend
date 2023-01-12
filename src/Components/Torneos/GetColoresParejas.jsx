@@ -134,15 +134,15 @@ export default function GetColoresParejas() {
                         <thead>
                             <tr>
                                 <td>Accion</td>
-                                <td>Nombres</td>
-                                <td>Apellidos</td>
+                                <td>Participante</td>
+                                <td>Categoria</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>{cp.accion}</td>
-                                <td>{cp.nombres}</td>
-                                <td>{cp.apellidos}</td>
+                                <td>{cp.nombres} {cp.apellidos}</td>
+                                <td>{cp.categoria}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -11,6 +11,7 @@ export default function MatchInfo({idPartido, IsAdmin}) {
     const [MatchModalidad, setMatchModalidad] = useState("")
     const [MatchDate, setMatchDate] = useState("")
     const [MatchRonda, setMatchRonda] = useState("")
+    const [MatchCancha, setMatchCancha] = useState("")
     const [IsLoadingMatches, setIsLoadingMatches] = useState(false)
 
     const GetSubtorneoMatches = async () =>{
@@ -23,6 +24,7 @@ export default function MatchInfo({idPartido, IsAdmin}) {
             setMatchModalidad(result.data[0].modalidad);
             setMatchDate(result.data[0].fecha);
             setMatchRonda(result.data[0].nombre);
+            setMatchCancha(result.data[0].nombre_cancha);
             //console.log("GetSubtorneoMatchesById: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
         } catch (error) {
@@ -56,6 +58,7 @@ export default function MatchInfo({idPartido, IsAdmin}) {
         <div className="matchDateID_container" style={{display:"flex", justifyContent:"space-evenly"}}>
             <div className="matchID">Ronda: {MatchRonda}</div>
             <div className="matchDate">Fecha: {new Date(MatchDate).toLocaleDateString('es-MX')}</div>
+            <div className="matchDate">Cancha: {MatchCancha}</div>
         </div>
         <table>
             <thead>

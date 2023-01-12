@@ -262,6 +262,10 @@ export default function SubtorneoMatches() {
                                 }
                             </select>
                         </div>
+                        <div className="inputs_container">
+                            <label htmlFor="cantPersonas">Resultado</label>
+                            <input type="text" id="cantPersonas" onChange={(e)=>setResultado(e.target.value)} required/>
+                        </div>
                     </div>
                     </div>
 
