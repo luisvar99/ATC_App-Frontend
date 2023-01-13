@@ -55,10 +55,10 @@ export default function MatchInfo({idPartido, IsAdmin}) {
             </>
                 :
         <>
-        <div className="matchDateID_container" style={{display:"flex", justifyContent:"space-evenly"}}>
-            <div className="matchID">Ronda: {MatchRonda}</div>
-            <div className="matchDate">Fecha: {new Date(MatchDate).toLocaleDateString('es-MX')}</div>
-            <div className="matchDate">Cancha: {MatchCancha}</div>
+        <div className="matchDateID_container" style={{display:"flex", justifyContent:"space-between"}}>
+            <p className="matchID">Ronda: {MatchRonda}</p>
+            <p className="matchDate">Fecha: {new Date(MatchDate).toLocaleDateString('es-MX')}</p>
+            <p className="matchDate">Cancha: {MatchCancha}</p>
         </div>
         <table>
             <thead>

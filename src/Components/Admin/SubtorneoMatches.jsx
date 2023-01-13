@@ -40,7 +40,7 @@ export default function SubtorneoMatches() {
             //console.log("GroupsMembers: " + JSON.stringify(result.data));
             //setIsAddingMatch(false)
         } catch (error) {
-            
+            alert(error.message)
         }
       }
     const GetSubtorneoMatches = async () =>{
@@ -52,7 +52,7 @@ export default function SubtorneoMatches() {
             //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
         } catch (error) {
-            
+            alert(error.message)
         }
       }
     const GetRondas = async () =>{
@@ -64,7 +64,7 @@ export default function SubtorneoMatches() {
             //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
         } catch (error) {
-            
+            alert(error.message)
         }
       }
     const GetHorarios = async () =>{
@@ -76,7 +76,7 @@ export default function SubtorneoMatches() {
             //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
         } catch (error) {
-            
+            alert(error.message)
         }
       }
 
@@ -122,7 +122,7 @@ export default function SubtorneoMatches() {
       }
 
       const CreateReservation = async (e) => {
-        alert("Creando Reservacion");
+        //alert("Creando Reservacion");
         try { 
           //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
           const result = await axios.post(`http://localhost:4000/api/createReservation`,{
@@ -264,7 +264,7 @@ export default function SubtorneoMatches() {
                         </div>
                         <div className="inputs_container">
                             <label htmlFor="cantPersonas">Resultado</label>
-                            <input type="text" id="cantPersonas" onChange={(e)=>setResultado(e.target.value)} required/>
+                            <input type="text" id="cantPersonas" onChange={(e)=>setResultado(e.target.value)}/>
                         </div>
                     </div>
                     </div>
@@ -291,7 +291,10 @@ export default function SubtorneoMatches() {
                                 Matches.map((match,index)=>(
                                 <div className="matches_container_aux" key={index}>
                                     <MatchInfo idPartido={match.id_partido} IsAdmin={true}/>
-                                    <button onClick={(e)=>DeleteSubtorneoMatches(match.id_partido)}>Eliminar</button>
+                                    <div className='SubtorneoMatchButtons' style={{display: "flex"}}>
+                                        <button className="editSubtorneoMatchBtn"><Link to={`/EditSubtorneoMatch/${params.idSubtorneo}/${match.id_partido}`} className='editSubtorneoMatchLink' >Editar</Link></button>
+                                        <button onClick={(e)=>DeleteSubtorneoMatches(match.id_partido)}>Eliminar</button>
+                                    </div>
                                 </div>
                                 
                                 

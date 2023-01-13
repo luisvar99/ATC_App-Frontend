@@ -48,6 +48,7 @@ import EditUser from './Components/Admin/EditUser';
 import UserProfile from './Components/Common/UserProfile';
 import ResetPassword from './Components/Common/ResetPassword';
 import ColoresEquiposAndGruposUsers from './Components/Torneos/ColoresEquiposAndGruposUsers';
+import EditSubtorneoMatch from './Components/Admin/EditSubtorneoMatch';
 
 
 function App() {
@@ -344,6 +345,13 @@ function App() {
           element={
             <PrivateRoutes>
               <ColoresEquiposAndGruposUsers/>
+            </PrivateRoutes>
+          }/>
+
+        <Route path="/EditSubtorneoMatch/:id_subtorneo/:id_partido" 
+          element={
+            <PrivateRoutes>
+              <EditSubtorneoMatch/>
             </PrivateRoutes>
           }/>
         

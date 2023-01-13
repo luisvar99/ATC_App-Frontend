@@ -177,8 +177,8 @@ export default function SubtorneoDetails() {
       }else{
         getSubTournamentParticipants();
       }
-      GetTorneoinfo();
       GetNumberOfParticipants();
+      GetTorneoinfo();
       GetSubtorneoinfo();
       //GetGruposMembers();
       GetSubtorneoGrupos();
@@ -206,8 +206,10 @@ export default function SubtorneoDetails() {
                                       width="30"
                                       visible={true}
                                     />
-              </p>  :        
-              <p>Cupos Disponibles: {Cantidad_personas-NumberOfParticipants}</p>         
+              </p>  :
+              <>
+                <p>Cupos Disponibles: {Cantidad_personas-NumberOfParticipants}</p>         
+              </>        
             }
         {
           params.modalidad==="Dobles" &&

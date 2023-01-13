@@ -5,7 +5,7 @@
 
 .table_matches_container{
     display:grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 33% 33% 33%;
     column-gap: 3rem;
     row-gap: 3rem;
     margin-right: 2rem;
@@ -46,8 +46,22 @@
 .add_matches_left_side, .add_matches_right_side{
     width: 40%;
 }
-.matches_container_aux button{
+.SubtorneoMatchButtons button{
     width: 100%;
     padding: 0.5rem;
     cursor: pointer;
+}
+
+.editSubtorneoMatchBtn{
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.editSubtorneoMatchLink{
+    display:block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: black;
 }
