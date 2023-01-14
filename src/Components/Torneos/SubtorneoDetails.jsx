@@ -28,6 +28,8 @@ export default function SubtorneoDetails() {
   const [Cantidad_personas, setCantidad_personas] = useState(0)
   const [MyParejaId, setMyParejaId] = useState(0)
 
+  const [FechaFinInscripcion, setFechaFinInscripcion] = useState(new Date())
+
   const params = useParams();
 
   const inscripcion = async () => {
@@ -118,23 +120,6 @@ export default function SubtorneoDetails() {
       }
     }
 
-    const GetGruposMembers = async () =>{
-      try {
-          setIsLoadingMembers(true)
-          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-          const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubTorneo}`)
-          //console.log("Miembros de los Grupos: " + JSON.stringify(result.data));
-          setGroupsMembers(result.data);
-
-          if(result.data.length>0){
-            //setStatusGroups(result.data[0].isPublicado);
-          }
-
-          setIsLoadingMembers(false)
-      } catch (error) {
-        console.log("Error: " + error.message);
-      }
-    }
 
     const GetSubtorneoGrupos = async () =>{
       try { 
@@ -151,7 +136,8 @@ export default function SubtorneoDetails() {
     const GetTorneoinfo = async () => {
       try {
         //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-        await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
+        const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
+        setFechaFinInscripcion(result.data[0].fecha_fin_inscripcion)
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
       } catch (error) {
         alert("Error: " + error.message);
@@ -241,7 +227,7 @@ export default function SubtorneoDetails() {
             Cantidad_personas-NumberOfParticipants>0 && params.modalidad==="Singles" ?
             <button onClick={inscripcion} className="btn_inscripcion">Inscribirme</button>
             :
-            (Users.length!==0 && Cantidad_personas-NumberOfParticipants>0) &&
+            ((Users.length!==0 && Cantidad_personas-NumberOfParticipants>0) && new Date(FechaFinInscripcion).getTime() > new Date().getTime()) &&
             <button onClick={inscripcion} className="btn_inscripcion">Inscribir Pareja</button>
           }
           {IsLoading && <RotatingLines
@@ -321,10 +307,10 @@ export default function SubtorneoDetails() {
       
         <>
         <div className="GetGroupsMembers_conatiner_two">
-          <h2>Grupos</h2>
           <Link to={`/subtorneoMatches/idSubtorneo=${params.idSubTorneo}`} className="see_subtorneo_matches">
             Enfretamientos
           </Link>
+          <h2>Grupos</h2>
 
             {
               GroupsStatus ===1 ?

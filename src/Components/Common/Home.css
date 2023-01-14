@@ -1,0 +1,13 @@
+.optionsLinksHome {
+    display: inline-block;
+    text-decoration: none;
+    border: #0b7037 2px solid;
+    border-radius: 5px;
+    margin: 0.75rem;
+    padding: 0.7rem;
+    background-color: #0D8641;
+    color: white;
+    font-size: 1.1rem;
+    text-align: center;
+    min-width: 5%;
+}
