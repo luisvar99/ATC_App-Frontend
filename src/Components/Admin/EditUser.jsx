@@ -37,6 +37,7 @@ export default function EditUser() {
             setContrasena(result.data[0].passhash)
             setUser(result.data[0].username)
             setRole(result.data[0].rol)
+            setCategoria(result.data[0].categoria)
         }catch(error){
             alert("GetUserById: " + error.message);
         }
@@ -132,8 +133,7 @@ export default function EditUser() {
                     </div>
                     <div className="name_input_container">
                         <label htmlFor="sexo">Categoria</label>
-                        <select id="sexo" onChange={(e)=>setCategoria(e.target.value)} required>
-                            <option value="empty">----Seleccione una opcion----</option>
+                        <select value={Categoria} id="sexo" onChange={(e)=>setCategoria(e.target.value)} required>
                             <option value="1">Primera</option>
                             <option value="2">Segunda</option>
                             <option value="3">Tercera</option>

@@ -10,6 +10,7 @@ export default function AddSubTorneo() {
     const [Name, setName] = useState("")
     const [Cantidad_personas, setCantidad_personas] = useState(0)
     const [id_torneo, setStatus] = useState(0)
+    const [Categoria, setCategoria]= useState(0)
 
     const [Confirmation, setConfirmation] = useState("")
 
@@ -29,6 +30,7 @@ export default function AddSubTorneo() {
                     id_torneo: params.idTorneo,
                     nombre: Name,
                     cantidad_personas: Cantidad_personas,
+                    categoria: Categoria,
                 })
                 setConfirmation("Se ha agregado la competencia correctamente")
             } catch (error) {
@@ -50,6 +52,18 @@ export default function AddSubTorneo() {
                     <label htmlFor="cantPersonas">Cantidad de Personas</label>
                     <input type="number" id="cantPersonas" onChange={(e)=>setCantidad_personas(e.target.value)} required/>
                 </div>
+                <div className="name_input_container">
+                        <label htmlFor="sexo">Categoria</label>
+                        <select id="sexo" onChange={(e)=>setCategoria(e.target.value)} required>
+                            <option value="">---Seleccione una opcion---</option>
+                            <option value="1">Primera</option>
+                            <option value="2">Segunda</option>
+                            <option value="3">Tercera</option>
+                            <option value="4">Cuarta</option>
+                            <option value="5">Quinta</option>
+                            <option value="6">Sexta</option>
+                        </select>
+                    </div>
                 <p style={{fontSize:"14px"}}>{Confirmation}</p>
                 <div className="btn_addCancha_container">
                     <button type="submit">Agregar</button>

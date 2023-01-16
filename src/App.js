@@ -49,6 +49,8 @@ import UserProfile from './Components/Common/UserProfile';
 import ResetPassword from './Components/Common/ResetPassword';
 import ColoresEquiposAndGruposUsers from './Components/Torneos/ColoresEquiposAndGruposUsers';
 import EditSubtorneoMatch from './Components/Admin/EditSubtorneoMatch';
+import ManageJornadas from './Components/Admin/ManageJornadas';
+import EditJornada from './Components/Admin/EditJornada';
 
 
 function App() {
@@ -251,7 +253,21 @@ function App() {
             <AdminPrivateRoutes>
                 <ManageHorarios/>
             </AdminPrivateRoutes>
-          }/>     
+          }/> 
+
+             <Route path="/admin/torneosColores/:id/jornadas" 
+          element={
+            <AdminPrivateRoutes>
+              <ManageJornadas/>
+            </AdminPrivateRoutes>
+          }/>    
+
+             <Route path="/admin/torneosColores/:id/jornadas/editJornada/:id_jornada" 
+          element={
+            <AdminPrivateRoutes>
+              <EditJornada/>
+            </AdminPrivateRoutes>
+          }/>    
 
         {/* <Route path="/admin/addNewUser" element={<AddUser/>}/> */}   
         
@@ -354,6 +370,8 @@ function App() {
               <EditSubtorneoMatch/>
             </PrivateRoutes>
           }/>
+
+     
         
 
         {/* <Route path="/ReservationDetails/idReserva=:idReserva/cancha=:idCancha" element={<ReservationDetails/>}/> */}      

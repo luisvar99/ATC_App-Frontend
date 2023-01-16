@@ -14,6 +14,7 @@ import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 export default function EditSubtorneo() {
     const [Name, setName] = useState("")
     const [Cantidad_personas, setCantidad_personas] = useState(0)
+    const [Categoria, setCategoria]= useState(0)
     const [Id_torneo, setId_torneo] = useState(0)
     const [Modalidad, setModalidad] = useState("")
     /* const [Parejas, setParejas] = useState([]) */
@@ -49,7 +50,8 @@ export default function EditSubtorneo() {
             setCantidad_personas(result.data[0].cantidad_personas)
             setId_torneo(result.data[0].id_torneo)
             setModalidad(result.data[0].modalidad)
-            //console.log("RESULT: " + JSON.stringify(result.data));
+            setCategoria(result.data[0].categoria)
+            console.log("RESULT: " + JSON.stringify(result.data));
             
         } catch (error) {
             alert("ERROR: " + error.message);
@@ -63,11 +65,12 @@ export default function EditSubtorneo() {
         }else{
             setConfirmation("Editando competencia")
             try {
-                await axios.put(`https://atcbackend.herokuapp.com/api/editSubTorneo/${params.idSubtorneo}`,
+                await axios.put(`http://localhost:4000/api/editSubTorneo/${params.idSubtorneo}`,
                 {
                     id_torneo: params.idTorneo,
                     nombre: Name,
                     cantidad_personas: Cantidad_personas,
+                    categoria: Categoria
                 })
                 setConfirmation("Se ha editado la competencia correctamente")
             } catch (error) {
@@ -98,7 +101,7 @@ export default function EditSubtorneo() {
         const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubtorneo}`)
         setParticipants(result.data);
         setIsLoadingParticipants(false)
-        console.log("Participantes: " + JSON.stringify(result.data)); 
+        //console.log("Participantes: " + JSON.stringify(result.data)); 
       }
 
       const getParejas = async () => {
@@ -107,7 +110,7 @@ export default function EditSubtorneo() {
             const result = await axios.get(`http://localhost:4000/api/getSubtorneoParejas/${params.idSubtorneo}`)
             setParticipants(result.data);
             setIsLoadingParticipants(false)
-          console.log("Parejas: " + JSON.stringify(result.data)); 
+          //console.log("Parejas: " + JSON.stringify(result.data)); 
         } catch (error) {
           console.log("Error: " + error.message);
         }
@@ -148,7 +151,7 @@ export default function EditSubtorneo() {
                 idSubTorneo: params.idSubtorneo,
                 isPublicado: 0
             })
-            console.log(result.data);
+            //console.log(result.data);
             setIsLoadingAddingGroups(false)
             window.location.reload();
         } catch (error) {
@@ -166,7 +169,7 @@ export default function EditSubtorneo() {
             {
                 idSubTorneo: params.idSubtorneo,
             })
-            console.log(result.data);
+            //console.log(result.data);
             setIsDeletingGroup(false)
             window.location.reload();
         } catch (error) {
@@ -184,7 +187,7 @@ export default function EditSubtorneo() {
             {
                 idSubTorneo: params.idSubtorneo,
             })
-            console.log(result.data);
+            //console.log(result.data);
             setIsDeletingGroup(false)
             window.location.reload();
         } catch (error) {
@@ -218,7 +221,7 @@ export default function EditSubtorneo() {
                     alert("Este usuario ya se encuentra inscrito en un grupo");
 
                 }
-                console.log(result.data);
+                //console.log(result.data);
                 
             } catch (error) {
 
@@ -283,10 +286,21 @@ export default function EditSubtorneo() {
                         <label htmlFor="cantPersonas">Cantidad de Personas</label>
                         <input value={Cantidad_personas} type="number" id="cantPersonas" onChange={(e)=>setCantidad_personas(e.target.value)} required/>
                     </div>
+                    <div className="name_input_container">
+                        <label htmlFor="sexo">Categoria</label>
+                        <select value={Categoria} id="sexo" onChange={(e)=>setCategoria(e.target.value)} required>
+                            <option value="1">Primera</option>
+                            <option value="2">Segunda</option>
+                            <option value="3">Tercera</option>
+                            <option value="4">Cuarta</option>
+                            <option value="5">Quinta</option>
+                            <option value="6">Sexta</option>
+                        </select>
+                    </div>
                     <p style={{fontSize:"14px"}}>{Confirmation}</p>
                     <div className="btn_addCancha_container">
                         <button type="submit">Guardar Cambios</button>
-                        <button type="submit"><Link to={`/admin/manageTorneos/editTorneo/id=${Id_torneo}`} className="link_go_back">Volver</Link></button>
+                        <button><Link to={`/admin/manageTorneos/editTorneo/id=${Id_torneo}`} className="link_go_back">Volver</Link></button>
                     </div>
                 </form>
             </div>
