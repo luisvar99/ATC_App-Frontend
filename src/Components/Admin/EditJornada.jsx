@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import './ManageJornadas.css'
+import './EditJornada.css'
 import { useParams } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
 import moment from 'moment'
@@ -9,11 +10,9 @@ import {Link} from 'react-router-dom'
 
 export default function EditJornada() {
 
-    const [Jornadas, setJornadas] = useState([])
     const [Equipo_uno, setEquipo_uno] = useState("")
     const [Equipo_dos, setEquipo_dos] = useState("")
     const [RondaJornada, setRondaJornada] = useState(0)
-    const [Fecha, setFecha] = useState(new Date().toLocaleDateString("EN-US"))
     const [FechaJornada, setFechaJornada] = useState(new Date().toLocaleDateString("EN-US"))
     const [ColoresEquipos, setColoresEquipos] = useState([])
 
@@ -29,7 +28,10 @@ export default function EditJornada() {
         try {
             const result = await axios.get(`http://localhost:4000/api/GetJornadaByID/${params.id_jornada}`)
             console.log("GetJornadas: " + result.data);
-            setJornadas(result.data)
+            setEquipo_uno(result.data[0].equipo_uno)
+            setEquipo_dos(result.data[0].equipo_dos)
+            setFechaJornada(result.data[0].fecha)
+            setRondaJornada(result.data[0].id_ronda)
         } catch (error) {
             alert(error.message)
         }
@@ -43,7 +45,7 @@ export default function EditJornada() {
                 {
                     equipo_uno: Equipo_uno,
                     equipo_dos: Equipo_dos,
-                    fecha: Fecha,
+                    fecha: FechaJornada,
                     id_ronda: RondaJornada,
                 });
                 
@@ -57,6 +59,7 @@ export default function EditJornada() {
                 }
             }catch (error) {
                 alert(error.message)
+                setIsCreatingJornada(false)
             }
     }
 
@@ -90,18 +93,14 @@ export default function EditJornada() {
     
   return (
     <div className='editJornadaContainer'>
-        <div className="createColoresMatchContainer">
-                <div className="createColoresMatchFormContainer">
+        <div className="EditJornadaSubContainer">
                     <form className="createColoresMatchForm" onSubmit={EditColoresJornada}>
                         <h3 style={{ margin:"0", textAlign:"center" }}>Jornadas</h3>
                         <div className="coloresmatchrightleftside">
-
-                        
                             <div className='parejas_dropdown_container'>
-                                <label htmlFor="equipo" style={{margin:"0"}}>Equipo 1 {Equipo_uno}</label>
+                                <label htmlFor="equipo" style={{margin:"0"}}>Equipo 1</label>
                                 <div>
-                                    <select id="equipo" style={{marginBottom:"1rem"}} onChange={(e)=> setEquipo_uno(e.target.value)} required>
-                                        <option value="">---Seleccione una opcion---</option>
+                                    <select value={Equipo_uno}  id="equipo" style={{marginBottom:"1rem", width:"100%"}} onChange={(e)=> setEquipo_uno(e.target.value)} required>
                                         {
                                         ColoresEquipos.map((eq, index)=>(
                                             <option key={index} value={eq.nombre_equipo}>{eq.nombre_equipo}</option>
@@ -117,10 +116,9 @@ export default function EditJornada() {
 
                                 </div>
 
-                                <label htmlFor="equipo" style={{marginTop:"1rem"}}>Equipo 2 {Equipo_dos}</label>
+                                <label htmlFor="equipo" style={{marginTop:"1rem"}}>Equipo 2</label>
                                 <div>
-                                    <select id="equipo" onChange={(e)=> setEquipo_dos(e.target.value)} required>
-                                        <option value="">---Seleccione una opcion---</option>
+                                    <select value={Equipo_dos} id="equipo" style={{width:"100%"}} onChange={(e)=> setEquipo_dos(e.target.value)} required>
                                     {
                                         ColoresEquipos.map((eq, index)=>(
                                             <option key={index} value={eq.nombre_equipo}>{eq.nombre_equipo}</option>
@@ -141,12 +139,11 @@ export default function EditJornada() {
                             <div className="coloresMatchRightSide">
                                 <div className="coloresMatchRonda">
                                     <label htmlFor="matchDate">Fecha</label>
-                                    <input type="date" id="matchDate" onChange={(e)=>setFechaJornada(e.target.value)} required/>
+                                    <input value={moment(FechaJornada).format('YYYY-MM-DD')} type="date" id="matchDate" onChange={(e)=>setFechaJornada(e.target.value)} required/>
                                 </div>
                                 <div className="coloresMatchRonda">
                                     <label htmlFor="ColoresMatchRonda">Ronda</label>
-                                    <select id="ColoresMatchRondaInput" className='ColoresMatchRondaInput' onChange={(e)=>setRondaJornada(e.target.value)} required>
-                                    <option value="">-----Seleccione una opcion-----</option>
+                                    <select value={RondaJornada} id="ColoresMatchRondaInput" className='ColoresMatchRondaInput' onChange={(e)=>setRondaJornada(e.target.value)} required>
                                         {
                                             Rondas.map((rond, index)=>(
                                                 <option key={index} value={rond.id_ronda}>{rond.nombre}</option>
@@ -157,8 +154,8 @@ export default function EditJornada() {
 
                             </div>
                         </div>
-                        <div className='btnCreateColoresMatchContainer'>
-                            <button type="submit">Crear</button>
+                        <div className='btnEditJornadaContainer'>
+                            <button type="submit">Guardar Cambios</button>
                             {IsCreatingJornada &&
 
                                 <RotatingLines
@@ -170,7 +167,6 @@ export default function EditJornada() {
                                 />}
                         </div>
                     </form>
-                </div>
             </div>
     </div>
   )

@@ -15,13 +15,18 @@ export default function TorneoColores() {
   const [Users, setUsers] = useState([])
   const [ParejaId, setParejaId] = useState(0)
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [Jornadas, setJornadas] = useState([])
+  const [DateOptions, setDateOptions] = useState({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+
 
   const [IsCreatingInscripcion, setIsCreatingInscripcion] = useState(false)
+  const [IsLoadingJornadas, setIsLoadingJornadas] = useState(false)
 
   const params = useParams();
 
     const [ColoresParticipantes, setColoresParticipantes] = useState([])
     const [ColoresEquipos, setColoresEquipos] = useState([])
+    const [TorneoColores, setTorneoColores] = useState(new Date().toLocaleDateString("en-US"))
     const [IdEquipo, setIdEquipo] = useState(0)
 
     /* const getColoresParejas = async ()=> {
@@ -42,7 +47,32 @@ export default function TorneoColores() {
       }catch (error) {
           alert(error.message)
       }
+    }
+
+    const getCurrentTorneoColores = async ()=> {
+        try {
+            const result = await axios.get('http://localhost:4000/api/getTorneoColores');
+            console.log("result.data TorneoColores: " + JSON.stringify(result.data));
+            setTorneoColores(result.data.fecha_fin_inscripcion);
+        }catch (error) {
+        alert(error.message)
+    
+        }
+    }
+
+    const GetJornadasForUsers = async () => {
+      setIsLoadingJornadas(true)
+      try {
+          const result = await axios.get('http://localhost:4000/api/getJornadasForUsers')
+          console.log("GetJornadas: " + result.data);
+          setJornadas(result.data)
+          setIsLoadingJornadas(false)
+      } catch (error) {
+        setIsLoadingJornadas(false)
+          alert(error.message)
+      }
   }
+
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
     //subtitle.style.color = '#f00';
@@ -130,6 +160,8 @@ export default function TorneoColores() {
   useEffect(() => {
     /* getColoresParejas(); */
     getColoresParticipantes();
+    getCurrentTorneoColores();
+    GetJornadasForUsers();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -163,7 +195,11 @@ export default function TorneoColores() {
               placeholder = "Buscar por nombre o accion"
               /> */}
               <div className="ColoresInscripcionBtnContainer">
-                <button type="submit" className="ColoresInscripcionBtn">Inscribirme</button>
+
+                {
+                  new Date(TorneoColores).getTime() > new Date().getTime() &&
+                  <button type="submit" className="ColoresInscripcionBtn">Inscribirme</button>
+                }
                 { IsCreatingInscripcion && 
                         <RotatingLines
                         strokeColor="green"
@@ -179,19 +215,53 @@ export default function TorneoColores() {
               <Link to={`/EquiposColores/${params.id}`} className='goToColoresEnfrentamientos'>Equipos</Link>
             </div>
           </div>
-      </div>
-      {/* <div className="coloresParticipantsContainer">
 
+        
+        {Jornadas.length>0 &&
+          <div className='JornadasTableContainerForUsers'>
             {
-                ColoresParejas.map((p, index)=>(
-                    <div key={index} >
-                        <div className="aux">
-                            <GetColoresParejasMembers id_pareja={p.id_pareja} id_torneo={params.id} key={index} />
-                        </div>
-                </div>
-                    ))
-                }
-      </div> */}
+              IsLoadingJornadas ?
+              <>
+                  <p>Cargando Jornadas...</p>
+                  <RotatingLines
+                    strokeColor="green"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="35"
+                    visible={true}
+                    />
+              </>
+              :
+              <table>
+                <thead>
+                    <tr>
+                        <td>Ronda</td>
+                        <td>Fecha</td>
+                        <td>Equipo 1</td>
+                        <td>Equipo 2</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        Jornadas.map((j, index)=>(
+                            <tr key={index}>
+                                <td>{j.nombre}</td>
+                                <td>{new Date(j.fecha).toLocaleDateString("es-MX", DateOptions)}</td>
+                                <td>{j.equipo_uno}</td>
+                                <td>{j.equipo_dos}</td>
+                            </tr>
+
+                        ))
+                    }
+                </tbody>
+            </table>
+            }
+        </div>
+      }
+
+
+    </div>
+
     </div>
   )
 }

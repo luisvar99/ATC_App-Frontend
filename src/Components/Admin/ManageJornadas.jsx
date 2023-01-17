@@ -3,7 +3,7 @@ import axios from 'axios'
 import './ManageJornadas.css'
 import { RotatingLines } from  'react-loader-spinner'
 import moment from 'moment'
-import {Link} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
@@ -11,6 +11,9 @@ export default function ManageJornadas() {
 
     const [Jornadas, setJornadas] = useState([])
     const [DateOptions, setDateOptions] = useState({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+    const [IsPublishingJornadas, setIsPublishingJornadas] = useState(false)
+
+    const params = useParams()
 
     const GetJornadas = async () => {
         try {
@@ -32,6 +35,25 @@ export default function ManageJornadas() {
             alert(error.message)
         }
     }
+    const PublishJornadas = async (id_jornada) => {
+        setIsPublishingJornadas(true)
+        try {
+            //await axios.delete(`https://atcbackend.herokuapp.com/api/DeleteJornada/${id}`);
+            const result = await axios.put(`http://localhost:4000/api/PublishJornadas/${params.id}`,
+            {
+                ispublicado: 1
+            });
+            if(result.data.success===true){
+                setIsPublishingJornadas(false)
+            }else{
+                alert("Ha ocurrido un error publicando los jornadas")
+                setIsPublishingJornadas(false)
+            }
+        } catch (error) {
+            alert(error.message)
+            setIsPublishingJornadas(false)
+        }
+    }
 
     useEffect(() => {
       GetJornadas();
@@ -41,6 +63,19 @@ export default function ManageJornadas() {
     <div className="JornadasContainer">
 
         <div className='JornadasTableContainer'>
+            <div className='btnLoaderPublishJornadas'>
+                <button className='publicarJornadasBtn' onClick={PublishJornadas}>Publicar</button>
+                {
+                    IsPublishingJornadas &&
+                    <RotatingLines
+                    strokeColor="green"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="35"
+                    visible={true}    
+                    />
+                }
+            </div>
             <table>
                 <thead>
                     <tr>

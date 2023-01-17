@@ -1,0 +1,30 @@
+.editJornadaContainer{
+    display: flex;
+    justify-content:center
+}
+
+.EditJornadaSubContainer{
+    width: 50%;
+    margin-top: 2rem;
+}
+
+.btnEditJornadaContainer{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin: 1rem 0 0 0;
+}
+
+.btnEditJornadaContainer button {
+    text-decoration: none;
+    border: #0b7037 2px solid;
+    border-radius: 5px;
+    padding: 0.4rem;
+    background-color: #0D8641;
+    color: white;
+    font-size: 1.1rem;
+    text-align: center;
+    width: 50%;
+    cursor: pointer;
+    
+}
