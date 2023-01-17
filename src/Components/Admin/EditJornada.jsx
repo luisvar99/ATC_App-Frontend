@@ -90,6 +90,11 @@ export default function EditJornada() {
         GetRondas();
         GetEquiposColores()
     }, [])
+
+    useEffect(() => {
+        console.log(Equipo_dos);
+        console.log(Equipo_uno);
+    }, [Equipo_dos,Equipo_uno])
     
   return (
     <div className='editJornadaContainer'>
@@ -98,12 +103,12 @@ export default function EditJornada() {
                         <h3 style={{ margin:"0", textAlign:"center" }}>Jornadas</h3>
                         <div className="coloresmatchrightleftside">
                             <div className='parejas_dropdown_container'>
-                                <label htmlFor="equipo" style={{margin:"0"}}>Equipo 1</label>
+                                <label htmlFor="equipo" style={{margin:"0"}}>Equipo 1 {Equipo_uno}</label>
                                 <div>
                                     <select value={Equipo_uno}  id="equipo" style={{marginBottom:"1rem", width:"100%"}} onChange={(e)=> setEquipo_uno(e.target.value)} required>
                                         {
-                                        ColoresEquipos.map((eq, index)=>(
-                                            <option key={index} value={eq.nombre_equipo}>{eq.nombre_equipo}</option>
+                                            ColoresEquipos.map((eq, index)=>(
+                                                <option key={index} value={eq.nombre_equipo}>{eq.nombre_equipo}</option>
                                             ))
                                         }
                                         <option value="1ero grupo A">1ero grupo A</option>
@@ -125,12 +130,12 @@ export default function EditJornada() {
                                             
                                             ))
                                         }
-                                        <option value="0">1ero grupo A</option>
-                                        <option value="0">1ero grupo B</option>
-                                        <option value="0">2do grupo A</option>
-                                        <option value="0">2do grupo B</option>
-                                        <option value="0">Ganador S1</option>
-                                        <option value="0">Ganador S2</option>
+                                        <option value="1ero grupo A">1ero grupo A</option>
+                                        <option value="1ero grupo B">1ero grupo B</option>
+                                        <option value="2do grupo A">2do grupo A</option>
+                                        <option value="2do grupo B">2do grupo B</option>
+                                        <option value="Ganador S1">Ganador S1</option>
+                                        <option value="Ganador S2">Ganador S2</option>
                                     </select>
                                 </div>
                                

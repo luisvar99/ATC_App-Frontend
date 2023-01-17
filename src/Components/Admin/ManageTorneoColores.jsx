@@ -583,7 +583,7 @@ export default function ManageTorneoColores() {
 
                         
                             <div className='parejas_dropdown_container'>
-                                <label htmlFor="equipo" style={{margin:"0"}}>Equipo 1 {Equipo_uno}</label>
+                                <label htmlFor="equipo" style={{margin:"0"}}>Equipo 1</label>
                                 <div>
                                     <select id="equipo" style={{marginBottom:"1rem"}} onChange={(e)=> setEquipo_uno(e.target.value)} required>
                                         <option value="">---Seleccione una opcion---</option>
@@ -602,7 +602,7 @@ export default function ManageTorneoColores() {
 
                                 </div>
 
-                                <label htmlFor="equipo" style={{marginTop:"1rem"}}>Equipo 2 {Equipo_dos}</label>
+                                <label htmlFor="equipo" style={{marginTop:"1rem"}}>Equipo 2</label>
                                 <div>
                                     <select id="equipo" onChange={(e)=> setEquipo_dos(e.target.value)} required>
                                         <option value="">---Seleccione una opcion---</option>
@@ -612,12 +612,12 @@ export default function ManageTorneoColores() {
                                             
                                             ))
                                         }
-                                        <option value="0">1ero grupo A</option>
-                                        <option value="0">1ero grupo B</option>
-                                        <option value="0">2do grupo A</option>
-                                        <option value="0">2do grupo B</option>
-                                        <option value="0">Ganador S1</option>
-                                        <option value="0">Ganador S2</option>
+                                        <option value="1ero grupo A">1ero grupo A</option>
+                                        <option value="1ero grupo B">1ero grupo B</option>
+                                        <option value="2do grupo A">2do grupo A</option>
+                                        <option value="2do grupo B">2do grupo B</option>
+                                        <option value="Ganador S1">Ganador S1</option>
+                                        <option value="Ganador S2">Ganador S2</option>
                                     </select>
                                 </div>
                                

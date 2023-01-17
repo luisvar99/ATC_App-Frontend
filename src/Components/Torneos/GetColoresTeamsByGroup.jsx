@@ -33,7 +33,7 @@ export default function GetColoresTeamsByGroup({id_bombo}) {
       <table>
         <thead>
               <tr>
-                <td style={{backgroundColor:`${t.color}`}}>{t.nombre_equipo}</td>
+                <td style={{backgroundColor:`${t.color}`, color: t.color==="#000000" ? "white" : "black" }}><strong>{t.nombre_equipo}</strong></td>
               </tr>
 
         </thead>
