@@ -291,7 +291,7 @@ export default function SubtorneoDetails() {
                             {Parejas.map((pareja, index)=>(
                             <tr key={index}>
                                   <>
-                                    <td style={ pareja.id_pareja === parseInt(sessionStorage.getItem('userId')) ? {backgroundColor:"yellow"}: {}} >{pareja.username}</td>
+                                    <td style={ pareja.id_pareja === parseInt(sessionStorage.getItem('userId')) ? {backgroundColor:"yellow"}: {}} >{pareja.nombres} {pareja.apellidos} </td>
                                     <td>{pareja.id_pareja}</td>
                                   </>
                             </tr>
@@ -306,21 +306,24 @@ export default function SubtorneoDetails() {
       </div>
       
         <>
-        <div className="GetGroupsMembers_conatiner_two">
           <Link to={`/subtorneoMatches/idSubtorneo=${params.idSubTorneo}`} className="see_subtorneo_matches">
             Enfretamientos
           </Link>
           <h2>Grupos</h2>
+        <div className="GetGroupsMembers_conatiner_two">
+
 
             {
               GroupsStatus ===1 ?
               
               Groups.map((g, index)=>(
+              <div className="GetGroupsMembers_wrapper">
                 <GetGroupsMembers idGrupo={g.id_grupo} key={index} idSubtorneo={params.idSubTorneo} modalidad={params.modalidad} NotAdmin={NotAdmin}/>
-              ))
-              :
-              <p>Los grupos aun no han sido publicados</p>
-            }
+              </div>
+                ))
+                :
+                <p>Los grupos aun no han sido publicados</p>
+              }
             
         </div>
       </>

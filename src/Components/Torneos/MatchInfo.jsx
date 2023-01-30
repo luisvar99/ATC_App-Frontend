@@ -55,7 +55,7 @@ export default function MatchInfo({idPartido, IsAdmin}) {
             </>
                 :
         <>
-        <div className="matchDateID_container" style={{display:"flex", justifyContent:"space-between"}}>
+        <div className="matchDateID_container">
             <p className="matchID">Ronda: {MatchRonda}</p>
             <p className="matchDate">Fecha: {new Date(MatchDate).toLocaleDateString('es-MX')}</p>
             <p className="matchDate">Cancha: {MatchCancha}</p>

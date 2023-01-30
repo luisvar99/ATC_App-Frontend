@@ -6,7 +6,6 @@
 
 .torneo_details_second_container{
     margin-top: 1rem;
-    width: 70%;
     display:flex;
     justify-content:center;
 }
@@ -16,9 +15,9 @@
 }
 
 .subtorneos_container{
-    border: 8px solid #0D8641;
+   /*  border: 8px solid #0D8641;
     border-radius: 5px;
-    width: 100%;
+    width: 100%; */
     text-align: center;
 }
 
@@ -49,7 +48,97 @@
         width: 100%;
         margin-bottom: 4rem;
     }
+
+    .torneo_details_second_container{
+        width: 60%;
+    }
     
     
+  }
+
+@media only screen and (min-width: 600px) {
+    .subtorneos{
+        display: grid;
+        grid-template-columns: auto;
+        row-gap: 1rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .subtorneos_container{
+        border: 6px solid #0D8641;
+        width: 100%;
+        margin-bottom: 4rem;
+    }
+
+    .torneo_details_second_container{
+        width: 60%;
+    }
+    
+    
+  }
+
+@media only screen and (min-width: 768px) {
+    .subtorneos{
+        display: grid;
+        grid-template-columns: auto auto;
+        row-gap: 1rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .subtorneos_container{
+        border: 6px solid #0D8641;
+        width: 100%;
+        margin-bottom: 4rem;
+    }
+
+    .torneo_details_second_container{
+        width: 85%;
+    }
+    
+    
+  }
+
+@media only screen and (min-width: 992px) {
+    .subtorneos{
+        display: grid;
+        grid-template-columns: auto auto auto;
+        row-gap: 1rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .subtorneos_container{
+        border: 6px solid #0D8641;
+        width: 100%;
+        margin-bottom: 4rem;
+    }
+
+    .torneo_details_second_container{
+        width: 85%;
+    }
+     
+  }
+
+  @media only screen and (min-width: 992px) {
+    .subtorneos{
+        display: grid;
+        grid-template-columns: auto auto auto;
+        row-gap: 1rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .subtorneos_container{
+        border: 6px solid #0D8641;
+        width: 100%;
+        margin-bottom: 4rem;
+    }
+
+    .torneo_details_second_container{
+        width: 80%;
+    }
+     
   }
 

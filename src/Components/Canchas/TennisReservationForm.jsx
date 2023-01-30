@@ -129,19 +129,7 @@ export default function TennisReservationForm() {
         navigate(-1)
       }
       
-      
-      const customModalStyles = {
-        content: {
-          top: '50%',
-          left: '100%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-          border: '1px solid #838080'
-        },
-      };
-
+    
       useEffect(() => {
         GetHorarioDetails();
         GetUsers();
@@ -161,10 +149,13 @@ export default function TennisReservationForm() {
                       open={modalIsOpen}
                       /* onAfterOpen={afterOpenModal} */
                       onClose={closeModal}
-                      style={customModalStyles}
+                      classNames={{
+                        modal: 'customModal',
+                      }}
+                      center
                       /* className="Modal" */
                     >
-                      <h2>Se ha realizado la reserva de forma correcta</h2>
+                      <h3>Se ha realizado la reserva de forma correcta</h3>
                       <div className="modal_container">
                         <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
                         <button onClick={closeModal}>Aceptar</button>

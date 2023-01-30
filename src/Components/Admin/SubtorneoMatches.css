@@ -5,7 +5,7 @@
 
 .table_matches_container{
     display:grid;
-    grid-template-columns: 33% 33% 33%;
+    grid-template-columns: 31% 31% 31%;
     column-gap: 3rem;
     row-gap: 3rem;
     margin-right: 2rem;
@@ -22,7 +22,9 @@
     border: 3px #CED4DA solid;
     border-radius: 5px;
     padding: 1.5rem;
-    width: 50%; 
+    margin-top: 1.5rem;
+    margin-left: 1.5rem;
+    width: 75%;
 }
 
 .addMatch_form_container h3{

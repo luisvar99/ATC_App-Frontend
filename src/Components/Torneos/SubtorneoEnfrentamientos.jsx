@@ -46,6 +46,9 @@ export default function SubtorneoEnfrentamientos() {
                 width="35"
                 visible={true}/>
                 :
+                Matches.length===0 ?
+                <h4>No hay enfrentamientos disponibles</h4>
+                :
                 Matches.map((match,index)=>(
                     <MatchInfo idPartido={match.id_partido} key={index}/>
                     ))

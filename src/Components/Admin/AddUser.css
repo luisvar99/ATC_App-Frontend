@@ -51,9 +51,20 @@
 
 @media only screen and (max-width: 600px) {
     .Add_userform_container{
-        width: 50%;
+        width: 60%;
     }
 
+    .left_right_side_container{
+        flex-direction: column;
+    }
+    
+}
+
+@media only screen and (max-width: 600px) {
+    .Add_userform_container{
+        width: 60%;
+    }
+    
     .left_right_side_container{
         flex-direction: column;
     }

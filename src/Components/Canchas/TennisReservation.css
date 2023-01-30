@@ -1,5 +1,6 @@
 .reservation_table_container{
     width:50%;
+    margin-bottom: 2rem;
 }
 
 .reservation_table td{
@@ -30,4 +31,32 @@
 
 .Calendar_table_container{
     margin-left: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+    #calendar{
+        padding: 0.2rem;
+        font-size:1.0rem;
+    }
+
+    .reservation_table td{
+        font-size:0.8rem;
+    }
+}
+@media only screen and (min-width: 600px) {
+
+    #calendar{
+        padding: 0.2rem;
+        font-size:1.0rem;
+    }
+
+    .reservation_table td{
+        font-size:0.8rem;
+    }
+}
+@media only screen and (min-width: 768px) {
+
+    .reservation_table td{
+        font-size:1rem;
+    }
 }

@@ -94,27 +94,30 @@ export default function SubtorneoMatches() {
     const CreateSubtorneoMatch = async (e) =>{
         e.preventDefault()
         try {
-            setIsAddingMatch(true)
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.post(`http://localhost:4000/api/createSubtorneoMatch`, {
-                idSubtorneo: params.idSubtorneo,
-                id_player_uno: Id_player_uno,
-                id_player_dos: Id_player_dos,
-                id_player_tres: Id_player_tres,
-                id_player_cuatro: Id_player_cuatro,
-                resultado: Resultado,
-                fecha: Fecha,
-                hora: IDHorario,
-                ronda: RondaString,
-                id_cancha: IDCancha
-            })
-            setIsAddingMatch(false)
-            
-            if(result.data.success===true){
-                await CreateReservation();
-                window.location.reload();
-            }else{
-                alert("Ha ocurrido un error creando el enfrentamiento")  
+            const reservation = await CreateReservation();
+            if(reservation===true){
+
+                setIsAddingMatch(true)
+                //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
+                const result = await axios.post(`http://localhost:4000/api/createSubtorneoMatch`, {
+                    idSubtorneo: params.idSubtorneo,
+                    id_player_uno: Id_player_uno,
+                    id_player_dos: Id_player_dos,
+                    id_player_tres: Id_player_tres,
+                    id_player_cuatro: Id_player_cuatro,
+                    resultado: Resultado,
+                    fecha: Fecha,
+                    hora: IDHorario,
+                    ronda: RondaString,
+                    id_cancha: IDCancha
+                })
+                setIsAddingMatch(false)
+                
+                if(result.data.success===true){
+                    window.location.reload();
+                }else{
+                    alert("Ha ocurrido un error creando el enfrentamiento")  
+                }
             }
         } catch (error) {
             alert(error.message)
@@ -134,9 +137,16 @@ export default function SubtorneoMatches() {
             id_inv_dos: Id_player_dos,
             descripcion: "Torneo Regular"
           })
-          console.log("CreateReservation-> " + JSON.stringify(result.data));
+          if(result.data.validHorario===false){
+            alert("El horario no esta disponible para la fecha y cancha seleccionada")
+            return false;
+          }else{
+            console.log("CreateReservation-> " + JSON.stringify(result.data));
+            return true;
+          }
         } catch (error) {
           alert(error.message)
+          return false;
         }
       }
 
@@ -169,7 +179,7 @@ export default function SubtorneoMatches() {
 
   return (
     <div className="createMatch_main_container">
-        <div className="addMatch_form_container" style={{marginLeft:"2rem", marginTop:"1.5rem"}}>
+        <div className="addMatch_form_container">
                 <h3>Agregar enfrentamiento</h3>
                 <form onSubmit={CreateSubtorneoMatch} className="form_add_matches" >
                     <div className="add_matches_left_right_side">
@@ -181,7 +191,7 @@ export default function SubtorneoMatches() {
                             <option value="">-----Seleccione una opcion-----</option>
                                 {
                                     GroupsMembers.map((gm, index)=>(
-                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
+                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos} - Grupo {gm.numero_grupo}</option>
                                     ))
                                 }
                             </select>
@@ -193,7 +203,7 @@ export default function SubtorneoMatches() {
                             <option value="">-----Seleccione una opcion-----</option>
                                 {
                                     GroupsMembers.map((gm, index)=>(
-                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
+                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos} - Grupo {gm.numero_grupo}</option>
                                     ))
                                 }
                             </select>
@@ -204,7 +214,7 @@ export default function SubtorneoMatches() {
                             <option value="">-----Seleccione una opcion-----</option>
                                 {
                                     GroupsMembers.map((gm, index)=>(
-                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
+                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos} - Grupo {gm.numero_grupo}</option>
                                     ))
                                 }
                             </select>
@@ -215,7 +225,7 @@ export default function SubtorneoMatches() {
                             <option value="">-----Seleccione una opcion-----</option>
                                 {
                                     GroupsMembers.map((gm, index)=>(
-                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos}</option>
+                                        <option key={index} value={gm.id}>{gm.id_pareja} - {gm.nombres} {gm.apellidos} - Grupo {gm.numero_grupo}</option>
                                     ))
                                 }
                             </select>

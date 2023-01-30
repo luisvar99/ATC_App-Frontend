@@ -113,8 +113,8 @@ const DeleteCompetencia = async (id) => {
   return (
     <div className="main_editTorneo_container">
         <div className="torneo_subTorneo_container">
-            <h2 style={{textAlign:"center"}}>Competencias</h2>
-            <button className="add_competencia"><Link to={`/admin/manageTorneos/addCompetencia/${Name}/idTorneo=${params.idTorneo}`}>Agregar Competencia</Link></button>
+            <h2 style={{textAlign:"center"}}>Categorías</h2>
+            <button className="add_competencia"><Link to={`/admin/manageTorneos/addCompetencia/${Name}/idTorneo=${params.idTorneo}`}>Agregar Categoría</Link></button>
             <table className="chanchasAdmin_table">
                 <thead>
                     <tr className="table_headers">

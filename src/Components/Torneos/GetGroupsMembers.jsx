@@ -13,12 +13,12 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
     const [IsLoadingMembers, setIsLoadingMembers] = useState(false)
 
     const GetGruposMembers = async () =>{
-        console.log("idGrupo: " + idGrupo);
+        //console.log("idGrupo: " + idGrupo);
         try {
             setIsLoadingMembers(true)
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/GetGruposById/${idGrupo}`)
-            console.log("result.data: " + /* JSON.stringify */(result.data[0]));
+            const result = await axios.get(`http://localhost:4000/api/GetGruposById/${idGrupo}/${idSubtorneo}`)
+            //console.log("result.data: " + /* JSON.stringify */(result.data[0]));
             setGroupsMembers(result.data);
             setGroupNumber(result.data[0] === undefined ? "" : result.data[0].numero_grupo)
             setIsLoadingMembers(false)
@@ -45,6 +45,7 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
 
       useEffect(() => {
         GetGruposMembers();
+        console.log("idSubtorneo GetGruposMembers: " + idSubtorneo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 

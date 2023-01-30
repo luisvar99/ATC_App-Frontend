@@ -267,6 +267,7 @@ export default function EditSubtorneo() {
             getSubTournamentParticipants();
           }
         GetSubtorneoGrupos();
+        console.log("params= " + JSON.stringify(params.idSubtorneo));
         //GetGruposMembers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
@@ -276,7 +277,7 @@ export default function EditSubtorneo() {
     <div className="editTorneoWrapper">
         <div className="main_editTorneo_container">
             <div className="EditTorneo_form_container">
-                <h3>Editar competencia</h3>
+                <h3>Editar categoría</h3>
                 <form onSubmit={UpdateCompetencia} className="form_add_canchas">
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Nombre</label>
@@ -449,7 +450,7 @@ export default function EditSubtorneo() {
         <div className="GetGroupsMembers_conatiner">
             {
                 Groups.map((g, index)=>(
-                    <GetGroupsMembers idGrupo={g.id_grupo} key={index} idSubtorneo={params.idSubTorneo} modalidad={params.modalidad} NotAdmin={false}/>
+                    <GetGroupsMembers idGrupo={g.id_grupo} key={index} idSubtorneo={params.idSubtorneo} modalidad={params.modalidad} NotAdmin={false}/>
                     ))
                 }
         </div>  

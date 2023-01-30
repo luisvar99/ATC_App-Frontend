@@ -72,28 +72,56 @@
     text-align: center;
 }
 
+.modal_wrapper{
+    background-color: #084e26;
+    width: 10%;
+}
+
+  .customModal {
+    background: #b2dbbf;
+    width: 40%;
+    text-align: center;
+  }
 
 @media only screen and (max-width: 600px) {
 
-.make_reservation_form{
-    width: 70%;
-}
-#horaInicio, #horaFin{
-    width: 23%;
-    padding: 0.4rem;
+    .make_reservation_form{
+        width: 70%;
+    }
+    #horaInicio, #horaFin{
+        width: 23%;
+        padding: 0.4rem;
+    }
+
+    #modalidad{
+        margin-top: 1rem;
+    }
+
+    .nombreCancha{
+        width: 80%;
+    }
+
 }
 
-#modalidad{
-    margin-top: 1rem;
+@media only screen and (min-width: 600px) {
+
+    .make_reservation_form{
+        width: 70%;
+    }
+
 }
 
-.nombreCancha{
-    width: 80%;
+@media only screen and (min-width: 768px) {
+
+    .make_reservation_form{
+        width: 60%;
+    }
+
 }
-/* .Modal{
-    width: 50%;
-} */
+@media only screen and (min-width: 992px) {
 
-
+    .make_reservation_form{
+        width: 40%;
+    }
 
 }

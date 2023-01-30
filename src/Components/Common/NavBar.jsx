@@ -23,7 +23,7 @@ export default function NavBar() {
 }
 
 useEffect(() => {
-  getCurrentTorneoColores();
+    getCurrentTorneoColores();
   //console.log(sessionStorage.getItem('userRole'));
 },[])
 
@@ -56,7 +56,11 @@ useEffect(() => {
             <div className="dropdown-content">
                 <Link to="/Reservaciones">Reservas</Link>
                 <Link to="/torneos">Torneos Regulares</Link>
-                <Link to={`/torneoColores/${CurrentColores.id_torneo}`}>Torneo Colores</Link>
+
+                {
+                  CurrentColores.id_torneo!==undefined &&
+                  <Link to={`/torneoColores/${CurrentColores.id_torneo}`}>Torneo Colores</Link>
+                }
             </div>
           </div> 
         }

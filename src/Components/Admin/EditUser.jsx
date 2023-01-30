@@ -121,7 +121,7 @@ export default function EditUser() {
                     </div>
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Contrasena</label>
-                        <input value={Contrasena} type="text" id="name" onChange={(e)=>setContrasena(e.target.value)} required/>
+                        <input /* value={Contrasena} */ type="text" id="name" onChange={(e)=>setContrasena(e.target.value)} required/>
                     </div>
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Accion</label>

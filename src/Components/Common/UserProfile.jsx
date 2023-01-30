@@ -75,8 +75,8 @@ export default function UserProfile() {
         <h3>Mis Datos Personales</h3>
         <div className="myProfile_container">
             <form onSubmit={EditPassword} className="form_myProfile">
-                <div className="left_right_side_container">
-                <div className="left_side_container">
+                <div className="user_profile_left_right_side_container">
+                <div className="user_profile_left_side_container">
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Nombres</label>
                         <input readOnly value={Nombres} type="text" id="name" onChange={(e)=>setNombres(e.target.value)} required/>
@@ -98,7 +98,7 @@ export default function UserProfile() {
                         <input readOnly value={Sexo} type="text" id="name" onChange={(e)=>setCedula(e.target.value)} required/>
                     </div> */}
                 </div>
-                <div className="right_side_container">
+                <div className="user_profile_right_side_container">
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Apellidos</label>
                         <input readOnly value={Apellidos} type="text" id="name" onChange={(e)=>setApellidos(e.target.value)} required/>

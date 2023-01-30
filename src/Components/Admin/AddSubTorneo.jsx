@@ -41,7 +41,7 @@ export default function AddSubTorneo() {
     }
   return (
     <div className="main_addCancha_container">
-        <h3>Agregar competencia a {params.nombreTorneo}</h3>
+        <h3>Agregar categoría a {params.nombreTorneo}</h3>
         <div className="Addform_container">
             <form onSubmit={AddNewCompetencia} className="form_add_canchas">
                 <div className="name_input_container">
