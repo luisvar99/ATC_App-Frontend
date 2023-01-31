@@ -155,34 +155,37 @@ export default function ManageTorneoColores() {
         }else if(IdRonda===0){
             alert("Seleccione una ronda")
         }else{
-            setIsCreatingMatch(true)
-            try {
-                const result = await axios.post('http://localhost:4000/api/addColoresMatch',
-                {
-                    id_torneo: params.id,
-                    player_one: Id_player_one,
-                    player_two: Id_player_two,
-                    player_three: Id_player_three,
-                    player_four: Id_player_four,
-                    fecha: Fecha,
-                    resultado: Resultado,
-                    idRonda: IdRonda,
-                    IdHorario: IDHorario,
-                    id_cancha: IDCancha
-                });
-                
-                console.log("result.data: " + JSON.stringify(result.data));
+            const reservation = await CreateReservation();
+            if(reservation===true) {
+                setIsCreatingMatch(true)
+                try {
 
-                if(result.data.success===true){
-                    setIsCreatingMatch(false)
-                    await CreateReservation();
-                    window.location.reload();
-                }else{
-                    alert("Ha ocurrido un error creando el enfrentamiento")  
-                    setIsCreatingMatch(false)
+                    const result = await axios.post('http://localhost:4000/api/addColoresMatch',
+                    {
+                        id_torneo: params.id,
+                        player_one: Id_player_one,
+                        player_two: Id_player_two,
+                        player_three: Id_player_three,
+                        player_four: Id_player_four,
+                        fecha: Fecha,
+                        resultado: Resultado,
+                        idRonda: IdRonda,
+                        IdHorario: IDHorario,
+                        id_cancha: IDCancha
+                    });
+                    
+                    console.log("result.data: " + JSON.stringify(result.data));
+
+                    if(result.data.success===true){
+                        setIsCreatingMatch(false)
+                        window.location.reload();
+                    }else{
+                        alert("Ha ocurrido un error creando el enfrentamiento")  
+                        setIsCreatingMatch(false)
+                    }
+                }catch (error) {
+                    alert(error.message)
                 }
-            }catch (error) {
-                alert(error.message)
             }
         }
 
@@ -290,10 +293,12 @@ export default function ManageTorneoColores() {
             id_inv_dos: Id_player_two,
             descripcion: "Torneo Colores"
           })
-          console.log("CreateReservation-> " + JSON.stringify(result.data));
-          
-          if(result.data.success === false){
-            alert("Ha ocurrido un error al reservar la cancha para el dia y hora establecido")
+          if(result.data.validHorario===false){
+            alert("El horario no esta disponible para la fecha y cancha seleccionada")
+            return false;
+          }else{
+            //console.log("CreateReservation-> " + JSON.stringify(result.data));
+            return true;
           }
         } catch (error) {
           alert(error.message)

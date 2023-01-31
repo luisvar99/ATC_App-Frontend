@@ -289,3 +289,94 @@
         font-size: 0.8rem;
     }
 }
+
+@media only screen and (min-width: 600px) {
+    .manageColoresForm{
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .manageColoresFormContainer{
+        padding: 2rem;
+    }
+
+    .manageColoresGrupsTeamsContainer{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .createGruposColoresFormContainer{
+        margin-top: 2rem;
+    }
+
+    .createColoresMatchForm{
+        padding: 1rem;
+    }
+
+    .coloresmatchrightleftside{
+        flex-direction: column;
+    }
+
+    .parejas_dropdown_container {
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    #matchDate{
+        width: 90%;
+    }
+
+    .coloresMatchRightSide{
+        width: 100%;
+    }
+
+    .Grupos_equipos_players{
+        font-size: 0.8rem;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .Grupos_equipos_players{
+        font-size: 0.8rem;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .Grupos_equipos_players{
+        font-size: 0.8rem;
+    }
+
+    .manageColoresForm{
+        flex-direction: row;
+        justify-content:space-between;
+        
+    }
+
+    .manageColoresGrupsTeamsContainer{
+        flex-direction: row;
+    }
+
+    .coloresmatchrightleftside{
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+    .parejas_dropdown_container {
+        min-width: 45%;
+        max-width: 45%;
+    }
+
+    .coloresMatchRightSide{
+        width: 45%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .Grupos_equipos_players{
+        font-size: 0.9rem;
+    }
+
+ 
+}

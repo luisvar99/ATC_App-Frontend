@@ -20,7 +20,12 @@ export default function Login() {
         e.preventDefault();
         try {
             setIsLoading(true)
-            const logged = await axios.post('http://localhost:4000/api/login',
+            /* const logged = await axios.post('http://localhost:4000/api/login',
+            {
+                username: Username,
+                password: Password
+            }) */
+            const logged = await axios.post('https://atcapp-backend-production.up.railway.app/api/login',
             {
                 username: Username,
                 password: Password

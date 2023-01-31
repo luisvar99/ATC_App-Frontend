@@ -3,14 +3,18 @@
     flex-direction: column;
 }
 
+.matches_container_aux{
+    width:100%; 
+}
+
 .table_matches_container{
     display:grid;
-    grid-template-columns: 31% 31% 31%;
     column-gap: 3rem;
     row-gap: 3rem;
     margin-right: 2rem;
     margin-top: 1.5rem;
     margin: 2rem;
+    width:90%; 
 }
 
 .add_matches_left_right_side {
@@ -66,4 +70,58 @@
     height: 100%;
     text-decoration: none;
     color: black;
+}
+
+@media only screen and (max-width: 600px) {
+    .table_matches_container{
+        grid-template-columns: auto;
+    }
+
+    .SubtorneoMatchButtons{
+        width: 80%;
+    }
+}
+@media only screen and (min-width: 600px) {
+    .table_matches_container{
+        grid-template-columns: auto;
+        width: 100%;
+    }
+
+    .SubtorneoMatchButtons{
+        width: 80%;
+    
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .table_matches_container{
+        grid-template-columns: 50% 50%;
+    }
+
+    .SubtorneoMatchButtons{
+        width: 80%;
+    }
+
+    .matches_container{
+        width: 90%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .table_matches_container{
+        grid-template-columns: 32% 32% 32%;
+        width: 100%;
+    }
+
+    .SubtorneoMatchButtons{
+        width: 80%;
+    }
+
+    .matches_container{
+        width: 90%;
+    }
+
+    .addMatch_form_container{
+        width: 55%;
+    }
 }

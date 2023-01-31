@@ -8,7 +8,7 @@ import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleExclamation} from '@fortawesome/free-solid-svg-icons'
 import './ColoresEnfrentamientos.css'
-import GetColoresEnfretamientosPlayers from './GetColoresEnfretamientosPlayers'
+import GetColoresEnfretamientosPlayers from './GetColoresEnfrentamientosPlayers'
 
 
 export default function ColoresEnfrentamientos({isAdmin}) {

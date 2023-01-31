@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import './ManageCanchas.css'
+import './ManageTorneos.css'
 import { RotatingLines } from  'react-loader-spinner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
@@ -45,7 +46,7 @@ export default function ManageTorneos() {
   return (
     <>
     <div className="mge_canchas_container">
-        <div className="second_container">
+        <div className="mge_torneos_second_container">
             <div style={{ marginBottom:"1.5rem"}}>  
                 <h3>Listado de Torneos</h3>
                 <Link to='addTorneo' className="linkAddCancha">Agregar nuevo torneo</Link>

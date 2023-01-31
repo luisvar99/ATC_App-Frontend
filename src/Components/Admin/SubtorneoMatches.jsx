@@ -121,6 +121,7 @@ export default function SubtorneoMatches() {
             }
         } catch (error) {
             alert(error.message)
+            setIsAddingMatch(false)
         }
       }
 
@@ -141,7 +142,7 @@ export default function SubtorneoMatches() {
             alert("El horario no esta disponible para la fecha y cancha seleccionada")
             return false;
           }else{
-            console.log("CreateReservation-> " + JSON.stringify(result.data));
+            //console.log("CreateReservation-> " + JSON.stringify(result.data));
             return true;
           }
         } catch (error) {

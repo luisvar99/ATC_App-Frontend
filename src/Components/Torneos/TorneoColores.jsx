@@ -174,6 +174,7 @@ export default function TorneoColores() {
             /* onAfterOpen={afterOpenModal} */
             onClose={closeModal}
             style={customStyles}
+            center
             /* contentLabel="Example Modal" */
           >
             <h2>Su inscripcion se ha realizado correctamente</h2>

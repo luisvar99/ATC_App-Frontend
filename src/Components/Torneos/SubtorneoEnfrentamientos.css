@@ -1,15 +1,14 @@
 .sutorneoMatches_container{
     display: grid;
-    grid-template-columns: auto auto auto;
-    column-gap: 2rem;
     row-gap: 2rem;
-    margin: 2rem;
+    margin-top: 2rem;
 }
 
 @media only screen and (max-width: 600px) {
     .sutorneoMatches_container{
         grid-template-columns: auto;
         justify-items: center;
+        font-size: 0.9rem;
     }
     
 }
@@ -18,13 +17,23 @@
     .sutorneoMatches_container{
         grid-template-columns: auto;
         justify-items: center;
+        font-size: 0.9rem;
     }
     
 }
 
 @media only screen and (min-width: 768px) {
     .sutorneoMatches_container{
-        grid-template-columns: auto;
+        grid-template-columns: 50% 50%;
+        justify-items: center;
+        font-size: 0.9rem;
+    }
+    
+}
+
+@media only screen and (min-width: 992px) {
+    .sutorneoMatches_container{
+        grid-template-columns: 33% 33% 33%;
         justify-items: center;
     }
     

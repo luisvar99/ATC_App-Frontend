@@ -2,17 +2,12 @@
     background-color: #F8F8F8;
 }
 
-.main_editTorneo_container{
-display: flex;
-align-items: flex-start;
-padding-top: 2rem
-}
 
-.EditTorneo_form_container {
+
+.EditSubTorneo_form_container {
     border: 3px #CED4DA solid;
     border-radius: 5px;
     padding: 1.5rem;
-    width: 20%; 
 }
 
 .EditTorneo_form_container h3{
@@ -168,4 +163,69 @@ padding-top: 2rem
 }
 .label_spinner_container label{
     margin-right: 1rem;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .main_editSubTorneo_container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 2rem;
+        justify-content: space-evenly;
+    }
+    .main_editSubTorneo_container h3{
+        text-align: center;
+    }
+
+    .EditSubTorneo_form_container {
+        border: 3px #CED4DA solid;
+        border-radius: 5px;
+        padding: 1.5rem;
+        width: 70%; 
+    }
+
+    .subtorneo_details_table_container, .groups_container{
+        margin-top:2rem;
+    }
+
+}
+
+@media only screen and (min-width: 600px) {
+    .main_editSubTorneo_container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 2rem;
+        justify-content: space-evenly;
+    }
+    .main_editSubTorneo_container h3{
+        text-align: center;
+    }
+
+    .EditSubTorneo_form_container {
+        border: 3px #CED4DA solid;
+        border-radius: 5px;
+        padding: 1.5rem;
+        width: 70%; 
+    }
+
+    .subtorneo_details_table_container, .groups_container{
+        margin-top:2rem;
+    }
+
+}
+
+@media only screen and (min-width: 1200px) {
+    .main_editSubTorneo_container{
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding-top: 2rem;
+        justify-content: space-evenly;
+    }
+
+    .EditSubTorneo_form_container {
+        width: 30%; 
+    }
 }

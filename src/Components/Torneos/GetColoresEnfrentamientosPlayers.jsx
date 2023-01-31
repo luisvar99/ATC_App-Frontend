@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
-import moment from 'moment'
-import {Link} from 'react-router-dom'
-import Select from 'react-select';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import './GetColoresEnfrentamientosPlayers.css'
 
 
 export default function GetColoresEnfretamientosPlayers({id_partido, id_torneo}) {

@@ -1,15 +1,9 @@
 .ManageRondas_main_container{
-    display:flex;
-    justify-content: center;
-    align-items: center;
     margin-top: 6rem;
 }
 
 .manageRondasSubContainer{
-    display:flex;
-    justify-content: space-evenly;
-    width: 90%;
-    align-items: flex-start
+   display:flex;
 }
 
 .manageRondasFormContainer{
@@ -48,3 +42,51 @@
     }
 
 }
+
+@media only screen and (min-width: 600px) {
+    .ManageRondas_main_container{
+        margin-top: 3rem;
+    }
+    .manageRondasSubContainer{
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .manageRondasTableContainer{
+        margin: 3rem 0rem;
+    }
+
+}
+
+@media only screen and (min-width: 768px) {
+    .ManageRondas_main_container{
+        margin-top: 3rem;
+    }
+    .manageRondasSubContainer{
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .manageRondasTableContainer{
+        margin: 3rem 0rem;
+    }
+
+}
+
+@media only screen and (min-width: 992px) {
+    .ManageRondas_main_container{
+        
+        margin-top: 3rem;
+    }
+    .manageRondasSubContainer{
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: flex-start;
+    }
+
+    .manageRondasTableContainer{
+        margin: 0rem 0rem;
+    }
+
+}
+

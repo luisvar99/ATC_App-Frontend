@@ -275,8 +275,8 @@ export default function EditSubtorneo() {
 
   return (
     <div className="editTorneoWrapper">
-        <div className="main_editTorneo_container">
-            <div className="EditTorneo_form_container">
+        <div className="main_editSubTorneo_container">
+            <div className="EditSubTorneo_form_container">
                 <h3>Editar categoría</h3>
                 <form onSubmit={UpdateCompetencia} className="form_add_canchas">
                     <div className="name_input_container">

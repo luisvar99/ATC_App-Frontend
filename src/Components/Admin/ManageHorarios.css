@@ -1,0 +1,16 @@
+@media only screen and (max-width: 600px) {
+    .manageHorariosTableContainer{
+        margin-top: 2rem;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .manageHorariosTableContainer{
+        margin-top: 2rem;
+    }
+}
+@media only screen and (min-width: 992px) {
+    .manageHorariosTableContainer{
+        margin-top: 0rem;
+    }
+}

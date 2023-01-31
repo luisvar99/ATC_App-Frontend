@@ -5,10 +5,7 @@
     margin-top: 2rem;
 }
 
-.parejas_dropdown_container_edit_enfrentamientos{
-    min-width: 50%;
-    max-width: 50%;
-}
+
 
 .editColoresMatchForm {
     border: #0b7037 solid 1px;
@@ -26,4 +23,43 @@
     margin-top: 1rem;
     min-width: 90%;
     max-width: 90%;
+}
+
+@media only screen and (max-width: 600px) {
+    .coloresEditmatchrightleftside {
+        flex-direction: column;
+    }
+
+    .parejas_dropdown_container_edit_enfrentamientos{
+        min-width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .coloresEditmatchrightleftside {
+        flex-direction: column;
+    }
+
+    .parejas_dropdown_container_edit_enfrentamientos{
+        min-width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .coloresEditmatchrightleftside {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 1rem;
+        min-width: 90%;
+        max-width: 90%;
+    }
+
+    .parejas_dropdown_container_edit_enfrentamientos{
+        min-width: 50%;
+        max-width: 50%;
+    }
 }
