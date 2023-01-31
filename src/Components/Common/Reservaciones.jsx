@@ -20,7 +20,8 @@ export default function Reservaciones() {
     
     const GetAllTennisCanchas = async () => {
         try {
-            const result = await axios.get('http://localhost:4000/api/getAllTennisCanchas');
+            const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getAllTennisCanchas');
+            //const result = await axios.get('http://localhost:4000/api/getAllTennisCanchas');
             setCanchasTennis(result.data);
             //console.log("result.data.tennis: " + JSON.stringify(result.data));
         } catch (error) {
@@ -30,7 +31,8 @@ export default function Reservaciones() {
 
     const GetAllPadelCanchas = async () => {
         try {
-            const result = await axios.get('http://localhost:4000/api/getAllPadelCanchas');
+            const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getAllPadelCanchas');
+            //const result = await axios.get('http://localhost:4000/api/getAllPadelCanchas');
             setCanchasPadel(result.data);
             console.log("result.data.padel: " + JSON.stringify(result.data));
         } catch (error) {

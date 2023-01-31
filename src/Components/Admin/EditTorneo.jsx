@@ -37,8 +37,8 @@ export default function EditTorneo() {
 
     const GetTorneoById = async (e) =>{
       try {
-          //const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSingleTorneo/${params.idTorneo}`)
-          const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
+          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSingleTorneo/${params.idTorneo}`)
+          //const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
           setName(result.data[0].nombre_torneo)
           setInicio_torneo(moment(result.data[0].fecha_inicio).format('YYYY-MM-DD'))
           setFin_torneo(moment(result.data[0].fecha_fin).format('YYYY-MM-DD'))
@@ -65,7 +65,7 @@ const EditTorneo = async (e) =>{
         setConfirmation("Actualizando Torneo...")
         try {
             //const editResult = await axios.put(`https://atcbackend.herokuapp.com/api/editTorneo/${params.idTorneo}`,
-            const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.idTorneo}`,
+            const editResult = await axios.put(`https://atcapp-backend-production.up.railway.app/api/editTorneo/${params.idTorneo}`,
             {
               nombre_torneo: Name,
               fecha_inicio: Inicio_torneo,
@@ -77,6 +77,18 @@ const EditTorneo = async (e) =>{
               modalidad: Modalidad,
               is_colores: false
             })
+            /* const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.idTorneo}`,
+            {
+              nombre_torneo: Name,
+              fecha_inicio: Inicio_torneo,
+              fecha_fin: Fin_torneo,
+              fecha_inicio_inscripcion: Inicio_inscripcion,
+              fecha_fin_inscripcion: Fin_inscripcion,
+              id_categoria: Category,
+              descripcion: Description,
+              modalidad: Modalidad,
+              is_colores: false
+            }) */
             console.log(editResult.data);
             setConfirmation("Se ha actualizado el torneo correctamente")
         } catch (error) {
@@ -89,8 +101,8 @@ const EditTorneo = async (e) =>{
 
 const GetCompetencias = async () => {
     try {
-      //const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSubTorneoByTorneoId/${params.idTorneo}`)
-      const result = await axios.get(`http://localhost:4000/api/getSubTorneoByTorneoId/${params.idTorneo}`)
+      //const result = await axios.get(`http://localhost:4000/api/getSubTorneoByTorneoId/${params.idTorneo}`)
+      const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSubTorneoByTorneoId/${params.idTorneo}`)
       setCompetencias(result.data);
     } catch (error) {
       
@@ -100,8 +112,8 @@ const GetCompetencias = async () => {
 
 const DeleteCompetencia = async (id) => {
     try {
-        //const result = await axios.delete(`https://atcbackend.herokuapp.com/api/deleteSubTorneo/${id}`);
-        const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneo/${id}`);
+        //const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneo/${id}`);
+        const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteSubTorneo/${id}`);
         const filter = Competencias.filter(e => e.id_subtorneo !== id)
         console.log(result.data);
         setCompetencias(filter);

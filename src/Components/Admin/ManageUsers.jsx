@@ -17,8 +17,8 @@ export default function ManageUsers() {
     const GetUsers = async () => {
         try { 
             setLoadingUsers(true)
-            //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/getAllUsers`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getAllUsers`)
+            //const result = await axios.get(`http://localhost:4000/api/getAllUsers`)
             //console.log("result.data " + JSON.stringify(result.data));
             setUsers(result.data)
 
@@ -32,8 +32,8 @@ export default function ManageUsers() {
     const GetUsersByApellido = async () => {
         try { 
             setLoadingUsers(true)
-            //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/getUsersByApellido/${Apellido.toLowerCase()}`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getUsersByApellido/${Apellido.toLowerCase()}`)
+            //const result = await axios.get(`http://localhost:4000/api/getUsersByApellido/${Apellido.toLowerCase()}`)
             setUsers(result.data)
 
             setLoadingUsers(false)
@@ -46,8 +46,8 @@ export default function ManageUsers() {
 
     const DeleteUser = async (id) => {
         try {
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.delete(`http://localhost:4000/api/deleteUser/${id}`)
+            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteUser/${id}`)
+            //const result = await axios.delete(`http://localhost:4000/api/deleteUser/${id}`)
             const filter = Users.filter(u => u.id !== id )
             //console.log(result.data);
             setUsers(filter);

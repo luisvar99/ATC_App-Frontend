@@ -23,7 +23,8 @@ export default function UserProfile() {
 
     const GetUserById = async () => {
         try{
-            const result = await axios.get(`http://localhost:4000/api/GetUserById/${params.user_id}`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetUserById/${params.user_id}`)
+            //const result = await axios.get(`http://localhost:4000/api/GetUserById/${params.user_id}`)
             console.log("GetUserById -> " + JSON.stringify(result.data));
             setNombres(result.data[0].nombres)
             setApellidos(result.data[0].apellidos)
@@ -47,10 +48,14 @@ export default function UserProfile() {
         }else{
             setConfirmation("Editando Usuario")
             try {
-                const result = await axios.put(`http://localhost:4000/api/ChangePassword/${params.user_id}`,
+                const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/ChangePassword/${params.user_id}`,
                 {
                     password: Contrasena,
                 })
+                /* const result = await axios.put(`http://localhost:4000/api/ChangePassword/${params.user_id}`,
+                {
+                    password: Contrasena,
+                }) */
                 if(result.data.loggedIn === false){
                     alert("Ha ocurrido un error")
                     setConfirmation("No se ha podido realizar el registro")

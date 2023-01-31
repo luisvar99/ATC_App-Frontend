@@ -34,8 +34,8 @@ export default function SubtorneoMatches() {
     const GetGruposMembers = async () =>{
         try {
             //setIsAddingMatch(true)
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubtorneo}`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getGruposMembers/${params.idSubtorneo}`)
+            //const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubtorneo}`)
             setGroupsMembers(result.data);
             //console.log("GroupsMembers: " + JSON.stringify(result.data));
             //setIsAddingMatch(false)
@@ -46,8 +46,8 @@ export default function SubtorneoMatches() {
     const GetSubtorneoMatches = async () =>{
         try {
             setIsLoadingMatches(true)
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/GetSubtorneoMatches/${params.idSubtorneo}`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetSubtorneoMatches/${params.idSubtorneo}`)
+            //const result = await axios.get(`http://localhost:4000/api/GetSubtorneoMatches/${params.idSubtorneo}`)
             setMatches(result.data);
             //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
@@ -58,8 +58,8 @@ export default function SubtorneoMatches() {
     const GetRondas = async () =>{
         try {
             setIsLoadingMatches(true)
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/getRondas`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getRondas`)
+            //const result = await axios.get(`http://localhost:4000/api/getRondas`)
             setRondas(result.data);
             //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
@@ -70,8 +70,8 @@ export default function SubtorneoMatches() {
     const GetHorarios = async () =>{
         try {
             setIsLoadingMatches(true)
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/GetAllHorarios`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetAllHorarios`)
+            //const result = await axios.get(`http://localhost:4000/api/GetAllHorarios`)
             setHorarios(result.data);
             //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
@@ -82,8 +82,8 @@ export default function SubtorneoMatches() {
 
       const GetAllCanchas = async () => {
         try {
-            //const result = await axios.get('https://atcbackend.herokuapp.com/api/getAllCanchas');
             const result = await axios.get('http://localhost:4000/api/getAllCanchas');
+            //const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getAllCanchas');
             setCanchas(result.data);
             //console.log("result.data: " + JSON.stringify(result.data));
         } catch (error) {
@@ -98,8 +98,7 @@ export default function SubtorneoMatches() {
             if(reservation===true){
 
                 setIsAddingMatch(true)
-                //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-                const result = await axios.post(`http://localhost:4000/api/createSubtorneoMatch`, {
+                const result = await axios.post(`https://atcapp-backend-production.up.railway.app/api/createSubtorneoMatch`, {
                     idSubtorneo: params.idSubtorneo,
                     id_player_uno: Id_player_uno,
                     id_player_dos: Id_player_dos,
@@ -111,6 +110,18 @@ export default function SubtorneoMatches() {
                     ronda: RondaString,
                     id_cancha: IDCancha
                 })
+                /* const result = await axios.post(`http://localhost:4000/api/createSubtorneoMatch`, {
+                    idSubtorneo: params.idSubtorneo,
+                    id_player_uno: Id_player_uno,
+                    id_player_dos: Id_player_dos,
+                    id_player_tres: Id_player_tres,
+                    id_player_cuatro: Id_player_cuatro,
+                    resultado: Resultado,
+                    fecha: Fecha,
+                    hora: IDHorario,
+                    ronda: RondaString,
+                    id_cancha: IDCancha
+                }) */
                 setIsAddingMatch(false)
                 
                 if(result.data.success===true){
@@ -128,8 +139,7 @@ export default function SubtorneoMatches() {
       const CreateReservation = async (e) => {
         //alert("Creando Reservacion");
         try { 
-          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
-          const result = await axios.post(`http://localhost:4000/api/createReservation`,{
+          const result = await axios.post(`https://atcapp-backend-production.up.railway.app/api/createReservation`,{
             idCancha: IDCancha,
             idHorario: IDHorario,
             idSocio: sessionStorage.getItem('userId'),
@@ -138,6 +148,15 @@ export default function SubtorneoMatches() {
             id_inv_dos: Id_player_dos,
             descripcion: "Torneo Regular"
           })
+          /* const result = await axios.post(`http://localhost:4000/api/createReservation`,{
+            idCancha: IDCancha,
+            idHorario: IDHorario,
+            idSocio: sessionStorage.getItem('userId'),
+            fecha: Fecha,
+            id_inv_uno: Id_player_uno,
+            id_inv_dos: Id_player_dos,
+            descripcion: "Torneo Regular"
+          }) */
           if(result.data.validHorario===false){
             alert("El horario no esta disponible para la fecha y cancha seleccionada")
             return false;
@@ -153,8 +172,8 @@ export default function SubtorneoMatches() {
 
       const DeleteSubtorneoMatches = async (idMatch) =>{
         try {
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.delete(`http://localhost:4000/api/DeleteMatch/${idMatch}`)
+            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/DeleteMatch/${idMatch}`)
+            //const result = await axios.delete(`http://localhost:4000/api/DeleteMatch/${idMatch}`)
             window.location.reload()            
         } catch (error) {
             alert(error.message)

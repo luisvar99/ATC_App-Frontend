@@ -18,7 +18,8 @@ export default function GetColoresEnfretamientosPlayers({id_partido, id_torneo})
     const getColoresEnfrentamientosByIdPartido = async ()=> {
         try {
             setIsLoadingEnfrentamientos(true)
-            const result = await axios.get(`http://localhost:4000/api/GetColoresEnfretamientosPlayers/${id_torneo}/${id_partido}`);
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetColoresEnfretamientosPlayers/${id_torneo}/${id_partido}`);
+            //const result = await axios.get(`http://localhost:4000/api/GetColoresEnfretamientosPlayers/${id_torneo}/${id_partido}`);
             console.log("getColoresEnfrentamientosByIdPartido: " + JSON.stringify(result.data));
             setEnfrentamiento(result.data);
             setFechaEnfrentamiento(result.data[0].fecha);

@@ -10,7 +10,8 @@ export default function GetColoresParejasMembers({id_pareja, id_torneo}) {
     const GetParejasPlayersById = async () => {
         
         try {
-            const result = await axios.get(`http://localhost:4000/api/getColoresParejasById/${id_pareja}`);
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getColoresParejasById/${id_pareja}`);
+            //const result = await axios.get(`http://localhost:4000/api/getColoresParejasById/${id_pareja}`);
             setPareja(result.data);
             //console.log("Pareja " + JSON.stringify(result.data));
         }catch (error) {

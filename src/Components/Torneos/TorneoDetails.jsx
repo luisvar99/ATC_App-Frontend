@@ -17,7 +17,8 @@ export default function TorneoDetails() {
   const GetSubtorneos = async () => {
     try {
       setIsLoading(true)
-      const result = await axios.get(`http://localhost:4000/api/getSubTorneoByTorneoId/${params.idTorneo}`)
+      const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSubTorneoByTorneoId/${params.idTorneo}`)
+      //const result = await axios.get(`http://localhost:4000/api/getSubTorneoByTorneoId/${params.idTorneo}`)
       setSubtorneos(result.data);
       setIsLoading(false)
     } catch (error) {
@@ -27,9 +28,8 @@ export default function TorneoDetails() {
 
   const GetTorneoinfo = async () => {
     try {
-      //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-      const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
-      //console.log("GetSubtorneoinfo " + JSON.stringify(result));
+      const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSingleTorneo/${params.idTorneo}`)
+      //const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
       setModalidad(result.data[0].modalidad)
     } catch (error) {
       

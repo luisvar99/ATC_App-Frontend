@@ -13,8 +13,8 @@ export default function ManageRondas() {
 
     const GetRondas = async () =>{
         try {
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/getRondas`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getRondas`)
+            //const result = await axios.get(`http://localhost:4000/api/getRondas`)
             setRondas(result.data);
             console.log("Rondas: " + JSON.stringify(result.data));
         } catch (error) {
@@ -24,8 +24,8 @@ export default function ManageRondas() {
 
     const DeleteRonda = async (id_ronda) =>{
         try {
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.delete(`http://localhost:4000/api/deleteRonda/${id_ronda}`)
+            //const result = await axios.delete(`http://localhost:4000/api/deleteRonda/${id_ronda}`)
+            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteRonda/${id_ronda}`)
             const filter = Rondas.filter(r => r.id_ronda !== id_ronda )
             //console.log(result.data);
             setRondas(filter);
@@ -37,10 +37,12 @@ export default function ManageRondas() {
 
     const CreateRonda = async () =>{
         try {
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.post(`http://localhost:4000/api/addRondas`,{
+            const result = await axios.post(`https://atcapp-backend-production.up.railway.app/api/addRondas`,{
                 nombre_ronda: NombreRonda
             })
+            /* const result = await axios.post(`http://localhost:4000/api/addRondas`,{
+                nombre_ronda: NombreRonda
+            }) */
             setRondas(result.data);
             console.log("Rondas: " + JSON.stringify(result.data));
             window.location.reload()

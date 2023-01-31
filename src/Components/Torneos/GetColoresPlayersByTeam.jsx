@@ -10,7 +10,8 @@ export default function GetColoresPlayersByTeam({id_equipo}) {
 
   const getPlayersByTeam = async () => {
     try {
-      const result = await axios.get(`http://localhost:4000/api/getPlayersByTeam/${id_equipo}`);
+      const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getPlayersByTeam/${id_equipo}`);
+      //const result = await axios.get(`http://localhost:4000/api/getPlayersByTeam/${id_equipo}`);
       setPlayersByTeam(result.data);
       console.log("getPlayersByTeam: " + JSON.stringify(result.data));
   }catch (error) {

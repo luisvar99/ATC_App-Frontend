@@ -19,8 +19,8 @@ export default function EditCancha() {
 
       const GetCanchaById = async (e) =>{
             try {
-                //const result = await axios.get(`https://atcbackend.herokuapp.com/api/getSingleCancha/${params.idCancha}`)
-                const result = await axios.get(`http://localhost:4000/api/getSingleCancha/${params.idCancha}`)
+                //const result = await axios.get(`http://localhost:4000/api/getSingleCancha/${params.idCancha}`)
+                const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSingleCancha/${params.idCancha}`)
                 setName(result.data[0].nombre_cancha)
                 setCategory(result.data[0].id_categoriacancha)
                 setStatus(result.data[0].estatus_cancha)

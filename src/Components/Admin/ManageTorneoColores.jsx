@@ -83,7 +83,8 @@ export default function ManageTorneoColores() {
 
     const getCurrentTorneoColores = async ()=> {
         try {
-            const result = await axios.get('http://localhost:4000/api/getTorneoColores');
+            //const result = await axios.get('http://localhost:4000/api/getTorneoColores');
+            const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getTorneoColores');
             console.log("result.data TorneoColores: " + JSON.stringify(result.data));
             setNombreTorneo(result.data.nombre_torneo)
             setFechaInicio(result.data.fecha_inicio)
@@ -98,7 +99,8 @@ export default function ManageTorneoColores() {
 
     const getColoresGrupos = async ()=> {
         try {
-            const result = await axios.get(`http://localhost:4000/api/GetColoresGrupo/${params.id}`);
+            //const result = await axios.get(`http://localhost:4000/api/GetColoresGrupo/${params.id}`);
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetColoresGrupo/${params.id}`);
             setColoresGrupos(result.data);
             //console.log("result.data: " + JSON.stringify(result.data));
         }catch (error) {
@@ -111,12 +113,18 @@ export default function ManageTorneoColores() {
         e.preventDefault();
         setIsCreatingGrupo(true)
         try {
-            const result = await axios.post('http://localhost:4000/api/CreateColoresGrupo',
+            const result = await axios.post('https://atcapp-backend-production.up.railway.app/api/CreateColoresGrupo',
             {
                 id_torneo: params.id,
                 nombre_bombo: NombreGrupo
             });
             
+            /* const result = await axios.post('http://localhost:4000/api/CreateColoresGrupo',
+            {
+                id_torneo: params.id,
+                nombre_bombo: NombreGrupo
+            });
+             */
             console.log("result.data: " + JSON.stringify(result.data));
             setIsCreatingGrupo(false)
             window.location.reload()
@@ -130,7 +138,7 @@ export default function ManageTorneoColores() {
         e.preventDefault();
         setIsCreatingEquipo(true)
         try {
-            const result = await axios.post('http://localhost:4000/api/CreateColoresEquipo',
+            const result = await axios.post('https://atcapp-backend-production.up.railway.app/api/CreateColoresEquipo',
             {
                 nombre_equipo: NombreEquipo,
                 id_bombo: GrupoEquipo,
@@ -138,6 +146,14 @@ export default function ManageTorneoColores() {
                 isPublicado:0,
                 color: ColorEquipo,
             });
+            /* const result = await axios.post('http://localhost:4000/api/CreateColoresEquipo',
+            {
+                nombre_equipo: NombreEquipo,
+                id_bombo: GrupoEquipo,
+                id_torneo: params.id,
+                isPublicado:0,
+                color: ColorEquipo,
+            }); */
             
             console.log("result.data: " + JSON.stringify(result.data));
             setIsCreatingEquipo(false)
@@ -160,7 +176,7 @@ export default function ManageTorneoColores() {
                 setIsCreatingMatch(true)
                 try {
 
-                    const result = await axios.post('http://localhost:4000/api/addColoresMatch',
+                    const result = await axios.post('https://atcapp-backend-production.up.railway.app/api/addColoresMatch',
                     {
                         id_torneo: params.id,
                         player_one: Id_player_one,
@@ -173,6 +189,19 @@ export default function ManageTorneoColores() {
                         IdHorario: IDHorario,
                         id_cancha: IDCancha
                     });
+                    /* const result = await axios.post('http://localhost:4000/api/addColoresMatch',
+                    {
+                        id_torneo: params.id,
+                        player_one: Id_player_one,
+                        player_two: Id_player_two,
+                        player_three: Id_player_three,
+                        player_four: Id_player_four,
+                        fecha: Fecha,
+                        resultado: Resultado,
+                        idRonda: IdRonda,
+                        IdHorario: IDHorario,
+                        id_cancha: IDCancha
+                    }); */
                     
                     console.log("result.data: " + JSON.stringify(result.data));
 
@@ -194,7 +223,7 @@ export default function ManageTorneoColores() {
         e.preventDefault();
             setIsCreatingJornada(true)
             try {
-                const result = await axios.post('http://localhost:4000/api/addJornada',
+                const result = await axios.post('https://atcapp-backend-production.up.railway.app/api/addJornada',
                 {
                     id_torneo: params.id,
                     equipo_uno: Equipo_uno,
@@ -202,6 +231,14 @@ export default function ManageTorneoColores() {
                     fecha: FechaJornada,
                     id_ronda: RondaJornada,
                 });
+                /* const result = await axios.post('http://localhost:4000/api/addJornada',
+                {
+                    id_torneo: params.id,
+                    equipo_uno: Equipo_uno,
+                    equipo_dos: Equipo_dos,
+                    fecha: FechaJornada,
+                    id_ronda: RondaJornada,
+                }); */
                 
                 console.log("result.data: " + JSON.stringify(result.data));
 
@@ -223,10 +260,14 @@ export default function ManageTorneoColores() {
         e.preventDefault();
         setIsPublishingEquipos(true)
         try {
-            const result = await axios.put(`http://localhost:4000/api/PublishColoresTeamsAndGroups/${params.id}`,
+            const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/PublishColoresTeamsAndGroups/${params.id}`,
             {
                 isPublicado: 1
             });
+            /* const result = await axios.put(`http://localhost:4000/api/PublishColoresTeamsAndGroups/${params.id}`,
+            {
+                isPublicado: 1
+            }); */
             
             //console.log("result.data: " + JSON.stringify(result.data));
             setIsPublishingEquipos(false)
@@ -242,8 +283,8 @@ export default function ManageTorneoColores() {
 
     const GetRondas = async () =>{
         try {
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/getRondas`)
+            //const result = await axios.get(`http://localhost:4000/api/getRondas`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getRondas`)
             setRondas(result.data);
             //console.log("Rondas: " + JSON.stringify(result.data));
         } catch (error) {
@@ -255,8 +296,8 @@ export default function ManageTorneoColores() {
         setIsLoadingColoresParejasDropdown(true)
         try { 
             const arr = [];
-          //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-          const result = await axios.get(`http://localhost:4000/api/GetColoresParticipantesMoreInfo/${params.id}`)
+          //const result = await axios.get(`http://localhost:4000/api/GetColoresParticipantesMoreInfo/${params.id}`)
+          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetColoresParticipantesMoreInfo/${params.id}`)
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
           response.map((user, index) => {
@@ -271,8 +312,8 @@ export default function ManageTorneoColores() {
 
       const GetHorarios = async () =>{
         try {
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/GetAllHorarios`)
+            //const result = await axios.get(`http://localhost:4000/api/GetAllHorarios`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetAllHorarios`)
             setHorarios(result.data);
             //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
         } catch (error) {
@@ -283,8 +324,7 @@ export default function ManageTorneoColores() {
       const CreateReservation = async (e) => {
         console.log("Creando Reservacion");
         try { 
-          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
-          const result = await axios.post(`http://localhost:4000/api/createReservation`,{
+          const result = await axios.post(`https://atcapp-backend-production.up.railway.app/api/createReservation`,{
             idCancha: IDCancha,
             idHorario: IDHorario,
             idSocio: sessionStorage.getItem('userId'),
@@ -293,6 +333,15 @@ export default function ManageTorneoColores() {
             id_inv_dos: Id_player_two,
             descripcion: "Torneo Colores"
           })
+          /* const result = await axios.post(`http://localhost:4000/api/createReservation`,{
+            idCancha: IDCancha,
+            idHorario: IDHorario,
+            idSocio: sessionStorage.getItem('userId'),
+            fecha: Fecha,
+            id_inv_uno: Id_player_one,
+            id_inv_dos: Id_player_two,
+            descripcion: "Torneo Colores"
+          }) */
           if(result.data.validHorario===false){
             alert("El horario no esta disponible para la fecha y cancha seleccionada")
             return false;
@@ -307,7 +356,8 @@ export default function ManageTorneoColores() {
 
       const GetAllTennisCanchas = async () => {
         try {
-            const result = await axios.get('http://localhost:4000/api/getAllTennisCanchas');
+            //const result = await axios.get('http://localhost:4000/api/getAllTennisCanchas');
+            const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getAllTennisCanchas');
             setCanchasTennis(result.data);
             //console.log("result.data.tennis: " + JSON.stringify(result.data));
         } catch (error) {
@@ -318,7 +368,8 @@ export default function ManageTorneoColores() {
     const GetEquiposColores = async () => {
         
         try {
-            const result = await axios.get(`http://localhost:4000/api/GetEquiposColores/${params.id}`);
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetEquiposColores/${params.id}`);
+            //const result = await axios.get(`http://localhost:4000/api/GetEquiposColores/${params.id}`);
             setColoresEquipos(result.data);
             //console.log("Pareja " + JSON.stringify(result.data));
         }catch (error) {
@@ -329,7 +380,8 @@ export default function ManageTorneoColores() {
     const DeleteColoresGroup = async (id_bombo) => {
         
         try {
-            const result = await axios.delete(`http://localhost:4000/api/DeleteColoresGrupo/${id_bombo}`);
+            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/DeleteColoresGrupo/${id_bombo}`);
+            //const result = await axios.delete(`http://localhost:4000/api/DeleteColoresGrupo/${id_bombo}`);
             //console.log("Pareja " + JSON.stringify(result.data));
             window.location.reload();
         }catch (error) {
@@ -340,7 +392,8 @@ export default function ManageTorneoColores() {
     const DeleteColoresEquipo = async (e, id_equipo) => {
         e.preventDefault();
         try {
-            const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEquipo/${id_equipo}`);
+            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/DeleteColoresEquipo/${id_equipo}`);
+            //const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEquipo/${id_equipo}`);
             //console.log("Pareja " + JSON.stringify(result.data));
             const filter = ColoresEquipos.filter(eq => eq.id_equipo !== id_equipo )
             setColoresEquipos(filter);
@@ -354,7 +407,7 @@ export default function ManageTorneoColores() {
             setConfirmation("Actualizando Torneo...")
             try {
                 //const editResult = await axios.put(`https://atcbackend.herokuapp.com/api/editTorneo/${params.idTorneo}`,
-                const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.id}`,
+                const editResult = await axios.put(`https://atcapp-backend-production.up.railway.app/api/editTorneo/${params.id}`,
                 {
                   nombre_torneo: NombreTorneo,
                   fecha_inicio: FechaInicio,
@@ -366,6 +419,18 @@ export default function ManageTorneoColores() {
                   modalidad: "Dobles",
                   is_colores: true
                 })
+                /* const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.id}`,
+                {
+                  nombre_torneo: NombreTorneo,
+                  fecha_inicio: FechaInicio,
+                  fecha_fin: FechaFin,
+                  fecha_inicio_inscripcion: InicioInscripcion,
+                  fecha_fin_inscripcion: FinInscripcion,
+                  id_categoria: 0,
+                  descripcion: Descripcion,
+                  modalidad: "Dobles",
+                  is_colores: true
+                }) */
                 console.log(editResult.data);
                 setConfirmation("Se ha actualizado el torneo correctamente")
             } catch (error) {

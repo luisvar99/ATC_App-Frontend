@@ -25,7 +25,8 @@ export default function EditUser() {
 
     const GetUserById = async () => {
         try{
-            const result = await axios.get(`http://localhost:4000/api/GetUserById/${params.user_id}`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetUserById/${params.user_id}`)
+            //const result = await axios.get(`http://localhost:4000/api/GetUserById/${params.user_id}`)
             console.log("GetUserById -> " + JSON.stringify(result.data));
             setNombres(result.data[0].nombres)
             setApellidos(result.data[0].apellidos)
@@ -50,7 +51,7 @@ export default function EditUser() {
         }else{
             setConfirmation("Editando Usuario")
             try {
-                const result = await axios.put(`http://localhost:4000/api/EditUsers/${params.user_id}`,
+                const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/EditUsers/${params.user_id}`,
                 {
                     username: User.toLowerCase(),
                     password: Contrasena,
@@ -64,6 +65,20 @@ export default function EditUser() {
                     role:Role,
                     categoria: Categoria
                 })
+                /* const result = await axios.put(`http://localhost:4000/api/EditUsers/${params.user_id}`,
+                {
+                    username: User.toLowerCase(),
+                    password: Contrasena,
+                    nombres: Nombres,
+                    apellidos: Apellidos,
+                    cedula: Cedula,
+                    accion: Accion,
+                    fecha_nacimiento: FNacimiento,
+                    correo_electronico: Correo,
+                    sexo: Sexo,
+                    role:Role,
+                    categoria: Categoria
+                }) */
                 if(result.data.loggedIn === false){
                     alert("El usuario ya pertence a otra persona")
                     setConfirmation("No se ha podido realizar el registro")

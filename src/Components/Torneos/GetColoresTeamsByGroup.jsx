@@ -11,7 +11,8 @@ export default function GetColoresTeamsByGroup({id_bombo}) {
 
     const getTeamsByBombo = async () => {
       try {
-        const result = await axios.get(`http://localhost:4000/api/GetColoresTeamsByGroup/${id_bombo}`);
+        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetColoresTeamsByGroup/${id_bombo}`);
+        //const result = await axios.get(`http://localhost:4000/api/GetColoresTeamsByGroup/${id_bombo}`);
         setTeamsByBomboId(result.data);
         //console.log("getTeamsByBombo: " + JSON.stringify(result.data));
     }catch (error) {

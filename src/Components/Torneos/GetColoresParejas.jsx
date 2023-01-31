@@ -34,7 +34,8 @@ export default function GetColoresParejas() {
 
     const getColoresParticipantes = async ()=> {
         try {
-            const result = await axios.get(`http://localhost:4000/api/getColoresParticipantes/${params.id}`);
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getColoresParticipantes/${params.id}`);
+            //const result = await axios.get(`http://localhost:4000/api/getColoresParticipantes/${params.id}`);
             console.log("getColoresParticipantes: " + JSON.stringify(result.data));
             setColoresParticipantes(result.data);
         }catch (error) {
@@ -46,7 +47,8 @@ export default function GetColoresParejas() {
     const GetEquiposColores = async () => {
         
         try {
-            const result = await axios.get(`http://localhost:4000/api/GetEquiposColores/${params.id}`);
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetEquiposColores/${params.id}`);
+            //const result = await axios.get(`http://localhost:4000/api/GetEquiposColores/${params.id}`);
             setColoresEquipos(result.data);
             //console.log("Pareja " + JSON.stringify(result.data));
         }catch (error) {
@@ -59,10 +61,14 @@ export default function GetColoresParejas() {
             alert("Seleccione un equipo")
         }else{
             try {
-                const result = await axios.put(`http://localhost:4000/api/setEquipoToPareja/${id_pareja}/${params.id}`,
+                const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/setEquipoToPareja/${id_pareja}/${params.id}`,
                 {
                     id_equipo: IdEquipo
                 });
+                /* const result = await axios.put(`http://localhost:4000/api/setEquipoToPareja/${id_pareja}/${params.id}`,
+                {
+                    id_equipo: IdEquipo
+                }); */
                 console.log("Pareja " + JSON.stringify(result.data));
             }catch (error) {
                 alert(error.message)
@@ -83,7 +89,8 @@ export default function GetColoresParejas() {
     const DeleteColoresParticipante = async (id_pareja) => {
         
         try {
-            const result = await axios.delete(`http://localhost:4000/api/DeleteColoresParticipante/${id_pareja}/${params.id}`);
+            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/DeleteColoresParticipante/${id_pareja}/${params.id}`);
+            //const result = await axios.delete(`http://localhost:4000/api/DeleteColoresParticipante/${id_pareja}/${params.id}`);
             console.log("Pareja " + JSON.stringify(result.data));
             window.location.reload();
         }catch (error) {

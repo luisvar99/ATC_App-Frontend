@@ -16,7 +16,8 @@ export default function EditColoresGrupo() {
     const getColoresGrupoById = async ()=> {
         setIsLoadingGrupo(true)
         try {
-            const result = await axios.get(`http://localhost:4000/api/getColoresGrupoById/${params.id_bombo}`);
+            //const result = await axios.get(`http://localhost:4000/api/getColoresGrupoById/${params.id_bombo}`);
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getColoresGrupoById/${params.id_bombo}`);
             setNombreGrupo(result.data[0].nombre_bombo);
             setIsLoadingGrupo(false)
         }catch (error) {
@@ -29,11 +30,16 @@ export default function EditColoresGrupo() {
         e.preventDefault();
         setIsCreatingGrupo(true)
         try {
-            const result = await axios.put(`http://localhost:4000/api/UpdateColoresGrupo/${params.id_bombo}`,
+            const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/UpdateColoresGrupo/${params.id_bombo}`,
             {
                 id_torneo: params.id,
                 nombre_bombo: NombreGrupo
             });
+            /* const result = await axios.put(`http://localhost:4000/api/UpdateColoresGrupo/${params.id_bombo}`,
+            {
+                id_torneo: params.id,
+                nombre_bombo: NombreGrupo
+            }); */
             setIsCreatingGrupo(false)
             window.location.reload()
         }catch (error) {

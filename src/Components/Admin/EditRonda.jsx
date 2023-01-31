@@ -15,8 +15,8 @@ export default function EditRonda() {
 
     const GetRondaById = async () =>{
         try {
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/getRondaById/${params.id_ronda}`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getRondaById/${params.id_ronda}`)
+            //const result = await axios.get(`http://localhost:4000/api/getRondaById/${params.id_ronda}`)
             setNombreRonda(result.data[0].nombre);
             console.log("Rondas: " + JSON.stringify(result.data));
         } catch (error) {
@@ -27,11 +27,14 @@ export default function EditRonda() {
     const UpdateRonda = async (e) =>{
         e.preventDefault()
         try {
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.put(`http://localhost:4000/api/editRonda/${params.id_ronda}`,
+            const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/editRonda/${params.id_ronda}`,
             {
                 nombre_ronda:NombreRonda
             })
+            /* const result = await axios.put(`http://localhost:4000/api/editRonda/${params.id_ronda}`,
+            {
+                nombre_ronda:NombreRonda
+            }) */
             console.log("Result: " + JSON.stringify(result.data.success));
             if(result.data.success===true){
                 Navigate(-1)

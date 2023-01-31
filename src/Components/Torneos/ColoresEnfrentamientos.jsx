@@ -19,7 +19,8 @@ export default function ColoresEnfrentamientos({isAdmin}) {
 
     const getColoresEnfrentamientos = async ()=> {
         try {
-            const result = await axios.get(`http://localhost:4000/api/GetColoresMatches/${params.id}`);
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetColoresMatches/${params.id}`);
+            //const result = await axios.get(`http://localhost:4000/api/GetColoresMatches/${params.id}`);
             setEnfrentamientos(result.data);
             //console.log("result.data: " + JSON.stringify(result.data));
         }catch (error) {
@@ -31,7 +32,8 @@ export default function ColoresEnfrentamientos({isAdmin}) {
     const DeleteColoresEnfrentamiento = async ( ev ,id_partido, id_cancha, id_horario, fecha)=> {
         ev.preventDefault();
         try {
-            const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEnfrentamiento/${id_partido}/${id_cancha}/${id_horario}/${fecha}`);
+            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/DeleteColoresEnfrentamiento/${id_partido}/${id_cancha}/${id_horario}/${fecha}`);
+            //const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEnfrentamiento/${id_partido}/${id_cancha}/${id_horario}/${fecha}`);
             const filter = Enfrentamientos.filter(p => p.id_partido !== id_partido )
             console.log("filter: "+filter);
             setEnfrentamientos(filter);

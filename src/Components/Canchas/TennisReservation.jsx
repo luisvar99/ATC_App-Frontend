@@ -20,7 +20,8 @@ export default function CanchaReservation() {
 
   const GetHorarios = async () => {
     try {
-        const result = await axios.get('http://localhost:4000/api/getAllHorarios');
+        const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getAllHorarios');
+        //const result = await axios.get('http://localhost:4000/api/getAllHorarios');
         setHorarios(result.data);
         //console.log("result.data: " + JSON.stringify(result.data));
     } catch (error) {
@@ -35,7 +36,8 @@ export default function CanchaReservation() {
         const ano = params.ano;
         const fecha = ano+'-'+mes+'-'+dia;
 
-        const result = await axios.get(`http://localhost:4000/api/GetCanchaReservaciones/${params.idCancha}/${fecha}`);
+        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetCanchaReservaciones/${params.idCancha}/${fecha}`);
+        //const result = await axios.get(`http://localhost:4000/api/GetCanchaReservaciones/${params.idCancha}/${fecha}`);
         setReservaciones(result.data);
         //console.log("result.data: " + JSON.stringify(result.data));
     } catch (error) {

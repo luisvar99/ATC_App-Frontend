@@ -24,8 +24,14 @@ export default function AddSubTorneo() {
         }else{
             setConfirmation("Agregando competencia")
             try {
-                //await axios.post('https://atcbackend.herokuapp.com/api/addSubtorneo',
-                await axios.post('http://localhost:4000/api/addSubtorneo',
+                /* await axios.post('http://localhost:4000/api/addSubtorneo',
+                {
+                    id_torneo: params.idTorneo,
+                    nombre: Name,
+                    cantidad_personas: Cantidad_personas,
+                    categoria: Categoria,
+                }) */
+                await axios.post('https://atcapp-backend-production.up.railway.app/api/addSubtorneo',
                 {
                     id_torneo: params.idTorneo,
                     nombre: Name,

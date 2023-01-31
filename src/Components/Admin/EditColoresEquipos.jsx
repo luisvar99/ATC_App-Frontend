@@ -17,7 +17,8 @@ export default function EditColoresEquipos() {
 
     const getColoresGrupos = async ()=> {
         try {
-            const result = await axios.get(`http://localhost:4000/api/GetColoresGrupo/${params.id}`);
+            //const result = await axios.get(`http://localhost:4000/api/GetColoresGrupo/${params.id}`);
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetColoresGrupo/${params.id}`);
             setColoresGrupos(result.data);
             //console.log("result.data: " + JSON.stringify(result.data));
         }catch (error) {
@@ -28,7 +29,8 @@ export default function EditColoresEquipos() {
 
     const getColoresEquipoById = async ()=> {
         try {
-            const result = await axios.get(`http://localhost:4000/api/getColoresEquipoById/${params.id}/${params.id_equipo}`);
+            //const result = await axios.get(`http://localhost:4000/api/getColoresEquipoById/${params.id}/${params.id_equipo}`);
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getColoresEquipoById/${params.id}/${params.id_equipo}`);
             setNombreColoresEquipo(result.data[0].nombre_equipo);
             setColorColoresEquipo(result.data[0].color);
             setGrupoColoresEquipo(result.data[0].id_bombo);
@@ -43,7 +45,7 @@ export default function EditColoresEquipos() {
         e.preventDefault();
         setIsCreatingEquipo(true)
         try {
-            const result = await axios.put(`http://localhost:4000/api/UpdateColoresEquipo/${params.id}/${params.id_equipo}`,
+            const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/UpdateColoresEquipo/${params.id}/${params.id_equipo}`,
             {
                 nombre_equipo: NombreColoresEquipo,
                 id_bombo: GrupoColoresEquipo,
@@ -51,6 +53,14 @@ export default function EditColoresEquipos() {
                 ispublicado:0,
                 color: ColorColoresEquipo,
             });
+            /* const result = await axios.put(`http://localhost:4000/api/UpdateColoresEquipo/${params.id}/${params.id_equipo}`,
+            {
+                nombre_equipo: NombreColoresEquipo,
+                id_bombo: GrupoColoresEquipo,
+                id_torneo: params.id,
+                ispublicado:0,
+                color: ColorColoresEquipo,
+            }); */
             
             console.log("result.data: " + JSON.stringify(result.data));
             setIsCreatingEquipo(false)

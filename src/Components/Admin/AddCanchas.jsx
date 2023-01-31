@@ -25,7 +25,13 @@ export default function AddCanchas() {
             setConfirmation("Agregando cancha")
             try {
                 //await axios.post('https://atcbackend.herokuapp.com/api/addCancha',
-                await axios.post('http://localhost:4000/api/addCancha',
+                /* await axios.post('http://localhost:4000/api/addCancha',
+                {
+                    nombre_cancha: Name,
+                    id_categoriacancha: Category,
+                    estatus_cancha: Status,
+                }) */
+                await axios.post('https://atcapp-backend-production.up.railway.app/api/addCancha',
                 {
                     nombre_cancha: Name,
                     id_categoriacancha: Category,

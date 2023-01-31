@@ -16,8 +16,8 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
         //console.log("idGrupo: " + idGrupo);
         try {
             setIsLoadingMembers(true)
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/GetGruposById/${idGrupo}/${idSubtorneo}`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetGruposById/${idGrupo}/${idSubtorneo}`)
+            //const result = await axios.get(`http://localhost:4000/api/GetGruposById/${idGrupo}/${idSubtorneo}`)
             //console.log("result.data: " + /* JSON.stringify */(result.data[0]));
             setGroupsMembers(result.data);
             setGroupNumber(result.data[0] === undefined ? "" : result.data[0].numero_grupo)
@@ -31,11 +31,14 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
       const DeleteSubTorneoGroupParticipant = async (e, id_grupo, userId) =>{
         e.preventDefault();
         try {
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/idsubtorneo=${params.idSubtorneo}`)
-            const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoGroupParticipant/idGrupo=${id_grupo}/idUser=${userId}`,
+            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteSubTorneoGroupParticipant/idGrupo=${id_grupo}/idUser=${userId}`,
             {
                 idSubTorneo: idSubtorneo,
             })
+            /* const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoGroupParticipant/idGrupo=${id_grupo}/idUser=${userId}`,
+            {
+                idSubTorneo: idSubtorneo,
+            }) */
             console.log(result.data);
             window.location.reload();
         } catch (error) {

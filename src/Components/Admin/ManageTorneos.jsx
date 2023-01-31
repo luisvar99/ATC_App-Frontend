@@ -22,8 +22,8 @@ export default function ManageTorneos() {
     const GetAllTorneos = async () => {
         setLoadingTorneos(true)
         try {
-            //const result = await axios.get('https://atcbackend.herokuapp.com/api/getAllTorneos');
-            const result = await axios.get('http://localhost:4000/api/getAllTorneos');
+            const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getAllTorneos');
+            //const result = await axios.get('http://localhost:4000/api/getAllTorneos');
             setTorneos(result.data);
             //console.log("result.data: " + JSON.stringify(result.data));
             setLoadingTorneos(false)
@@ -34,7 +34,8 @@ export default function ManageTorneos() {
 
     const DeleteTorneo = async (id) => {
         try {
-            const result = await axios.delete(`http://localhost:4000/api/deleteTorneo/${id}`);
+            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteTorneo/${id}`);
+            //const result = await axios.delete(`http://localhost:4000/api/deleteTorneo/${id}`);
             const filter = Torneos.filter(e => e.id_torneo !== id)
             console.log(result.data);
             setTorneos(filter);

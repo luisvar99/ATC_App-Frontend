@@ -17,7 +17,8 @@ export default function ManageJornadas() {
 
     const GetJornadas = async () => {
         try {
-            const result = await axios.get('http://localhost:4000/api/getJornadas')
+            //const result = await axios.get('http://localhost:4000/api/getJornadas')
+            const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getJornadas')
             console.log("GetJornadas: " + result.data);
             setJornadas(result.data)
         } catch (error) {
@@ -27,8 +28,8 @@ export default function ManageJornadas() {
 
     const DeleteJornada = async (id_jornada) => {
         try {
-            //await axios.delete(`https://atcbackend.herokuapp.com/api/DeleteJornada/${id}`);
-            await axios.delete(`http://localhost:4000/api/DeleteJornada/${id_jornada}`);
+            await axios.delete(`https://atcapp-backend-production.up.railway.app/api/DeleteJornada/${id_jornada}`);
+            //await axios.delete(`http://localhost:4000/api/DeleteJornada/${id_jornada}`);
             const filter = Jornadas.filter(e => e.id_jornada !== id_jornada)
             setJornadas(filter);
         } catch (error) {
@@ -39,10 +40,14 @@ export default function ManageJornadas() {
         setIsPublishingJornadas(true)
         try {
             //await axios.delete(`https://atcbackend.herokuapp.com/api/DeleteJornada/${id}`);
-            const result = await axios.put(`http://localhost:4000/api/PublishJornadas/${params.id}`,
+            const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/PublishJornadas/${params.id}`,
             {
                 ispublicado: 1
             });
+            /* const result = await axios.put(`http://localhost:4000/api/PublishJornadas/${params.id}`,
+            {
+                ispublicado: 1
+            }); */
             if(result.data.success===true){
                 setIsPublishingJornadas(false)
             }else{

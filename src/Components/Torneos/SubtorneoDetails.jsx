@@ -44,13 +44,20 @@ export default function SubtorneoDetails() {
       }else{
         setIsLoading(true)
         
-        const result = await axios.post('http://localhost:4000/api/addParticipant',
+        const result = await axios.post('https://atcapp-backend-production.up.railway.app/api/addParticipant',
         {
           id_subtorneo: params.idSubTorneo,
           user_id: sessionStorage.getItem('userId'),
           modalidad: params.modalidad,
           myParejaId: MyParejaId
         })
+        /* const result = await axios.post('http://localhost:4000/api/addParticipant',
+        {
+          id_subtorneo: params.idSubTorneo,
+          user_id: sessionStorage.getItem('userId'),
+          modalidad: params.modalidad,
+          myParejaId: MyParejaId
+        }) */
         //console.log(result.data); 
         
         if(params.modalidad === "Dobles"){
@@ -67,12 +74,18 @@ export default function SubtorneoDetails() {
         alert("Usted ya se encuentra inscrito en este torneo")
       }else{
         setIsLoading(true)
-        const result = await axios.post('http://localhost:4000/api/addSubtorneoPareja',
+        const result = await axios.post('https://atcapp-backend-production.up.railway.app/api/addSubtorneoPareja',
         {
           myId: sessionStorage.getItem('userId'),
           myParejaId: MyParejaId,
           id_subtorneo: params.idSubTorneo,
         })
+        /* const result = await axios.post('http://localhost:4000/api/addSubtorneoPareja',
+        {
+          myId: sessionStorage.getItem('userId'),
+          myParejaId: MyParejaId,
+          id_subtorneo: params.idSubTorneo,
+        }) */
         console.log(result.data); 
         window.location.reload();
       }
@@ -80,7 +93,8 @@ export default function SubtorneoDetails() {
 
     const getSubTournamentParticipants = async () => {
 
-      const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
+      const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
+      //const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
       setParticipants(result.data);
       //console.log("getSubTournamentParticipants: " + JSON.stringify(result.data));
     }
@@ -89,7 +103,8 @@ export default function SubtorneoDetails() {
 
       try {
         setIsLoadingParejas(true)
-        const result = await axios.get(`http://localhost:4000/api/getSubtorneoParejas/${params.idSubTorneo}`)
+        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSubtorneoParejas/${params.idSubTorneo}`)
+        //const result = await axios.get(`http://localhost:4000/api/getSubtorneoParejas/${params.idSubTorneo}`)
         setParejas(result.data);
         //console.log(result.data); 
         setIsLoadingParejas(false) 
@@ -101,8 +116,8 @@ export default function SubtorneoDetails() {
 
     const GetNumberOfParticipants = async () => {
       try {
-        //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetNumberOfParticipants/${params.idSubTorneo}`)
-        const result = await axios.get(`http://localhost:4000/api/GetNumberOfParticipants/${params.idSubTorneo}`)
+        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetNumberOfParticipants/${params.idSubTorneo}`)
+        //const result = await axios.get(`http://localhost:4000/api/GetNumberOfParticipants/${params.idSubTorneo}`)
         //console.log(result.data);
         setNumberOfParticipants(result.data[0].number_of_participants)
       } catch (error) {
@@ -111,8 +126,8 @@ export default function SubtorneoDetails() {
     }
     const GetSubtorneoinfo = async () => {
       try {
-        //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-        const result = await axios.get(`http://localhost:4000/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
+        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
+        //const result = await axios.get(`http://localhost:4000/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
         setCantidad_personas(result.data[0].cantidad_personas)
       } catch (error) {
@@ -123,8 +138,8 @@ export default function SubtorneoDetails() {
 
     const GetSubtorneoGrupos = async () =>{
       try { 
-          //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-          const result = await axios.get(`http://localhost:4000/api/getSubtorneoGrupos/${params.idSubTorneo}`)
+          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSubtorneoGrupos/${params.idSubTorneo}`)
+          //const result = await axios.get(`http://localhost:4000/api/getSubtorneoGrupos/${params.idSubTorneo}`)
           console.log("GetSubtorneoGrupos: " + JSON.stringify(result.data[0]))
           setGroupsStatus(result.data[0] === undefined ? GroupsStatus: result.data[0].isPublicado);
           setGroups(result.data);
@@ -135,8 +150,8 @@ export default function SubtorneoDetails() {
 
     const GetTorneoinfo = async () => {
       try {
-        //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-        const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
+        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSingleTorneo/${params.idTorneo}`)
+        //const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
         setFechaFinInscripcion(result.data[0].fecha_fin_inscripcion)
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
       } catch (error) {
@@ -146,8 +161,8 @@ export default function SubtorneoDetails() {
 
     const GetUsers = async () => {
       try {
-        //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-        const result = await axios.get(`http://localhost:4000/api/getAllUsers`)
+        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getAllUsers`)
+        //const result = await axios.get(`http://localhost:4000/api/getAllUsers`)
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
         setUsers(result.data)
       } catch (error) {

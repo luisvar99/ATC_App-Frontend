@@ -18,8 +18,8 @@ export default function SubtorneoEnfrentamientos() {
     const GetSubtorneoMatches = async () =>{
         try {
             setIsLoadingMatches(true)
-            //const result = await axios.post(`https://atcbackend.herokuapp.com/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`http://localhost:4000/api/GetSubtorneoMatches/${params.idSubtorneo}`)
+            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetSubtorneoMatches/${params.idSubtorneo}`)
+            //const result = await axios.get(`http://localhost:4000/api/GetSubtorneoMatches/${params.idSubtorneo}`)
             setMatches(result.data);
             console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
