@@ -18,7 +18,12 @@ export default function SignUp() {
     const HandleSignUp = async(e) => {
         e.preventDefault();
         try {
-            const logged = await axios.post('https://localhost:4000/api/signup',
+            /* const logged = await axios.post('https://localhost:4000/api/signup',
+            {
+                username: Username,
+                password: Password
+            }) */
+            const logged = await axios.post('https://atcapp-backend-production.up.railway.app/api/signup',
             {
                 username: Username,
                 password: Password
