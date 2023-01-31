@@ -31,7 +31,21 @@ export default function AddUser() {
         }else{
             setConfirmation("Agregando Usuario")
             try {
-                const result = await axios.post('http://localhost:4000/api/addUser',
+                /* const result = await axios.post('http://localhost:4000/api/addUser',
+                {
+                    username: User.toLowerCase(),
+                    password: Contrasena,
+                    nombres: Nombres,
+                    apellidos: Apellidos,
+                    cedula: Cedula,
+                    accion: Accion,
+                    fecha_nacimiento: FNacimiento,
+                    correo_electronico: Correo,
+                    sexo: Sexo,
+                    role:Role,
+                    categoria: Categoria
+                }) */
+                const result = await axios.post('https://atcapp-backend-production.up.railway.app/api/addUser',
                 {
                     username: User.toLowerCase(),
                     password: Contrasena,
