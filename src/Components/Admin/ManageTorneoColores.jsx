@@ -102,10 +102,9 @@ export default function ManageTorneoColores() {
             //const result = await axios.get(`http://localhost:4000/api/GetColoresGrupo/${params.id}`);
             const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetColoresGrupo/${params.id}`);
             setColoresGrupos(result.data);
-            //console.log("result.data: " + JSON.stringify(result.data));
+            console.log("setColoresGrupos: " + JSON.stringify(result.data));
         }catch (error) {
-        alert(error.message)
-    
+            alert(error.message)
         }
     }
 
@@ -371,7 +370,7 @@ export default function ManageTorneoColores() {
             const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetEquiposColores/${params.id}`);
             //const result = await axios.get(`http://localhost:4000/api/GetEquiposColores/${params.id}`);
             setColoresEquipos(result.data);
-            //console.log("Pareja " + JSON.stringify(result.data));
+            console.log("setColoresEquipos " + JSON.stringify(result.data));
         }catch (error) {
             alert(error.message)
         }

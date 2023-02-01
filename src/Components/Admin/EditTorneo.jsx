@@ -8,6 +8,7 @@ import 'moment-timezone'
 import './EditTorneo.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import { RotatingLines } from  'react-loader-spinner'
 
 
 export default function EditTorneo() {
@@ -24,20 +25,18 @@ export default function EditTorneo() {
   const [Participants, setParticipants] = useState([])
 
   const [Confirmation, setConfirmation] = useState("")
+  const [LoadingCompetencias, setLoadingCompetencias] = useState(false)
+  const [LoadingTorneo, setLoadingTorneo] = useState(false)
 
 
   const params = useParams();
 
 
-  useEffect(() => {
-    GetTorneoById();
-    GetCompetencias();
-    //console.log("inicio torneo: " + Inicio_torneo);
-    }, [])
-
     const GetTorneoById = async (e) =>{
       try {
+        setLoadingTorneo(true)
           const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSingleTorneo/${params.idTorneo}`)
+          console.log("COMENZANDO GetTorneoById: " + result);
           //const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
           setName(result.data[0].nombre_torneo)
           setInicio_torneo(moment(result.data[0].fecha_inicio).format('YYYY-MM-DD'))
@@ -47,11 +46,12 @@ export default function EditTorneo() {
           setCategory(result.data[0].id_categoria)
           setDescription(result.data[0].descripcion)
           setModalidad(result.data[0].modalidad)
-          console.log("result.data[0].modalidad: " + result.data[0].modalidad);
-
+          console.log("LISTO GetTorneoById: " + result.data[0].modalidad);
+          setLoadingTorneo(false)
           //console.log("RESULT: " + JSON.stringify(result.data));
           
       } catch (error) {
+            setLoadingTorneo(false)
           alert("ERROR: " + error.message);
       }
   }
@@ -101,11 +101,15 @@ const EditTorneo = async (e) =>{
 
 const GetCompetencias = async () => {
     try {
+        setLoadingCompetencias(true)
       //const result = await axios.get(`http://localhost:4000/api/getSubTorneoByTorneoId/${params.idTorneo}`)
       const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSubTorneoByTorneoId/${params.idTorneo}`)
       setCompetencias(result.data);
+      console.log("LISTO GetCompetencias: ");
+      setLoadingCompetencias(false)
     } catch (error) {
-      
+        setLoadingCompetencias(false)
+        alert(error.message)
     }
   }
 
@@ -122,10 +126,35 @@ const DeleteCompetencia = async (id) => {
     }
 }
 
+
+
+useEffect(() => {
+    GetTorneoById();
+    GetCompetencias();
+    //console.log("inicio torneo: " + Inicio_torneo);
+    }, [])
+
   return (
     <div className="main_edit_Torneo_container">
+            { LoadingCompetencias || LoadingTorneo ?
+
+            <RotatingLines
+            strokeColor="green"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="35"
+            visible={true}
+            
+            />
+        :
+        <>
+        
         <div className="torneo_subTorneo_container">
             <h2 style={{textAlign:"center"}}>Categorías</h2>
+            
+            
+            
+            
             <button className="add_competencia"><Link to={`/admin/manageTorneos/addCompetencia/${Name}/idTorneo=${params.idTorneo}`}>Agregar Categoría</Link></button>
             <table className="chanchasAdmin_table">
                 <thead>
@@ -138,6 +167,8 @@ const DeleteCompetencia = async (id) => {
                 </thead>
                     <tbody>
                         {
+                            
+                            
                             Competencias.map((comp)=>(
                             <tr key={comp.id_subtorneo}>
                                 <td>{comp.nombre}</td>
@@ -210,7 +241,8 @@ const DeleteCompetencia = async (id) => {
                     </form>
                 </div>
             </div>
-            
+        </>
+}
     </div>
   )
 }
