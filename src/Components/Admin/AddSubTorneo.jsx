@@ -31,7 +31,7 @@ export default function AddSubTorneo() {
                     cantidad_personas: Cantidad_personas,
                     categoria: Categoria,
                 }) */
-                await axios.post('https://atcapp-backend-production.up.railway.app/api/addSubtorneo',
+                await axios.post('http://localhost:4000/api/addSubtorneo',
                 {
                     id_torneo: params.idTorneo,
                     nombre: Name,

@@ -12,7 +12,7 @@ export default function ColoresEquiposAndGruposUsers() {
 
     const getColoresGrupos = async ()=> {
         try {
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetColoresGrupoForUsers/${params.id_torneo}`);
+            const result = await axios.get(`http://localhost:4000/api/GetColoresGrupoForUsers/${params.id_torneo}`);
             //const result = await axios.get(`http://localhost:4000/api/GetColoresGrupoForUsers/${params.id_torneo}`);
             setColoresGrupos(result.data);
             //console.log("result.data: " + JSON.stringify(result.data));

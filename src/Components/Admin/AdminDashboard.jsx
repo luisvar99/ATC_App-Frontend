@@ -18,7 +18,7 @@ export default function Dashboard() {
     setIsLoadingColores(true)
       try {
           //const result = await axios.get('http://localhost:4000/api/getTorneoColores');
-          const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getTorneoColores');
+          const result = await axios.get('http://localhost:4000/api/getTorneoColores');
           setTorneoColores(result.data);
           console.log("result.data TorneoColores: " + JSON.stringify(result.data));
           setIsLoadingColores(false)

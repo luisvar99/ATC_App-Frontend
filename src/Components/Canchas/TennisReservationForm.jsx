@@ -46,7 +46,7 @@ export default function TennisReservationForm() {
       const GetUsers = async () => {
         try { 
             const arr = [];
-          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getAllUsers`)
+          const result = await axios.get(`http://localhost:4000/api/getAllUsers`)
           //const result = await axios.get(`http://localhost:4000/api/getAllUsers`)
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
@@ -60,7 +60,7 @@ export default function TennisReservationForm() {
       }
       const GetHorarioDetails = async () => {
         try { 
-          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSingleHorario/${params.idHorario}`)
+          const result = await axios.get(`http://localhost:4000/api/getSingleHorario/${params.idHorario}`)
           //const result = await axios.get(`http://localhost:4000/api/getSingleHorario/${params.idHorario}`)
           console.log("result.data " + JSON.stringify(result.data));
           setHorarioInicio(result.data[0].inicio);
@@ -72,7 +72,7 @@ export default function TennisReservationForm() {
       }
       const GetCanchaName = async () => {
         try { 
-          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSingleCancha/${params.idCancha}`)
+          const result = await axios.get(`http://localhost:4000/api/getSingleCancha/${params.idCancha}`)
           //const result = await axios.get(`http://localhost:4000/api/getSingleCancha/${params.idCancha}`)
           //console.log("result.data " + JSON.stringify(result.data));
           setCanchaName(result.data[0].nombre_cancha);
@@ -92,7 +92,7 @@ export default function TennisReservationForm() {
           setIsLoadingReservation(true)
           try { 
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
-            const result = await axios.post(`https://atcapp-backend-production.up.railway.app/api/createReservation`,{
+            const result = await axios.post(`http://localhost:4000/api/createReservation`,{
               idCancha: params.idCancha,
               idHorario: params.idHorario,
               idSocio: sessionStorage.getItem('userId'),

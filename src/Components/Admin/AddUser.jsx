@@ -45,7 +45,7 @@ export default function AddUser() {
                     role:Role,
                     categoria: Categoria
                 }) */
-                const result = await axios.post('https://atcapp-backend-production.up.railway.app/api/addUser',
+                const result = await axios.post('http://localhost:4000/api/addUser',
                 {
                     username: User.toLowerCase(),
                     password: Contrasena,

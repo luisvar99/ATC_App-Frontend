@@ -35,7 +35,7 @@ export default function EditTorneo() {
     const GetTorneoById = async (e) =>{
       try {
         setLoadingTorneo(true)
-          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSingleTorneo/${params.idTorneo}`)
+          const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
           console.log("COMENZANDO GetTorneoById: " + result);
           //const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
           setName(result.data[0].nombre_torneo)
@@ -65,7 +65,7 @@ const EditTorneo = async (e) =>{
         setConfirmation("Actualizando Torneo...")
         try {
             //const editResult = await axios.put(`https://atcbackend.herokuapp.com/api/editTorneo/${params.idTorneo}`,
-            const editResult = await axios.put(`https://atcapp-backend-production.up.railway.app/api/editTorneo/${params.idTorneo}`,
+            const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.idTorneo}`,
             {
               nombre_torneo: Name,
               fecha_inicio: Inicio_torneo,
@@ -103,7 +103,7 @@ const GetCompetencias = async () => {
     try {
         setLoadingCompetencias(true)
       //const result = await axios.get(`http://localhost:4000/api/getSubTorneoByTorneoId/${params.idTorneo}`)
-      const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSubTorneoByTorneoId/${params.idTorneo}`)
+      const result = await axios.get(`http://localhost:4000/api/getSubTorneoByTorneoId/${params.idTorneo}`)
       setCompetencias(result.data);
       console.log("LISTO GetCompetencias: ");
       setLoadingCompetencias(false)
@@ -117,7 +117,7 @@ const GetCompetencias = async () => {
 const DeleteCompetencia = async (id) => {
     try {
         //const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneo/${id}`);
-        const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteSubTorneo/${id}`);
+        const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneo/${id}`);
         const filter = Competencias.filter(e => e.id_subtorneo !== id)
         console.log(result.data);
         setCompetencias(filter);

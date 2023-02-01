@@ -60,7 +60,7 @@ export default function EditColoresEnfrentamiento() {
     const GetColoresMatchById = async () => {
         try {
             //const result = await axios.get(`http://localhost:4000/api/GetColoresMatchById/${params.id}/${params.id_partido}`);
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetColoresMatchById/${params.id}/${params.id_partido}`);
+            const result = await axios.get(`http://localhost:4000/api/GetColoresMatchById/${params.id}/${params.id_partido}`);
             setPlayer_one_name(result.data[0].nombres + ' ' + result.data[0].apellidos)
             setPlayer_two_name(result.data[1].nombres + ' ' + result.data[1].apellidos)
             setPlayer_three_name(result.data[2].nombres + ' ' + result.data[2].apellidos)
@@ -83,7 +83,7 @@ export default function EditColoresEnfrentamiento() {
     const GetAllTennisCanchas = async () => {
         try {
             //const result = await axios.get('http://localhost:4000/api/getAllTennisCanchas');
-            const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getAllTennisCanchas');
+            const result = await axios.get('http://localhost:4000/api/getAllTennisCanchas');
             setCanchasTennis(result.data);
             //console.log("result.data.tennis: " + JSON.stringify(result.data));
         } catch (error) {
@@ -96,7 +96,7 @@ export default function EditColoresEnfrentamiento() {
         try { 
             const arr = [];
           //const result = await axios.get(`http://localhost:4000/api/GetColoresParticipantesMoreInfo/${params.id}`)
-          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetColoresParticipantesMoreInfo/${params.id}`)
+          const result = await axios.get(`http://localhost:4000/api/GetColoresParticipantesMoreInfo/${params.id}`)
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
           response.map((user, index) => {
@@ -112,7 +112,7 @@ export default function EditColoresEnfrentamiento() {
       const GetHorarios = async () =>{
         try {
             //const result = await axios.get(`http://localhost:4000/api/GetAllHorarios`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetAllHorarios`)
+            const result = await axios.get(`http://localhost:4000/api/GetAllHorarios`)
             setHorarios(result.data);
             //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
         } catch (error) {
@@ -123,7 +123,7 @@ export default function EditColoresEnfrentamiento() {
       const GetRondas = async () =>{
         try {
             //const result = await axios.get(`http://localhost:4000/api/getRondas`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getRondas`)
+            const result = await axios.get(`http://localhost:4000/api/getRondas`)
             setRondas(result.data);
             //console.log("Rondas: " + JSON.stringify(result.data));
         } catch (error) {
@@ -147,7 +147,7 @@ export default function EditColoresEnfrentamiento() {
                   id_horario: IdHorario,
                   id_cancha: IdCancha,
                 }) */
-                const editResult = await axios.put(`https://atcapp-backend-production.up.railway.app/api/editColoresMatch/${params.id_partido}`,
+                const editResult = await axios.put(`http://localhost:4000/api/editColoresMatch/${params.id_partido}`,
                 {
                   id_player_one: Id_player_one,
                   id_player_two: Id_player_two,

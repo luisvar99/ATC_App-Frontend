@@ -25,7 +25,7 @@ export default function EditUser() {
 
     const GetUserById = async () => {
         try{
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetUserById/${params.user_id}`)
+            const result = await axios.get(`http://localhost:4000/api/GetUserById/${params.user_id}`)
             //const result = await axios.get(`http://localhost:4000/api/GetUserById/${params.user_id}`)
             console.log("GetUserById -> " + JSON.stringify(result.data));
             setNombres(result.data[0].nombres)
@@ -51,7 +51,7 @@ export default function EditUser() {
         }else{
             setConfirmation("Editando Usuario")
             try {
-                const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/EditUsers/${params.user_id}`,
+                const result = await axios.put(`http://localhost:4000/api/EditUsers/${params.user_id}`,
                 {
                     username: User.toLowerCase(),
                     password: Contrasena,

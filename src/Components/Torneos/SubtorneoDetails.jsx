@@ -6,6 +6,9 @@ import { useParams } from 'react-router-dom'
 import './SubtorneoDetails.css'
 import { RotatingLines } from  'react-loader-spinner'
 import GetGroupsMembers from './GetGroupsMembers'
+import { Modal } from 'react-responsive-modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -16,13 +19,14 @@ export default function SubtorneoDetails() {
   const [Parejas, setParejas] = useState([])
   const [GroupsMembers, setGroupsMembers] = useState([])
   const [Groups, setGroups] = useState([])
-  const [GroupsStatus, setGroupsStatus] = useState([])
+  const [GroupsStatus, setGroupsStatus] = useState(0)
   const [NotAdmin, setNotAdmin] = useState(true)
 
   const [IsLoading, setIsLoading] = useState(false)
   const [IsLoadingMembers, setIsLoadingMembers] = useState(false)
   const [IsLoadingParejas, setIsLoadingParejas] = useState(false)
-
+  const [IsLoadingGrupos, setIsLoadingGrupos] = useState(false)
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const [NumberOfParticipants, setNumberOfParticipants] = useState(0)
   const [Cantidad_personas, setCantidad_personas] = useState(0)
@@ -44,7 +48,7 @@ export default function SubtorneoDetails() {
       }else{
         setIsLoading(true)
         
-        const result = await axios.post('https://atcapp-backend-production.up.railway.app/api/addParticipant',
+        const result = await axios.post('http://localhost:4000/api/addParticipant',
         {
           id_subtorneo: params.idSubTorneo,
           user_id: sessionStorage.getItem('userId'),
@@ -62,8 +66,13 @@ export default function SubtorneoDetails() {
         
         if(params.modalidad === "Dobles"){
           await inscripcionPareja()
+          setIsLoading(false)
+          setIsOpen(true)
+        }else{
+          setIsLoading(false)
+          setIsOpen(true)
         }
-        window.location.reload();
+        
       }
     }
   }
@@ -74,7 +83,7 @@ export default function SubtorneoDetails() {
         alert("Usted ya se encuentra inscrito en este torneo")
       }else{
         setIsLoading(true)
-        const result = await axios.post('https://atcapp-backend-production.up.railway.app/api/addSubtorneoPareja',
+        const result = await axios.post('http://localhost:4000/api/addSubtorneoPareja',
         {
           myId: sessionStorage.getItem('userId'),
           myParejaId: MyParejaId,
@@ -87,13 +96,12 @@ export default function SubtorneoDetails() {
           id_subtorneo: params.idSubTorneo,
         }) */
         console.log(result.data); 
-        window.location.reload();
       }
     }
 
     const getSubTournamentParticipants = async () => {
 
-      const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
+      const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
       //const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
       setParticipants(result.data);
       //console.log("getSubTournamentParticipants: " + JSON.stringify(result.data));
@@ -103,7 +111,7 @@ export default function SubtorneoDetails() {
 
       try {
         setIsLoadingParejas(true)
-        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSubtorneoParejas/${params.idSubTorneo}`)
+        const result = await axios.get(`http://localhost:4000/api/getSubtorneoParejas/${params.idSubTorneo}`)
         //const result = await axios.get(`http://localhost:4000/api/getSubtorneoParejas/${params.idSubTorneo}`)
         setParejas(result.data);
         //console.log(result.data); 
@@ -116,7 +124,7 @@ export default function SubtorneoDetails() {
 
     const GetNumberOfParticipants = async () => {
       try {
-        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetNumberOfParticipants/${params.idSubTorneo}`)
+        const result = await axios.get(`http://localhost:4000/api/GetNumberOfParticipants/${params.idSubTorneo}`)
         //const result = await axios.get(`http://localhost:4000/api/GetNumberOfParticipants/${params.idSubTorneo}`)
         //console.log(result.data);
         setNumberOfParticipants(result.data[0].number_of_participants)
@@ -126,7 +134,7 @@ export default function SubtorneoDetails() {
     }
     const GetSubtorneoinfo = async () => {
       try {
-        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
+        const result = await axios.get(`http://localhost:4000/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
         //const result = await axios.get(`http://localhost:4000/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
         setCantidad_personas(result.data[0].cantidad_personas)
@@ -135,22 +143,23 @@ export default function SubtorneoDetails() {
       }
     }
 
-
     const GetSubtorneoGrupos = async () =>{
       try { 
-          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSubtorneoGrupos/${params.idSubTorneo}`)
+          setIsLoadingGrupos(true)
+          const result = await axios.get(`http://localhost:4000/api/getSubtorneoGrupos/${params.idSubTorneo}`)
           //const result = await axios.get(`http://localhost:4000/api/getSubtorneoGrupos/${params.idSubTorneo}`)
-          console.log("GetSubtorneoGrupos: " + JSON.stringify(result.data[0]))
+          //console.log("GetSubtorneoGrupos: " + JSON.stringify(result.data[0]))
           setGroupsStatus(result.data[0] === undefined ? GroupsStatus: result.data[0].isPublicado);
           setGroups(result.data);
-      } catch (error) { 
+          setIsLoadingGrupos(false)
+      }catch (error){ 
           alert("GetSubtorneoGrupos Error: " + error.message)
       }
     }
 
     const GetTorneoinfo = async () => {
       try {
-        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSingleTorneo/${params.idTorneo}`)
+        const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
         //const result = await axios.get(`http://localhost:4000/api/getSingleTorneo/${params.idTorneo}`)
         setFechaFinInscripcion(result.data[0].fecha_fin_inscripcion)
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
@@ -161,7 +170,7 @@ export default function SubtorneoDetails() {
 
     const GetUsers = async () => {
       try {
-        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getAllUsers`)
+        const result = await axios.get(`http://localhost:4000/api/getAllUsers`)
         //const result = await axios.get(`http://localhost:4000/api/getAllUsers`)
         //console.log("GetSubtorneoinfo " + JSON.stringify(result));
         setUsers(result.data)
@@ -169,6 +178,23 @@ export default function SubtorneoDetails() {
         alert("Error: " + error.message);
       }
     }
+
+    function closeModal() {
+      setIsOpen(false);
+      window.location.reload();
+    }
+
+    const customStyles = {
+      content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        border: '1px solid #838080'
+      },
+    };
 
     useEffect(() => {
       console.log(params.modalidad);
@@ -321,25 +347,45 @@ export default function SubtorneoDetails() {
       </div>
       
         <>
+        <Modal
+            open={modalIsOpen}
+            onClose={closeModal}
+            style={customStyles}
+            center
+          >
+            <h2>La inscripcion se ha realizado correctamente</h2>
+            <div className="modal_container">
+              <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+              <button onClick={closeModal}>Aceptar</button>
+            </div>
+
+          </Modal>
           <Link to={`/subtorneoMatches/idSubtorneo=${params.idSubTorneo}`} className="see_subtorneo_matches">
             Enfretamientos
           </Link>
-          <h2>Grupos</h2>
+
+        <h2>Grupos</h2>
+
         <div className="GetGroupsMembers_conatiner_two">
-
-
-            {
-              GroupsStatus ===1 ?
+        {
+          IsLoadingGrupos ?
+            <RotatingLines
+              strokeColor="green"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="50"
+              visible={true}/>
+            :
+            GroupsStatus ===1 ?
               
-              Groups.map((g, index)=>(
+            Groups.map((g, index)=>(
               <div className="GetGroupsMembers_wrapper">
                 <GetGroupsMembers idGrupo={g.id_grupo} key={index} idSubtorneo={params.idSubTorneo} modalidad={params.modalidad} NotAdmin={NotAdmin}/>
               </div>
-                ))
-                :
-                <p>Los grupos aun no han sido publicados</p>
-              }
-            
+            ))
+            :
+              <p style={{textAlign: "center"}}>Los grupos aun no han sido publicados</p>
+            }
         </div>
       </>
         

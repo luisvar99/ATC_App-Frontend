@@ -17,7 +17,7 @@ export default function Reservation({idHorario}) {
     const GetReservacionDetails = async () => {
         try {
             setLoadingReserva(true)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetReservaOwner/${idHorario}`);
+            const result = await axios.get(`http://localhost:4000/api/GetReservaOwner/${idHorario}`);
             //const result = await axios.get(`http://localhost:4000/api/GetReservaOwner/${idHorario}`);
             setOwnerName(result.data[0].nombres);
             setOwnerLastName(result.data[0].apellidos);

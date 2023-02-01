@@ -45,7 +45,7 @@ export default function EditSubtorneoMatch() {
         try {
             //setIsAddingMatch(true)
             //const result = await axios.get(`http://localhost:4000/api/GetSubtorneoMatchesById/${params.id_partido}`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetSubtorneoMatchesById/${params.id_partido}`)
+            const result = await axios.get(`http://localhost:4000/api/GetSubtorneoMatchesById/${params.id_partido}`)
             console.log("GetSubtorneoMatchById: " + JSON.stringify(result.data));
             setPlayer_one_name(result.data[0].nombres + " " + result.data[0].apellidos)
             setPlayer_two_name(result.data[1].nombres + " " + result.data[1].apellidos)
@@ -69,7 +69,7 @@ export default function EditSubtorneoMatch() {
         try {
             //setIsAddingMatch(true)
             //const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.id_subtorneo}`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getGruposMembers/${params.id_subtorneo}`)
+            const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.id_subtorneo}`)
             setGroupsMembers(result.data);
             //console.log("GroupsMembers: " + JSON.stringify(result.data));
             //setIsAddingMatch(false)
@@ -82,7 +82,7 @@ export default function EditSubtorneoMatch() {
         try {
             setIsLoadingMatches(true)
             //const result = await axios.get(`http://localhost:4000/api/getRondas`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getRondas`)
+            const result = await axios.get(`http://localhost:4000/api/getRondas`)
             setRondas(result.data);
             //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
@@ -94,7 +94,7 @@ export default function EditSubtorneoMatch() {
         try {
             setIsLoadingMatches(true)
             //const result = await axios.get(`http://localhost:4000/api/GetAllHorarios`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetAllHorarios`)
+            const result = await axios.get(`http://localhost:4000/api/GetAllHorarios`)
             setHorarios(result.data);
             //console.log("GetSubtorneoMatches: " + JSON.stringify(result.data));
             setIsLoadingMatches(false)
@@ -106,7 +106,7 @@ export default function EditSubtorneoMatch() {
       const GetAllCanchas = async () => {
         try {
             //const result = await axios.get('http://localhost:4000/api/getAllCanchas');
-            const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getAllCanchas');
+            const result = await axios.get('http://localhost:4000/api/getAllCanchas');
             setCanchas(result.data);
             //console.log("result.data: " + JSON.stringify(result.data));
         } catch (error) {
@@ -118,7 +118,7 @@ export default function EditSubtorneoMatch() {
         e.preventDefault()
         try {
             setIsAddingMatch(true)
-            const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/UpdateSubtorneoMatch/${params.id_partido}`, {
+            const result = await axios.put(`http://localhost:4000/api/UpdateSubtorneoMatch/${params.id_partido}`, {
                 idSubtorneo: params.idSubtorneo,
                 id_player_uno: Id_player_uno,
                 id_player_dos: Id_player_dos,
@@ -159,7 +159,7 @@ export default function EditSubtorneoMatch() {
       const CreateReservation = async (e) => {
         alert("Creando Reservacion");
         try { 
-          const result = await axios.post(`https://atcapp-backend-production.up.railway.app/api/createReservation`,{
+          const result = await axios.post(`http://localhost:4000/api/createReservation`,{
             idCancha: IDCancha,
             idHorario: IDHorario,
             idSocio: sessionStorage.getItem('userId'),
@@ -188,7 +188,7 @@ export default function EditSubtorneoMatch() {
         try { 
             const arr = [];
           //const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.id_subtorneo}`)
-          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getGruposMembers/${params.id_subtorneo}`)
+          const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.id_subtorneo}`)
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
           response.map((user, index) => {

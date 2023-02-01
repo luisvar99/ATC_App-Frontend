@@ -45,7 +45,7 @@ export default function AddTorneo() {
                     modalidad: Modalidad,
                     is_colores: IsTorneoColores === "true" ? true : false,
                 }) */
-                const response = await axios.post('https://atcapp-backend-production.up.railway.app/api/addTorneo',
+                const response = await axios.post('http://localhost:4000/api/addTorneo',
                 {
                     nombre_torneo: Name,
                     fecha_inicio: Inicio_torneo,

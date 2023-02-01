@@ -23,7 +23,7 @@ export default function SignUp() {
                 username: Username,
                 password: Password
             }) */
-            const logged = await axios.post('https://atcapp-backend-production.up.railway.app/api/signup',
+            const logged = await axios.post('http://localhost:4000/api/signup',
             {
                 username: Username,
                 password: Password

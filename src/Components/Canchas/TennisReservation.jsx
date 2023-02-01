@@ -14,14 +14,17 @@ export default function CanchaReservation() {
   const [Horarios, setHorarios] = useState([])
   const [Reservaciones, setReservaciones] = useState([])
   const [Fecha, setFecha] = useState(params.mes+'/'+params.dia+'/'+params.ano)
+  const [UrlDate, setUrlDate] = useState("")
 
 
   const [IdReserva, setIdReserva] = useState(0)
 
   const GetHorarios = async () => {
     try {
-        const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getAllHorarios');
+        console.log("COMENZANDO GetHorarios ");
+        const result = await axios.get('http://localhost:4000/api/getAllHorarios');
         //const result = await axios.get('http://localhost:4000/api/getAllHorarios');
+        console.log("LISTO GetHorarios " + result.data);
         setHorarios(result.data);
         //console.log("result.data: " + JSON.stringify(result.data));
     } catch (error) {
@@ -35,10 +38,11 @@ export default function CanchaReservation() {
         const mes = params.mes;
         const ano = params.ano;
         const fecha = ano+'-'+mes+'-'+dia;
-
-        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetCanchaReservaciones/${params.idCancha}/${fecha}`);
+        console.log("COMENZANDO GetCanchaReservaciones " )
+        const result = await axios.get(`http://localhost:4000/api/GetCanchaReservaciones/${params.idCancha}/${fecha}`);
         //const result = await axios.get(`http://localhost:4000/api/GetCanchaReservaciones/${params.idCancha}/${fecha}`);
         setReservaciones(result.data);
+        console.log("LISTO GetCanchaReservaciones " + result.data);
         //console.log("result.data: " + JSON.stringify(result.data));
     } catch (error) {
         alert(error.message)
@@ -55,7 +59,7 @@ export default function CanchaReservation() {
 }
 
 const HandleCanlendarChange = async (e) => {
-  navigate(`/Reservaciones/tennis/idCancha=${params.idCancha}/${e.target.value}/categoriaCancha=${params.categoriaCancha}`);
+  navigate(`/Reservaciones/tennis/idCancha=${params.idCancha}/${e}/categoriaCancha=${params.categoriaCancha}`);
   window.location.reload();
 }
 
@@ -81,7 +85,8 @@ useEffect(() => {
           <p>Fecha: {params.dia}-{params.mes}-{params.ano}</p>
         <div className="reservation_calendar">
             <label htmlFor="calendar">Cambiar fecha</label>
-            <input type="date" id="calendar" onChange={(e)=>HandleCanlendarChange(e)}/>
+            <input type="date" id="calendar" onChange={(e)=>setUrlDate(e.target.value)}/>
+            <button type="date" id="calendar" onClick={(e)=>HandleCanlendarChange(UrlDate)}>Aceptar</button>
         </div>
         <div className="reservation_table_container">
           <table className="reservation_table">

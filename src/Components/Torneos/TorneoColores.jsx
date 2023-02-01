@@ -41,7 +41,7 @@ export default function TorneoColores() {
 
     const getColoresParticipantes = async ()=> {
       try {
-          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getColoresParticipantes/${params.id}`);
+          const result = await axios.get(`http://localhost:4000/api/getColoresParticipantes/${params.id}`);
           //const result = await axios.get(`http://localhost:4000/api/getColoresParticipantes/${params.id}`);
           console.log("getColoresParticipantes: " + JSON.stringify(result.data));
           setColoresParticipantes(result.data);
@@ -52,7 +52,7 @@ export default function TorneoColores() {
 
     const getCurrentTorneoColores = async ()=> {
         try {
-            const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getTorneoColores');
+            const result = await axios.get('http://localhost:4000/api/getTorneoColores');
             //const result = await axios.get('http://localhost:4000/api/getTorneoColores');
             console.log("result.data TorneoColores: " + JSON.stringify(result.data));
             setTorneoColores(result.data.fecha_fin_inscripcion);
@@ -65,7 +65,7 @@ export default function TorneoColores() {
     const GetJornadasForUsers = async () => {
       setIsLoadingJornadas(true)
       try {
-          const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getJornadasForUsers')
+          const result = await axios.get('http://localhost:4000/api/getJornadasForUsers')
           //const result = await axios.get('http://localhost:4000/api/getJornadasForUsers')
           console.log("GetJornadas: " + result.data);
           setJornadas(result.data)
@@ -128,7 +128,7 @@ export default function TorneoColores() {
       setIsCreatingInscripcion(true)
       try { 
         //const result = await axios.get(`https://atcbackend.herokuapp.com/api/GetSingleSubTorneoById/${params.idSubTorneo}`)
-        const result = await axios.post(`https://atcapp-backend-production.up.railway.app/api/MakeColoresInscripcion`,
+        const result = await axios.post(`http://localhost:4000/api/MakeColoresInscripcion`,
         {
           id_torneo: params.id,
           user_id: sessionStorage.getItem("userId")

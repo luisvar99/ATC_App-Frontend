@@ -45,7 +45,7 @@ export default function EditSubtorneo() {
     const GetSubtorneoById = async (e) =>{
         try {
             //const result = await axios.get(`http://localhost:4000/api/GetSingleSubTorneoById/${params.idSubtorneo}`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetSingleSubTorneoById/${params.idSubtorneo}`)
+            const result = await axios.get(`http://localhost:4000/api/GetSingleSubTorneoById/${params.idSubtorneo}`)
             setName(result.data[0].nombre)
             setCantidad_personas(result.data[0].cantidad_personas)
             setId_torneo(result.data[0].id_torneo)
@@ -65,7 +65,7 @@ export default function EditSubtorneo() {
         }else{
             setConfirmation("Editando competencia")
             try {
-                await axios.put(`https://atcapp-backend-production.up.railway.app/api/editSubTorneo/${params.idSubtorneo}`,
+                await axios.put(`http://localhost:4000/api/editSubTorneo/${params.idSubtorneo}`,
                 {
                     id_torneo: params.idTorneo,
                     nombre: Name,
@@ -90,7 +90,7 @@ export default function EditSubtorneo() {
 
     const PublishGroups = async (e) =>{
             try {
-                await axios.put(`https://atcapp-backend-production.up.railway.app/api/PublishGrupos/${params.idSubtorneo}`,
+                await axios.put(`http://localhost:4000/api/PublishGrupos/${params.idSubtorneo}`,
                 {
                     isPublicado: 1
                 })
@@ -108,7 +108,7 @@ export default function EditSubtorneo() {
     const getSubTournamentParticipants = async () => {
         setIsLoadingParticipants(true)
         //const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubtorneo}`)
-        const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetSubTorneosParticipants/${params.idSubtorneo}`)
+        const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubtorneo}`)
         setParticipants(result.data);
         setIsLoadingParticipants(false)
         //console.log("Participantes: " + JSON.stringify(result.data)); 
@@ -118,7 +118,7 @@ export default function EditSubtorneo() {
         try {
             setIsLoadingParticipants(true)
             //const result = await axios.get(`http://localhost:4000/api/getSubtorneoParejas/${params.idSubtorneo}`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSubtorneoParejas/${params.idSubtorneo}`)
+            const result = await axios.get(`http://localhost:4000/api/getSubtorneoParejas/${params.idSubtorneo}`)
             setParticipants(result.data);
             setIsLoadingParticipants(false)
           //console.log("Parejas: " + JSON.stringify(result.data)); 
@@ -131,7 +131,7 @@ export default function EditSubtorneo() {
       const DeleteSubTorneoParticipant = async (user_id)=>{
         try {
             //const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoParticipant/user=${user_id}/${params.idSubtorneo}`);
-            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteSubTorneoParticipant/user=${user_id}/${params.idSubtorneo}`);
+            const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoParticipant/user=${user_id}/${params.idSubtorneo}`);
             const filter = Participants.filter(p => p.id !== user_id )
             //console.log(result.data);
             setParticipants(filter);
@@ -143,7 +143,7 @@ export default function EditSubtorneo() {
       const DeleteSubTorneoPareja = async (id_pareja)=>{
         try {
             //const result = await axios.delete(`http://localhost:4000/api/DeleteSubTorneoPareja/${id_pareja}/${params.idSubtorneo}`);
-            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/DeleteSubTorneoPareja/${id_pareja}/${params.idSubtorneo}`);
+            const result = await axios.delete(`http://localhost:4000/api/DeleteSubTorneoPareja/${id_pareja}/${params.idSubtorneo}`);
             const filter = Participants.filter(p => p.id_pareja !== id_pareja )
             //console.log(result.data);
             setParticipants(filter);
@@ -157,7 +157,7 @@ export default function EditSubtorneo() {
         setIsLoadingAddingGroups(true)
         try {
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/idsubtorneo=${params.idSubtorneo}`)
-            const result = await axios.post(`https://atcapp-backend-production.up.railway.app/api/addGrupo/idsubtorneo=${params.idSubtorneo}/numberOfGroups=${NumberOfGroups}`,
+            const result = await axios.post(`http://localhost:4000/api/addGrupo/idsubtorneo=${params.idSubtorneo}/numberOfGroups=${NumberOfGroups}`,
             {
                 idSubTorneo: params.idSubtorneo,
                 isPublicado: 0
@@ -181,7 +181,7 @@ export default function EditSubtorneo() {
         setIsDeletingGroup(true)
         try {
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/idsubtorneo=${params.idSubtorneo}`)
-            const result = await axios.delete(`hhttps://atcapp-backend-production.up.railway.app/api/deleteGrupo/idGrupo=${id_grupo}`,
+            const result = await axios.delete(`hhttp://localhost:4000/api/deleteGrupo/idGrupo=${id_grupo}`,
             {
                 idSubTorneo: params.idSubtorneo,
             })
@@ -202,7 +202,7 @@ export default function EditSubtorneo() {
         e.preventDefault();
         setIsDeletingGroup(true)
         try {
-            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteSubTorneoGroupParticipant/idGrupo=${id_grupo}/idUser=${userId}`,
+            const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoGroupParticipant/idGrupo=${id_grupo}/idUser=${userId}`,
             {
                 idSubTorneo: params.idSubtorneo,
             })
@@ -227,7 +227,7 @@ export default function EditSubtorneo() {
 
             try {
                 //const result = await axios.post(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/idsubtorneo=${params.idSubtorneo}`)
-                const result = await axios.post(`https://atcapp-backend-production.up.railway.app/api/addGrupoMember`,
+                const result = await axios.post(`http://localhost:4000/api/addGrupoMember`,
                 {
                     id_grupo: id_grupo,
                     user_id: IdGroupMember,
@@ -263,7 +263,7 @@ export default function EditSubtorneo() {
         try { 
             setIsLoadingForms(true)
             //const result = await axios.get(`http://localhost:4000/api/getSubtorneoGrupos/${params.idSubtorneo}`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSubtorneoGrupos/${params.idSubtorneo}`)
+            const result = await axios.get(`http://localhost:4000/api/getSubtorneoGrupos/${params.idSubtorneo}`)
             setGroups(result.data);
 
             setIsLoadingForms(false)
@@ -277,7 +277,7 @@ export default function EditSubtorneo() {
         try {
             setIsLoadingMembers(true)
             //const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubtorneo}`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getGruposMembers/${params.idSubtorneo}`)
+            const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubtorneo}`)
             setGroupsMembers(result.data);
             //console.log("GroupsMembers: " + JSON.stringify(result.data));
             setIsLoadingMembers(false)

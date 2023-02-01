@@ -16,7 +16,7 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
         //console.log("idGrupo: " + idGrupo);
         try {
             setIsLoadingMembers(true)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetGruposById/${idGrupo}/${idSubtorneo}`)
+            const result = await axios.get(`http://localhost:4000/api/GetGruposById/${idGrupo}/${idSubtorneo}`)
             //const result = await axios.get(`http://localhost:4000/api/GetGruposById/${idGrupo}/${idSubtorneo}`)
             //console.log("result.data: " + /* JSON.stringify */(result.data[0]));
             setGroupsMembers(result.data);
@@ -31,7 +31,7 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
       const DeleteSubTorneoGroupParticipant = async (e, id_grupo, userId) =>{
         e.preventDefault();
         try {
-            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteSubTorneoGroupParticipant/idGrupo=${id_grupo}/idUser=${userId}`,
+            const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoGroupParticipant/idGrupo=${id_grupo}/idUser=${userId}`,
             {
                 idSubTorneo: idSubtorneo,
             })

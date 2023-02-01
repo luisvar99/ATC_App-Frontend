@@ -18,7 +18,7 @@ export default function MatchInfo({idPartido, IsAdmin}) {
         try {
             //console.log("idPartido " + idPartido);
             setIsLoadingMatches(true)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetSubtorneoMatchesById/${idPartido}`)
+            const result = await axios.get(`http://localhost:4000/api/GetSubtorneoMatchesById/${idPartido}`)
             //const result = await axios.get(`http://localhost:4000/api/GetSubtorneoMatchesById/${idPartido}`)
             setMatchInfo(result.data);
             setMatchModalidad(result.data[0].modalidad);

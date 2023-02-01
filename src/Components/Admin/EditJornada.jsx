@@ -27,7 +27,7 @@ export default function EditJornada() {
     const GetJornadaByID = async () => {
         try {
             //const result = await axios.get(`http://localhost:4000/api/GetJornadaByID/${params.id_jornada}`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetJornadaByID/${params.id_jornada}`)
+            const result = await axios.get(`http://localhost:4000/api/GetJornadaByID/${params.id_jornada}`)
             console.log("GetJornadas: " + result.data);
             setEquipo_uno(result.data[0].equipo_uno)
             setEquipo_dos(result.data[0].equipo_dos)
@@ -42,7 +42,7 @@ export default function EditJornada() {
         e.preventDefault();
             setIsCreatingJornada(true)
             try {
-                const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/UpdateJornada/${params.id_jornada}`,
+                const result = await axios.put(`http://localhost:4000/api/UpdateJornada/${params.id_jornada}`,
                 {
                     equipo_uno: Equipo_uno,
                     equipo_dos: Equipo_dos,
@@ -74,7 +74,7 @@ export default function EditJornada() {
     const GetRondas = async () =>{
         try {
             //const result = await axios.get(`http://localhost:4000/api/getRondas`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getRondas`)
+            const result = await axios.get(`http://localhost:4000/api/getRondas`)
             setRondas(result.data);
             //console.log("Rondas: " + JSON.stringify(result.data));
         } catch (error) {
@@ -85,7 +85,7 @@ export default function EditJornada() {
       const GetEquiposColores = async () => {
         
         try {
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/GetEquiposColores/${params.id}`);
+            const result = await axios.get(`http://localhost:4000/api/GetEquiposColores/${params.id}`);
             //const result = await axios.get(`http://localhost:4000/api/GetEquiposColores/${params.id}`);
             setColoresEquipos(result.data);
             //console.log("Pareja " + JSON.stringify(result.data));

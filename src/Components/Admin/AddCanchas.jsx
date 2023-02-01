@@ -3,6 +3,10 @@ import './AddCanchas.css'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 
+import { RotatingLines } from  'react-loader-spinner'
+import { Modal } from 'react-responsive-modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function AddCanchas() {
 
@@ -10,6 +14,8 @@ export default function AddCanchas() {
     const [Category, setCategory] = useState("")
     const [Status, setStatus] = useState("")
     const [Confirmation, setConfirmation] = useState("")
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [AddingCancha, setAddingCancha] = useState(false);
 
     useEffect(() => {
       console.log("Name:" + Name);
@@ -22,32 +28,55 @@ export default function AddCanchas() {
         if(Category==="" || Status===""){
             alert("Por favor, complete todos los campos")
         }else{
-            setConfirmation("Agregando cancha")
             try {
-                //await axios.post('https://atcbackend.herokuapp.com/api/addCancha',
+                setAddingCancha(true)
                 /* await axios.post('http://localhost:4000/api/addCancha',
                 {
                     nombre_cancha: Name,
                     id_categoriacancha: Category,
                     estatus_cancha: Status,
                 }) */
-                await axios.post('https://atcapp-backend-production.up.railway.app/api/addCancha',
+                const result = await axios.post('http://localhost:4000/api/addCancha',
                 {
                     nombre_cancha: Name,
                     id_categoriacancha: Category,
                     estatus_cancha: Status,
                 })
-                setConfirmation("Se ha agregado la cancha correctamente")
+                if(result.data.success===true){
+                    setAddingCancha(false)
+                    setIsOpen(true);
+                }else{
+                    setAddingCancha(false)
+                    setConfirmation("Ha ocurrido un error")
+                }
             } catch (error) {
                 setConfirmation("Ha ocurrido un error")
+                setAddingCancha(false)
                 alert(error.message);
             }
         }
     }
 
+    function closeModal() {
+        setIsOpen(false);
+      }
+
+
   return (
     <div className="main_addCancha_container">
         <h3>Agregar nueva cancha</h3>
+        <Modal
+            open={modalIsOpen}
+            onClose={closeModal}
+            center
+          >
+            <h2>La cancha ha sido agregada exitosamente</h2>
+            <div className="modal_container">
+              <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+              <button onClick={closeModal}>Aceptar</button>
+            </div>
+
+          </Modal>
         <div className="Addform_container">
             <form onSubmit={AddNewCancha} className="form_add_canchas">
                 <div className="name_input_container">
@@ -72,6 +101,17 @@ export default function AddCanchas() {
                 </div>
                 <p style={{fontSize:"14px"}}>{Confirmation}</p>
                 <div className="btn_addCancha_container">
+                    {
+                        AddingCancha &&
+
+                        <RotatingLines
+                        strokeColor="green"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="35"
+                        visible={true}
+                        />
+                    }
                     <button type="submit">Agregar</button>
                     <Link to="/admin/manageCanchas" className="link_go_back">Volver</Link>
                 </div>

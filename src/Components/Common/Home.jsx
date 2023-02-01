@@ -11,7 +11,7 @@ export default function Home() {
 
   const getCurrentTorneoColores = async ()=> {
     try {
-        const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getTorneoColores');
+        const result = await axios.get('http://localhost:4000/api/getTorneoColores');
         //const result = await axios.get('http://localhost:4000/api/getTorneoColores');
         setCurrentColores(result.data);
         console.log("result.data: " + JSON.stringify(result.data));

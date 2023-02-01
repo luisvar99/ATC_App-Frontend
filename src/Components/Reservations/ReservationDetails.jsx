@@ -44,7 +44,7 @@ export default function ReservationDetails() {
       const GetUsers = async () => {
         try { 
             const arr = [];
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getAllUsers`)
+            const result = await axios.get(`http://localhost:4000/api/getAllUsers`)
             //const result = await axios.get(`http://localhost:4000/api/getAllUsers`)
           //console.log("result.data " + JSON.stringify(result.data));
           let response = result.data;
@@ -61,7 +61,7 @@ export default function ReservationDetails() {
         try { 
           setIsLoadingReservation(true)
 
-          const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getReservaDetails/${params.idReserva}/${sessionStorage.getItem("userId")}`)
+          const result = await axios.get(`http://localhost:4000/api/getReservaDetails/${params.idReserva}/${sessionStorage.getItem("userId")}`)
           //const result = await axios.get(`http://localhost:4000/api/getReservaDetails/${params.idReserva}/${sessionStorage.getItem("userId")}`)
           console.log("Reservation Found: " + JSON.stringify(result.data));
           
@@ -99,7 +99,7 @@ export default function ReservationDetails() {
         }
           try { 
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/createReservation`)
-            const result = await axios.put(`https://atcapp-backend-production.up.railway.app/api/updateReservation/${params.idReserva}`,{
+            const result = await axios.put(`http://localhost:4000/api/updateReservation/${params.idReserva}`,{
               idCancha: params.idCancha,
               idHorario: Id_horario,
               idSocio: sessionStorage.getItem('userId'),
@@ -123,7 +123,7 @@ export default function ReservationDetails() {
 
         try { 
           setDeletingReservation(true)
-          await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteReserva/${idReservation}`)
+          await axios.delete(`http://localhost:4000/api/deleteReserva/${idReservation}`)
           //await axios.delete(`http://localhost:4000/api/deleteReserva/${idReservation}`)
           setDeletingReservation(false)
           navigate(-1)

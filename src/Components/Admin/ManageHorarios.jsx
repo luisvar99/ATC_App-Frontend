@@ -18,7 +18,7 @@ export default function ManageHorarios() {
     const GetHorarios = async () =>{
         try {
             //const result = await axios.get(`http://localhost:4000/api/getAllHorarios`)
-            const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getAllHorarios`)
+            const result = await axios.get(`http://localhost:4000/api/getAllHorarios`)
             setHorarios(result.data);
             //console.log("setHorarios: " + JSON.stringify(result.data));
         } catch (error) {
@@ -29,7 +29,7 @@ export default function ManageHorarios() {
     const DeleteHorario = async (id_horario) =>{
         try {
             //const result = await axios.delete(`http://localhost:4000/api/deleteHorario/${id_horario}`)
-            const result = await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteHorario/${id_horario}`)
+            const result = await axios.delete(`http://localhost:4000/api/deleteHorario/${id_horario}`)
             const filter = Horarios.filter(h => h.id_horario !== id_horario )
             //console.log(result.data);
             setHorarios(filter);
@@ -45,7 +45,7 @@ export default function ManageHorarios() {
 
         console.log("Inicio: " + Inicio);
         try {
-            const result = await axios.post(`https://atcapp-backend-production.up.railway.app/api/addHorario`,{
+            const result = await axios.post(`http://localhost:4000/api/addHorario`,{
                 inicio: Inicio,
                 fin: (new Date("1970-01-01T" +Inicio).getHours()+1)+":00",
                 hora_inicio: new Date("1970-01-01T" + Inicio).getHours()+":00",

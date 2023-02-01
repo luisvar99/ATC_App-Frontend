@@ -3,6 +3,10 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import {Link, useNavigate} from 'react-router-dom'
 
+import { RotatingLines } from  'react-loader-spinner'
+import { Modal } from 'react-responsive-modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function EditCancha() {
 
@@ -10,17 +14,16 @@ export default function EditCancha() {
     const [Category, setCategory] = useState("")
     const [Status, setStatus] = useState("")
     const [Confirmation, setConfirmation] = useState("")
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [UpdatingCancha, setUpdatingCancha] = useState(false);
 
     const params = useParams();
 
-    useEffect(() => {
-        GetCanchaById();
-      }, [])
 
       const GetCanchaById = async (e) =>{
             try {
                 //const result = await axios.get(`http://localhost:4000/api/getSingleCancha/${params.idCancha}`)
-                const result = await axios.get(`https://atcapp-backend-production.up.railway.app/api/getSingleCancha/${params.idCancha}`)
+                const result = await axios.get(`http://localhost:4000/api/getSingleCancha/${params.idCancha}`)
                 setName(result.data[0].nombre_cancha)
                 setCategory(result.data[0].id_categoriacancha)
                 setStatus(result.data[0].estatus_cancha)
@@ -36,25 +39,53 @@ export default function EditCancha() {
           if(Category==="" || Status===""){
               alert("Por favor, complete todos los campos")
           }else{
-              setConfirmation("Actualizando cancha")
               try {
+                setUpdatingCancha(true)
                   const result = await axios.put(`http://localhost:4000/api/editCancha/${params.idCancha}`,
                   {
                       nombre_cancha: Name,
                       id_categoriacancha: Category,
                       estatus_cancha: Status,
                   })
-                  setConfirmation("Se ha actualizado la cancha correctamente")
-                  console.log(result.data);
+                  if(result.data.success===true){
+                    setIsOpen(true)
+                    setUpdatingCancha(false)
+                  }else{
+                    setUpdatingCancha(false)
+                    setConfirmation("Ha ocurrido un error")
+                  }
               } catch (error) {
-                  setConfirmation("Ha ocurrido un error")
-                  alert(error.message);
+                    setUpdatingCancha(false)
+                    setConfirmation("Ha ocurrido un error")
+                    alert(error.message);
               }
           }
       }
+
+      function closeModal() {
+        setIsOpen(false);
+      }
+
+      
+    useEffect(() => {
+        GetCanchaById();
+      }, [])
+
   return (
     <div className="main_addCancha_container">
         <h3>Editar Cancha </h3>
+        <Modal
+            open={modalIsOpen}
+            onClose={closeModal}
+            center
+          >
+            <h2>La cancha ha sido actualizada exitosamente</h2>
+            <div className="modal_container">
+              <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+              <button onClick={closeModal}>Aceptar</button>
+            </div>
+
+          </Modal>
         <div className="Addform_container">
             <form onSubmit={EditCancha} className="form_add_canchas">
                 <div className="name_input_container">
@@ -79,6 +110,17 @@ export default function EditCancha() {
                     <p style={{fontSize:"14px"}}>{Confirmation}</p>
                 </div>
                 <div className="btn_addCancha_container">
+                {
+                    UpdatingCancha &&
+
+                    <RotatingLines
+                    strokeColor="green"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="35"
+                    visible={true}
+                    />
+                }
                     <button type="submit">Actualizar</button>
                     <button type="submit"><Link to="/admin/manageCanchas" className="link_go_back">Volver</Link></button>
                 </div>

@@ -17,7 +17,7 @@ export default function ManageCanchas() {
     const GetAllCanchas = async () => {
         try {
             //const result = await axios.get('http://localhost:4000/api/getAllCanchas');
-            const result = await axios.get('https://atcapp-backend-production.up.railway.app/api/getAllCanchas');
+            const result = await axios.get('http://localhost:4000/api/getAllCanchas');
             setCanchas(result.data);
             console.log("result.data: " + JSON.stringify(result.data));
         } catch (error) {
@@ -28,7 +28,7 @@ export default function ManageCanchas() {
     const DeleteCancha = async (id) => {
         try {
             //await axios.delete(`http://localhost:4000/api/deleteCancha/${id}`);
-            await axios.delete(`https://atcapp-backend-production.up.railway.app/api/deleteCancha/${id}`);
+            await axios.delete(`http://localhost:4000/api/deleteCancha/${id}`);
             const filter = Canchas.filter(e => e.id_cancha !== id)
             setCanchas(filter);
         } catch (error) {
