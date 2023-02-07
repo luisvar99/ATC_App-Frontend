@@ -6,6 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import './ManageHorarios.css'
 
+import { RotatingLines } from  'react-loader-spinner'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+
 export default function ManageHorarios() {
 
     const [Horarios, setHorarios] = useState([])
@@ -13,7 +17,9 @@ export default function ManageHorarios() {
     const [Fin, setFin] = useState("")
     const [Hora_inicio, setHora_inicio] = useState(new Date())
     const [Estatus, setEstatus] = useState(1)
-
+    const [ModalIsOpen, setModalIsOpen] = useState(false);
+    const [DeleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+    const [IsAddingHorario, setIsAddingHorario] = useState(false);
 
     const GetHorarios = async () =>{
         try {
@@ -30,9 +36,14 @@ export default function ManageHorarios() {
         try {
             //const result = await axios.delete(`http://localhost:4000/api/deleteHorario/${id_horario}`)
             const result = await axios.delete(`http://localhost:4000/api/deleteHorario/${id_horario}`)
-            const filter = Horarios.filter(h => h.id_horario !== id_horario )
-            //console.log(result.data);
-            setHorarios(filter);
+            if(result.data.success === true){
+                const filter = Horarios.filter(h => h.id_horario !== id_horario )
+                setHorarios(filter);
+                setDeleteModalIsOpen(true)
+            }else{
+                alert("Ha ocurrido un error al eliminar al horario")
+            }
+            
             //console.log("Rondas: " + JSON.stringify(result.data));
         } catch (error) {
             alert(error.message)
@@ -45,6 +56,7 @@ export default function ManageHorarios() {
 
         console.log("Inicio: " + Inicio);
         try {
+            setIsAddingHorario(true)
             const result = await axios.post(`http://localhost:4000/api/addHorario`,{
                 inicio: Inicio,
                 fin: (new Date("1970-01-01T" +Inicio).getHours()+1)+":00",
@@ -58,9 +70,15 @@ export default function ManageHorarios() {
                 estatus_horario: Estatus
             }) */
             //console.log("Rondas: " + JSON.stringify(result.data));
-            window.location.reload()
+            if(result.data.success === true){
+                setModalIsOpen(true)
+                setIsAddingHorario(false)
+            }else{
+                alert("Ha ocurrido un error al eliminar al horario")
+            }
         } catch (error) {
             alert(error.message)
+            setIsAddingHorario(false)
         }
       }
 
@@ -70,11 +88,15 @@ export default function ManageHorarios() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    useEffect(() => {
-        console.log(Inicio);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [Inicio])
+    function closeModal() {
+        setModalIsOpen(false);
+        window.location.reload()
+    }
 
+    function closeDeleteModal() {
+        setDeleteModalIsOpen(false);
+        window.location.reload()
+    }
 
   return (
     <div className="ManageRondas_main_container">
@@ -106,6 +128,29 @@ export default function ManageHorarios() {
                 </table>
             </div>
             <div className="manageRondasFormContainer">
+                <Modal
+                open={ModalIsOpen}
+                onClose={closeModal}
+                center
+                >
+                <h2>El horario ha sido agregado exitosamente</h2>
+                <div className="modal_container">
+                <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                <button onClick={closeModal}>Aceptar</button>
+                </div>
+            </Modal>
+
+                <Modal
+                open={DeleteModalIsOpen}
+                onClose={closeDeleteModal}
+                center
+                >
+                <h2>El horario ha sido eliminado exitosamente</h2>
+                <div className="modal_container">
+                <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                <button onClick={closeModal}>Aceptar</button>
+                </div>
+            </Modal>
                 <form onSubmit={CreateHorario} className="manageRondasForm">
                     <div className='manageRondasNombreContainer'>
                         <h3 style={{margin:"1rem 0rem"}}>Agregar nuevo Horario</h3>
@@ -142,6 +187,15 @@ export default function ManageHorarios() {
                         </select>
                     </div>
                     <div className="manageRondasBtnContainer">
+                    {IsAddingHorario && 
+                        <RotatingLines
+                            strokeColor="green"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="35"
+                            visible={true}
+                        />
+                    }
                         <button type="submit">Crear</button>
                     </div>
                 </form>

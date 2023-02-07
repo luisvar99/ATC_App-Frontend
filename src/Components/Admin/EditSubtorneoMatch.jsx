@@ -7,6 +7,9 @@ import './EditSubtorneo.css'
 import { RotatingLines } from  'react-loader-spinner'
 import moment from 'moment'
 import Select from 'react-select';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function EditSubtorneoMatch() {
 
@@ -38,6 +41,7 @@ export default function EditSubtorneoMatch() {
     const [SelectDropdown, setSelectDropdown] = useState([])
     const [IsLoadingSelectDropdown, setIsLoadingSelectDropdown] = useState(false)
 
+    const [ModalIsOpen, setModalIsOpen] = useState(false);
 
     const params = useParams();
 
@@ -146,7 +150,7 @@ export default function EditSubtorneoMatch() {
             
             if(result.data.success===true){
                 await CreateReservation();
-                window.location.reload();
+                setModalIsOpen(true)
             }else{
                 alert("Ha ocurrido un error creando el enfrentamiento")  
             }
@@ -157,7 +161,6 @@ export default function EditSubtorneoMatch() {
       }
 
       const CreateReservation = async (e) => {
-        alert("Creando Reservacion");
         try { 
           const result = await axios.post(`http://localhost:4000/api/createReservation`,{
             idCancha: IDCancha,
@@ -218,6 +221,10 @@ export default function EditSubtorneoMatch() {
         })
       }
 
+    function closeModal() {
+        setModalIsOpen(false);
+    }
+
     useEffect(() => {
         GetGruposMembers();
         GetRondas();
@@ -231,6 +238,17 @@ export default function EditSubtorneoMatch() {
   return (
     <div className="addMatch_form_container" style={{marginLeft:"2rem", marginTop:"1.5rem"}}>
     <h3>Editar enfrentamiento</h3>
+    <Modal
+        open={ModalIsOpen}
+        onClose={closeModal}
+        center
+    >
+        <h2>El enfrentamiento ha sido actualizado exitosamente</h2>
+        <div className="modal_container">
+            <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+            <button onClick={closeModal}>Aceptar</button>
+        </div>
+    </Modal>
     <form onSubmit={UpdateSubtorneoMatch} className="form_add_matches" >
         <div className="add_matches_left_right_side">
         

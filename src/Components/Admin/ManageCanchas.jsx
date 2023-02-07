@@ -4,10 +4,13 @@ import axios from 'axios'
 import './ManageCanchas.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function ManageCanchas() {
 
     const [Canchas, setCanchas] = useState([])
+    const [modalIsOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         GetAllCanchas();
@@ -28,14 +31,22 @@ export default function ManageCanchas() {
     const DeleteCancha = async (id) => {
         try {
             //await axios.delete(`http://localhost:4000/api/deleteCancha/${id}`);
-            await axios.delete(`http://localhost:4000/api/deleteCancha/${id}`);
-            const filter = Canchas.filter(e => e.id_cancha !== id)
-            setCanchas(filter);
+            const result = await axios.delete(`http://localhost:4000/api/deleteCancha/${id}`);
+            if (result.data.success === true) {
+                const filter = Canchas.filter(e => e.id_cancha !== id)
+                setCanchas(filter);
+                setIsOpen(true)
+            }else{
+                alert("Ha ocurrido un error al eliminar la cancha")
+            }
         } catch (error) {
             alert(error.message)
         }
     }
-    
+
+    function closeModal() {
+        setIsOpen(false);
+    }
 
   return (
     <>
@@ -45,6 +56,18 @@ export default function ManageCanchas() {
                 <h3>Listado de Canchas</h3>
                 <Link to='addCancha' className="linkAddCancha">Agregar nueva cancha</Link>
             </div>
+            <Modal
+            open={modalIsOpen}
+            onClose={closeModal}
+            center
+            >
+            <h2>La cancha ha sido eliminada exitosamente</h2>
+            <div className="modal_container">
+              <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+              <button onClick={closeModal}>Aceptar</button>
+            </div>
+
+          </Modal>
             <table className="chanchasAdmin_table">
                 <thead>
                     <tr className="table_headers">

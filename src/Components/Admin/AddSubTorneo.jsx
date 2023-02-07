@@ -4,7 +4,11 @@ import axios from 'axios'
 import {Link, useNavigate} from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { RotatingLines } from  'react-loader-spinner'
 
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function AddSubTorneo() {
     const [Name, setName] = useState("")
@@ -12,7 +16,8 @@ export default function AddSubTorneo() {
     const [id_torneo, setStatus] = useState(0)
     const [Categoria, setCategoria]= useState(0)
 
-    const [Confirmation, setConfirmation] = useState("")
+    const [IsAddingSubTorneo, setIsAddingSubTorneo] = useState(false)
+    const [ModalIsOpen, setModalIsOpen] = useState(false);
 
 
     const params = useParams();
@@ -22,8 +27,8 @@ export default function AddSubTorneo() {
         if(Name==="" || Cantidad_personas===""){
             alert("Por favor, complete todos los campos")
         }else{
-            setConfirmation("Agregando competencia")
             try {
+                setIsAddingSubTorneo(true)
                 /* await axios.post('http://localhost:4000/api/addSubtorneo',
                 {
                     id_torneo: params.idTorneo,
@@ -31,24 +36,47 @@ export default function AddSubTorneo() {
                     cantidad_personas: Cantidad_personas,
                     categoria: Categoria,
                 }) */
-                await axios.post('http://localhost:4000/api/addSubtorneo',
+                const result = await axios.post('http://localhost:4000/api/addSubtorneo',
                 {
                     id_torneo: params.idTorneo,
                     nombre: Name,
                     cantidad_personas: Cantidad_personas,
                     categoria: Categoria,
                 })
-                setConfirmation("Se ha agregado la competencia correctamente")
+                if(result.data.success===true){
+                    setModalIsOpen(true)
+                    setIsAddingSubTorneo(false)
+                }else{
+                    setIsAddingSubTorneo(false)
+                    alert("Ha ocurrido un error")
+                }
             } catch (error) {
-                setConfirmation("Ha ocurrido un error")
+                setIsAddingSubTorneo(false)
+                alert("Ha ocurrido un error")
                 alert(error.message);
             }
         }
     }
+
+    function closeModal() {
+        setModalIsOpen(false);
+    }
+
   return (
     <div className="main_addCancha_container">
         <h3>Agregar categoría a {params.nombreTorneo}</h3>
         <div className="Addform_container">
+        <Modal
+            open={ModalIsOpen}
+            onClose={closeModal}
+            center
+        >
+            <h2>La categoria ha sido agregada exitosamente</h2>
+            <div className="modal_container">
+            <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+            <button onClick={closeModal}>Aceptar</button>
+            </div>
+        </Modal>
             <form onSubmit={AddNewCompetencia} className="form_add_canchas">
                 <div className="name_input_container">
                     <label htmlFor="nameCancha">Nombre</label>
@@ -70,8 +98,16 @@ export default function AddSubTorneo() {
                             <option value="6">Sexta</option>
                         </select>
                     </div>
-                <p style={{fontSize:"14px"}}>{Confirmation}</p>
                 <div className="btn_addCancha_container">
+                {IsAddingSubTorneo && 
+                    <RotatingLines
+                        strokeColor="green"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="35"
+                        visible={true}
+                        />
+                }
                     <button type="submit">Agregar</button>
                     <button type="submit"><Link to="/admin/manageTorneos" className="link_go_back">Volver</Link></button>
                 </div>

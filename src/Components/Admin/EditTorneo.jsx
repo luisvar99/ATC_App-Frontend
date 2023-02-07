@@ -10,6 +10,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { RotatingLines } from  'react-loader-spinner'
 
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+
 
 export default function EditTorneo() {
 
@@ -24,9 +27,12 @@ export default function EditTorneo() {
   const [Competencias, setCompetencias] = useState([])
   const [Participants, setParticipants] = useState([])
 
-  const [Confirmation, setConfirmation] = useState("")
   const [LoadingCompetencias, setLoadingCompetencias] = useState(false)
   const [LoadingTorneo, setLoadingTorneo] = useState(false)
+
+  const [IsUpdatingTorneo, setIsUpdatingTorneo] = useState(false)
+  const [ModalIsOpen, setModalIsOpen] = useState(false);
+  const [DeleteCategoriaModalIsOpen, setDeleteCategoriaModalIsOpen] = useState(false);
 
 
   const params = useParams();
@@ -62,10 +68,10 @@ const EditTorneo = async (e) =>{
     if(Category==="" || Modalidad===""){
         alert("Por favor, complete todos los campos")
     }else{
-        setConfirmation("Actualizando Torneo...")
         try {
+            setIsUpdatingTorneo(true)
             //const editResult = await axios.put(`https://atcbackend.herokuapp.com/api/editTorneo/${params.idTorneo}`,
-            const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.idTorneo}`,
+            const result = await axios.put(`http://localhost:4000/api/editTorneo/${params.idTorneo}`,
             {
               nombre_torneo: Name,
               fecha_inicio: Inicio_torneo,
@@ -89,10 +95,16 @@ const EditTorneo = async (e) =>{
               modalidad: Modalidad,
               is_colores: false
             }) */
-            console.log(editResult.data);
-            setConfirmation("Se ha actualizado el torneo correctamente")
+            if(result.data.success===true){
+                setModalIsOpen(true)
+            }else{
+                alert("Ha ocurrido un error")
+                setIsUpdatingTorneo(false)
+            }
+            console.log(result.data);
         } catch (error) {
-            setConfirmation("Ha ocurrido un error")
+            setIsUpdatingTorneo(false)
+            alert("Ha ocurrido un error")
             alert(error.message);
         }
     }
@@ -118,14 +130,27 @@ const DeleteCompetencia = async (id) => {
     try {
         //const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneo/${id}`);
         const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneo/${id}`);
-        const filter = Competencias.filter(e => e.id_subtorneo !== id)
-        console.log(result.data);
-        setCompetencias(filter);
+        if(result.data.success===true){
+            const filter = Competencias.filter(e => e.id_subtorneo !== id)
+            setCompetencias(filter);
+            setDeleteCategoriaModalIsOpen(true)
+        }else{
+            alert("Ha ocurrido un error")
+        }
     } catch (error) {
         alert(error.message)
     }
 }
 
+function closeModal() {
+    setModalIsOpen(false);
+    window.location.reload()
+}
+
+function closeDeleteCategoriaModal() {
+    setDeleteCategoriaModalIsOpen(false);
+    window.location.reload()
+}
 
 
 useEffect(() => {
@@ -137,24 +162,18 @@ useEffect(() => {
   return (
     <div className="main_edit_Torneo_container">
             { LoadingCompetencias || LoadingTorneo ?
-
-            <RotatingLines
-            strokeColor="green"
-            strokeWidth="5"
-            animationDuration="0.75"
-            width="35"
-            visible={true}
-            
-            />
+                <RotatingLines
+                strokeColor="green"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="35"
+                visible={true}
+                />
         :
         <>
         
         <div className="torneo_subTorneo_container">
             <h2 style={{textAlign:"center"}}>Categorías</h2>
-            
-            
-            
-            
             <button className="add_competencia"><Link to={`/admin/manageTorneos/addCompetencia/${Name}/idTorneo=${params.idTorneo}`}>Agregar Categoría</Link></button>
             <table className="chanchasAdmin_table">
                 <thead>
@@ -167,8 +186,6 @@ useEffect(() => {
                 </thead>
                     <tbody>
                         {
-                            
-                            
                             Competencias.map((comp)=>(
                             <tr key={comp.id_subtorneo}>
                                 <td>{comp.nombre}</td>
@@ -188,6 +205,29 @@ useEffect(() => {
             <div className="main_editTorneo_container">
                 <h3 style={{marginTop:"2rem"}}>Editar {Name}</h3>
                 <div className="editTorneoForm_container">
+                <Modal
+                    open={ModalIsOpen}
+                    onClose={closeModal}
+                    center
+                >
+                    <h2>El torneo ha sido actualizado exitosamente</h2>
+                    <div className="modal_container">
+                    <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                    <button onClick={closeModal}>Aceptar</button>
+                    </div>
+                </Modal>
+
+                <Modal
+                    open={DeleteCategoriaModalIsOpen}
+                    onClose={closeDeleteCategoriaModal}
+                    center
+                >
+                    <h2>La categoria ha sido eliminada exitosamente</h2>
+                    <div className="modal_container">
+                    <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                    <button onClick={closeDeleteCategoriaModal}>Aceptar</button>
+                    </div>
+                </Modal>
                     <form onSubmit={EditTorneo} className="form_edit_torneos">
                         <div className="name_input_container">
                             <label htmlFor="nameCancha">Nombre del Torneo</label>
@@ -233,8 +273,16 @@ useEffect(() => {
                             <label htmlFor="description">Descripcion</label>
                             <textarea value={Description} type="text" id="description" onChange={(e)=>setDescription(e.target.value)} rows="5" required/>
                         </div>
-                        <p style={{fontSize:"14px", marginBottom:"0"}}>{Confirmation}</p>
                         <div className="btn_addCancha_container">
+                        {IsUpdatingTorneo && 
+                            <RotatingLines
+                                strokeColor="green"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                width="35"
+                                visible={true}
+                                />
+                        }
                             <button type="submit">Guardar Cambios</button>
                             <button type="submit"><Link to="/admin/manageTorneos" className="link_go_back">Volver</Link></button>
                         </div>

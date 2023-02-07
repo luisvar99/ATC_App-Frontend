@@ -8,6 +8,10 @@ import { RotatingLines } from  'react-loader-spinner'
 import MatchInfo from '../Torneos/MatchInfo'
 import TennisReservation from '../Canchas/TennisReservation'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+
 export default function SubtorneoMatches() {
 
     const [GroupsMembers, setGroupsMembers] = useState([])
@@ -27,6 +31,9 @@ export default function SubtorneoMatches() {
 
     const [IsLoadingMatches, setIsLoadingMatches] = useState(false)
     const [IsAddingMatch, setIsAddingMatch] = useState(false)
+
+    const [ModalIsOpen, setModalIsOpen] = useState(false);
+    const [DeletMatchModal, setDeleteMatchModal] = useState(false);
 
 
     const params = useParams();
@@ -121,12 +128,12 @@ export default function SubtorneoMatches() {
                     hora: IDHorario,
                     ronda: RondaString,
                     id_cancha: IDCancha
-                }) */
-                setIsAddingMatch(false)
-                
+                }) */                
                 if(result.data.success===true){
-                    window.location.reload();
+                    setModalIsOpen(true)
+                    setIsAddingMatch(false)
                 }else{
+                    setIsAddingMatch(false)
                     alert("Ha ocurrido un error creando el enfrentamiento")  
                 }
             }
@@ -174,10 +181,24 @@ export default function SubtorneoMatches() {
         try {
             const result = await axios.delete(`http://localhost:4000/api/DeleteMatch/${idMatch}`)
             //const result = await axios.delete(`http://localhost:4000/api/DeleteMatch/${idMatch}`)
-            window.location.reload()            
+            if(result.data.success===true){
+                setDeleteMatchModal(true)
+            }else{
+                alert("Ha ocurrido un error")
+            }
         } catch (error) {
             alert(error.message)
         }
+    }
+
+    function closeModal() {
+        setModalIsOpen(false);
+        window.location.reload()
+    }
+
+    function closeDeleteMatchModal() {
+        setDeleteMatchModal(false);
+        window.location.reload()
     }
 
       useEffect(() => {
@@ -201,6 +222,29 @@ export default function SubtorneoMatches() {
     <div className="createMatch_main_container">
         <div className="addMatch_form_container">
                 <h3>Agregar enfrentamiento</h3>
+                <Modal
+                    open={ModalIsOpen}
+                    onClose={closeModal}
+                    center
+                >
+                    <h2>El enfrentamiento ha sido creado exitosamente</h2>
+                    <div className="modal_container">
+                        <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                        <button onClick={closeModal}>Aceptar</button>
+                    </div>
+                </Modal>
+
+                <Modal
+                    open={DeletMatchModal}
+                    onClose={closeDeleteMatchModal}
+                    center
+                >
+                    <h2>El enfrentamiento ha sido eliminado exitosamente</h2>
+                    <div className="modal_container">
+                        <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                        <button onClick={closeDeleteMatchModal}>Aceptar</button>
+                    </div>
+                </Modal>
                 <form onSubmit={CreateSubtorneoMatch} className="form_add_matches" >
                     <div className="add_matches_left_right_side">
                     

@@ -3,22 +3,20 @@ import {Link} from 'react-router-dom'
 import axios from 'axios'
 import './ManageCanchas.css'
 import './ManageTorneos.css'
-import { RotatingLines } from  'react-loader-spinner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
+import { RotatingLines } from  'react-loader-spinner'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 
 export default function ManageTorneos() {
 
     const [Torneos, setTorneos] = useState([])
     const [LoadingTorneos, setLoadingTorneos] = useState(false)
+    const [DeleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
 
-    useEffect(() => {
-        GetAllTorneos();
-        console.log("Torneos UseEffect: " + Torneos);
-    },[] )
-    
     const GetAllTorneos = async () => {
         setLoadingTorneos(true)
         try {
@@ -36,13 +34,27 @@ export default function ManageTorneos() {
         try {
             const result = await axios.delete(`http://localhost:4000/api/deleteTorneo/${id}`);
             //const result = await axios.delete(`http://localhost:4000/api/deleteTorneo/${id}`);
-            const filter = Torneos.filter(e => e.id_torneo !== id)
-            console.log(result.data);
-            setTorneos(filter);
+            if(result.data.success === true){
+                const filter = Torneos.filter(e => e.id_torneo !== id)
+                setTorneos(filter);
+                setDeleteModalIsOpen(true)
+            }else{
+                alert("Ha ocurrido un error al eliminar al horario")
+            }
         } catch (error) {
             alert(error.message)
         }
     }
+
+    function closeDeleteModal() {
+        setDeleteModalIsOpen(false);
+        window.location.reload()
+    }
+
+    useEffect(() => {
+        GetAllTorneos();
+        console.log("Torneos UseEffect: " + Torneos);
+    },[] )
 
   return (
     <>
@@ -52,6 +64,17 @@ export default function ManageTorneos() {
                 <h3>Listado de Torneos</h3>
                 <Link to='addTorneo' className="linkAddCancha">Agregar nuevo torneo</Link>
             </div>
+            <Modal
+                open={DeleteModalIsOpen}
+                onClose={closeDeleteModal}
+                center
+                >
+                <h2>El torneo ha sido eliminado exitosamente</h2>
+                <div className="modal_container">
+                <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                <button onClick={closeDeleteModal}>Aceptar</button>
+                </div>
+            </Modal>
             {
             LoadingTorneos ?
             <RotatingLines

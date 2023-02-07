@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import './AddTorneo.css'
 import {Link, useNavigate} from 'react-router-dom'
-
-
-
 import axios from 'axios'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { RotatingLines } from  'react-loader-spinner'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 
 export default function AddTorneo() {
@@ -18,21 +20,16 @@ export default function AddTorneo() {
     const [Category, setCategory] = useState(0)
     const [Modalidad, setModalidad] = useState("")
     const [IsTorneoColores, setIsTorneoColores] = useState(false)
-
-    const [Confirmation, setConfirmation] = useState("")
-
-    useEffect(() => {
-        console.log(IsTorneoColores === "true");
-        //console.log(typeof IsTorneoColores);
-    }, [IsTorneoColores])
+    const [IsAddingTorneo, setIsAddingTorneo] = useState(false)
+    const [ModalIsOpen, setModalIsOpen] = useState(false);
     
     const AddNewTorneo = async (e) =>{
         e.preventDefault();
         if(Category==="" || Modalidad===""){
             alert("Por favor, complete todos los campos")
         }else{
-            setConfirmation("Creando Torneo...")
             try {
+                setIsAddingTorneo(true)
                 /* const response = await axios.post('http://localhost:4000/api/addTorneo',
                 {
                     nombre_torneo: Name,
@@ -58,21 +55,44 @@ export default function AddTorneo() {
                     is_colores: IsTorneoColores === "true" ? true : false,
                 })
                 if(response.data.success===true){
-                    setConfirmation("Se ha creado el torneo correctamente");
+                    setModalIsOpen(true)
                 }else{
-                    setConfirmation("Ha ocurrido un error")
+                    alert("Ha ocurrido un error")
+                    setIsAddingTorneo(false)
                 }
                 console.log(response.data);
             } catch (error) {
-                setConfirmation("Ha ocurrido un error")
+                alert("Ha ocurrido un error")
+                setIsAddingTorneo(false)
             }
         }
     }
+
+    function closeModal() {
+        setModalIsOpen(false);
+        window.location.reload()
+    }
+
+    useEffect(() => {
+        console.log(IsTorneoColores === "true");
+        //console.log(typeof IsTorneoColores);
+    }, [IsTorneoColores])
 
   return (
     <div className="main_addtorneo_container">
         <h3 style={{marginTop:"2rem"}}>Agregar nuevo Torneo</h3>
         <div className="AddTorneoform_container">
+        <Modal
+                open={ModalIsOpen}
+                onClose={closeModal}
+                center
+                >
+                <h2>El torneo ha sido agregado exitosamente</h2>
+                <div className="modal_container">
+                <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                <button onClick={closeModal}>Aceptar</button>
+                </div>
+            </Modal>
             <form onSubmit={AddNewTorneo} className="form_add_canchas">
                 <div className="name_input_container">
                     <label htmlFor="nameCancha">Nombre del Torneo</label>
@@ -126,8 +146,16 @@ export default function AddTorneo() {
                         <option value={false}>Regular</option>
                     </select>
                 </div>
-                <p style={{fontSize:"14px"}}>{Confirmation}</p>
                 <div className="btn_addCancha_container">
+                {IsAddingTorneo && 
+                    <RotatingLines
+                        strokeColor="green"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="35"
+                        visible={true}
+                        />
+                }
                     <button type="submit">Agregar</button>
                     <button type="submit"><Link to="/admin/manageTorneos" className="link_go_back">Volver</Link></button>
                 </div>

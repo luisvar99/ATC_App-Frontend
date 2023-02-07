@@ -9,6 +9,8 @@ import GetGroupsMembers from '../Torneos/GetGroupsMembers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 
 export default function EditSubtorneo() {
@@ -23,8 +25,7 @@ export default function EditSubtorneo() {
 
     const [Participants, setParticipants] = useState([])
     const [Groups, setGroups] = useState([])
-    const [GroupsMembers, setGroupsMembers] = useState([])
-
+    /*const [GroupsMembers, setGroupsMembers] = useState([])*/
     const [IsLoadingForms, setIsLoadingForms] = useState(false)
     const [IsLoadingMembers, setIsLoadingMembers] = useState(false)
     const [IsLoadingAddingGroups, setIsLoadingAddingGroups] = useState(false)
@@ -36,10 +37,12 @@ export default function EditSubtorneo() {
 
     const [IdGroupMember, setIdGroupMember] = useState(0)
 
-
-    const [Confirmation, setConfirmation] = useState("")
-
-
+    const [IsUpdatingSubTorneo, setIsUpdatingSubTorneo] = useState(false)
+    const [ModalIsOpen, setModalIsOpen] = useState(false);
+    const [DeleteParticipantModal, setDeleteParticipantModal] = useState(false);
+    const [PublishGroupsModal, setPublishGroupsModal] = useState(false);
+    
+    const [IsAddingGroup, setIsAddingGroup] = useState(false)
     const params = useParams();
 
     const GetSubtorneoById = async (e) =>{
@@ -63,9 +66,9 @@ export default function EditSubtorneo() {
         if(Name==="" || Cantidad_personas===""){
             alert("Por favor, complete todos los campos")
         }else{
-            setConfirmation("Editando competencia")
             try {
-                await axios.put(`http://localhost:4000/api/editSubTorneo/${params.idSubtorneo}`,
+                setIsUpdatingSubTorneo(true)
+                const result = await axios.put(`http://localhost:4000/api/editSubTorneo/${params.idSubtorneo}`,
                 {
                     id_torneo: params.idTorneo,
                     nombre: Name,
@@ -79,9 +82,16 @@ export default function EditSubtorneo() {
                     cantidad_personas: Cantidad_personas,
                     categoria: Categoria
                 }) */
-                setConfirmation("Se ha editado la competencia correctamente")
+                if(result.data.success===true){
+                    setModalIsOpen(true);
+                    setIsUpdatingSubTorneo(false)
+                }else{
+                    alert("Ha ocurrido un error")
+                    setIsUpdatingSubTorneo(false)
+                }
             } catch (error) {
-                setConfirmation("Ha ocurrido un error")
+                setIsUpdatingSubTorneo(false)
+                alert("Ha ocurrido un error")
                 alert(error.message);
             }
         }
@@ -90,7 +100,7 @@ export default function EditSubtorneo() {
 
     const PublishGroups = async (e) =>{
             try {
-                await axios.put(`http://localhost:4000/api/PublishGrupos/${params.idSubtorneo}`,
+                const result = await axios.put(`http://localhost:4000/api/PublishGrupos/${params.idSubtorneo}`,
                 {
                     isPublicado: 1
                 })
@@ -98,7 +108,12 @@ export default function EditSubtorneo() {
                 {
                     isPublicado: 1
                 }) */
-                window.location.reload();
+
+                if(result.data.success===true){
+                    setPublishGroupsModal(true)
+                }else{
+                    alert("Ha ocurrido un error");
+                }
             } catch (error) {
                 alert(error.message);
             }
@@ -114,6 +129,7 @@ export default function EditSubtorneo() {
         //console.log("Participantes: " + JSON.stringify(result.data)); 
       }
 
+
       const getParejas = async () => {
         try {
             setIsLoadingParticipants(true)
@@ -128,13 +144,18 @@ export default function EditSubtorneo() {
   
       }
 
+
       const DeleteSubTorneoParticipant = async (user_id)=>{
         try {
             //const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoParticipant/user=${user_id}/${params.idSubtorneo}`);
             const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoParticipant/user=${user_id}/${params.idSubtorneo}`);
-            const filter = Participants.filter(p => p.id !== user_id )
-            //console.log(result.data);
-            setParticipants(filter);
+            if(result.data.success===true){
+                const filter = Participants.filter(p => p.id !== user_id );
+                setParticipants(filter);
+                setDeleteParticipantModal(true)
+            }else{
+                alert("Ha ocurrido un error");
+            }
         } catch (error) {
             alert(error.message)
         }
@@ -144,9 +165,14 @@ export default function EditSubtorneo() {
         try {
             //const result = await axios.delete(`http://localhost:4000/api/DeleteSubTorneoPareja/${id_pareja}/${params.idSubtorneo}`);
             const result = await axios.delete(`http://localhost:4000/api/DeleteSubTorneoPareja/${id_pareja}/${params.idSubtorneo}`);
-            const filter = Participants.filter(p => p.id_pareja !== id_pareja )
+            if(result.data.success){
+                const filter = Participants.filter(p => p.id_pareja !== id_pareja )
+                setParticipants(filter);
+                setDeleteParticipantModal(true)
+            }else{
+                alert("Ha ocurrido un error");
+            }
             //console.log(result.data);
-            setParticipants(filter);
         } catch (error) {
             alert(error.message)
         }
@@ -154,7 +180,7 @@ export default function EditSubtorneo() {
 
       const addGrupo = async (e) =>{
         e.preventDefault();
-        setIsLoadingAddingGroups(true)
+        setIsAddingGroup(true)
         try {
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/idsubtorneo=${params.idSubtorneo}`)
             const result = await axios.post(`http://localhost:4000/api/addGrupo/idsubtorneo=${params.idSubtorneo}/numberOfGroups=${NumberOfGroups}`,
@@ -167,8 +193,7 @@ export default function EditSubtorneo() {
                 idSubTorneo: params.idSubtorneo,
                 isPublicado: 0
             }) */
-            //console.log(result.data);
-            setIsLoadingAddingGroups(false)
+            setIsAddingGroup(false)
             window.location.reload();
         } catch (error) {
             
@@ -181,7 +206,7 @@ export default function EditSubtorneo() {
         setIsDeletingGroup(true)
         try {
             //const result = await axios.post(`https://atcbackend.herokuapp.com/api/deleteSubTorneoParticipant/idsubtorneo=${params.idSubtorneo}`)
-            const result = await axios.delete(`hhttp://localhost:4000/api/deleteGrupo/idGrupo=${id_grupo}`,
+            const result = await axios.delete(`http://localhost:4000/api/deleteGrupo/idGrupo=${id_grupo}`,
             {
                 idSubTorneo: params.idSubtorneo,
             })
@@ -189,14 +214,13 @@ export default function EditSubtorneo() {
             {
                 idSubTorneo: params.idSubtorneo,
             }) */
-            //console.log(result.data);
             setIsDeletingGroup(false)
             window.location.reload();
         } catch (error) {
-            
+            alert(error.message)
         }
       }
-
+/* 
 
       const DeleteSubTorneoGroupParticipant = async (e, id_grupo, userId) =>{
         e.preventDefault();
@@ -206,18 +230,13 @@ export default function EditSubtorneo() {
             {
                 idSubTorneo: params.idSubtorneo,
             })
-            /* const result = await axios.delete(`http://localhost:4000/api/deleteSubTorneoGroupParticipant/idGrupo=${id_grupo}/idUser=${userId}`,
-            {
-                idSubTorneo: params.idSubtorneo,
-            }) */
-            //console.log(result.data);
             setIsDeletingGroup(false)
             window.location.reload();
         } catch (error) {
-            
+            alert(error.message)
         }
       }
-
+ */
       const addGroupMember = async (e,id_grupo) =>{
         e.preventDefault();
         if(IdGroupMember===""){
@@ -253,7 +272,7 @@ export default function EditSubtorneo() {
                 //console.log(result.data);
                 
             } catch (error) {
-
+                alert(error.message)
                 setIsAddingGroupMember(false)
             }
         }
@@ -268,12 +287,12 @@ export default function EditSubtorneo() {
 
             setIsLoadingForms(false)
         } catch (error) { 
-            
+            alert(error.message)
         }
       }
 
 
-      const GetGruposMembers = async () =>{
+/*       const GetGruposMembers = async () =>{
         try {
             setIsLoadingMembers(true)
             //const result = await axios.get(`http://localhost:4000/api/getGruposMembers/${params.idSubtorneo}`)
@@ -282,9 +301,9 @@ export default function EditSubtorneo() {
             //console.log("GroupsMembers: " + JSON.stringify(result.data));
             setIsLoadingMembers(false)
         } catch (error) {
-            
+            alert(error.message)
         }
-      }
+      } */
 
 
     useEffect(() => {
@@ -301,12 +320,61 @@ export default function EditSubtorneo() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
+    function closeModal() {
+        setModalIsOpen(false);
+        window.location.reload()
+    }
+
+    function closeDeleteParticipantModal() {
+        setDeleteParticipantModal(false);
+        window.location.reload()
+    }
+
+    function closePublishGroupsModal() {
+        setPublishGroupsModal(false);
+    }
 
   return (
     <div className="editTorneoWrapper">
         <div className="main_editSubTorneo_container">
             <div className="EditSubTorneo_form_container">
                 <h3>Editar categoría</h3>
+                <Modal
+                    open={ModalIsOpen}
+                    onClose={closeModal}
+                    center
+                >
+                    <h2>La categoria ha sido actualizada exitosamente</h2>
+                    <div className="modal_container">
+                        <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                        <button onClick={closeModal}>Aceptar</button>
+                    </div>
+                </Modal>
+
+                <Modal
+                    open={DeleteParticipantModal}
+                    onClose={closeDeleteParticipantModal}
+                    center
+                >
+                    <h2>Participante(s) eliminado(s) exitosamente</h2>
+                    <div className="modal_container">
+                        <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                        <button onClick={closeDeleteParticipantModal}>Aceptar</button>
+                    </div>
+                </Modal>
+
+                <Modal
+                    open={PublishGroupsModal}
+                    onClose={closePublishGroupsModal}
+                    center
+                >
+                    <h2>Los grupos han sido publicados exitosamente</h2>
+                    <div className="modal_container">
+                        <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                        <button onClick={closePublishGroupsModal}>Aceptar</button>
+                    </div>
+                </Modal>
+
                 <form onSubmit={UpdateCompetencia} className="form_add_canchas">
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Nombre</label>
@@ -327,8 +395,15 @@ export default function EditSubtorneo() {
                             <option value="6">Sexta</option>
                         </select>
                     </div>
-                    <p style={{fontSize:"14px"}}>{Confirmation}</p>
                     <div className="btn_addCancha_container">
+                    {IsUpdatingSubTorneo &&
+                    <RotatingLines
+                        strokeColor="green"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="35"
+                        visible={true}/>
+                    }       
                         <button type="submit">Guardar Cambios</button>
                         <button><Link to={`/admin/manageTorneos/editTorneo/id=${Id_torneo}`} className="link_go_back">Volver</Link></button>
                     </div>
@@ -397,7 +472,7 @@ export default function EditSubtorneo() {
                         <label htmlFor="numberOfGroups">Numero de grupos</label>
                         <input type="number" id="numberOfGroups" onChange={(e)=>setNumberOfGroups(e.target.value)} required/>
                     </div>
-                    {IsLoadingAddingGroups &&
+                    {IsAddingGroup &&
                     <RotatingLines
                         strokeColor="green"
                         strokeWidth="5"

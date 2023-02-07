@@ -3,16 +3,20 @@ import axios from 'axios'
 import {Link, useNavigate} from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import './EditSubtorneo.css'
-import { RotatingLines } from  'react-loader-spinner'
 import './ManageUsers.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+
+import { RotatingLines } from  'react-loader-spinner'
+import { Modal } from 'react-responsive-modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function ManageUsers() {
 
     const [Users, setUsers] = useState([])
     const [Apellido, setApellido] = useState('')
     const [LoadingUsers, setLoadingUsers] = useState(false)
+    const [modalIsOpen, setIsOpen] = useState(false);
 
     const GetUsers = async () => {
         try { 
@@ -48,13 +52,20 @@ export default function ManageUsers() {
         try {
             const result = await axios.delete(`http://localhost:4000/api/deleteUser/${id}`)
             //const result = await axios.delete(`http://localhost:4000/api/deleteUser/${id}`)
-            const filter = Users.filter(u => u.id !== id )
+            if(result.data.success===true){
+                const filter = Users.filter(u => u.id !== id )
+                setUsers(filter);
+                setIsOpen(true)
+            }
             //console.log(result.data);
-            setUsers(filter);
             //console.log("Rondas: " + JSON.stringify(result.data));
         } catch (error) {
             alert(error.message)
         }
+      }
+
+      function closeModal() {
+        setIsOpen(false);
       }
 
     useEffect(() => {
@@ -79,6 +90,18 @@ export default function ManageUsers() {
             <>
             <h3>Listado de usuarios</h3>
             <Link to="/admin/addNewUser" className="add_user_btn" id="add_user_btn">Nuevo Usuario</Link>
+            <Modal
+            open={modalIsOpen}
+            onClose={closeModal}
+            center
+          >
+            <h2>El usuario ha sido eliminado exitosamente</h2>
+            <div className="modal_container">
+              <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+              <button onClick={closeModal}>Aceptar</button>
+            </div>
+
+          </Modal>
             <form style={{marginTop:"2rem"}} onSubmit={GetUsersByApellido}>
                 <input placeholder="Ingrese un apellido" type="text" className="search_users_by_name" onChange={(e)=>setApellido(e.target.value)} required/>
                 <button className="search_users_by_nameBtn" type="submit">Buscar</button>

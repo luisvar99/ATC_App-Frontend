@@ -3,11 +3,17 @@ import axios from 'axios'
 import {Link, useNavigate} from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
 
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAdmin}) {
 
     const [GroupsMembers, setGroupsMembers] = useState([])
     const [GroupNumber, setGroupNumber] = useState(0)
+
+    const [DeleteGroupParticipantModal, setDeleteGroupParticipantModal] = useState(false)
 
 
     const [IsLoadingMembers, setIsLoadingMembers] = useState(false)
@@ -39,12 +45,20 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
             {
                 idSubTorneo: idSubtorneo,
             }) */
-            console.log(result.data);
-            window.location.reload();
+            if(result.data.success===true){
+                setDeleteGroupParticipantModal(true)
+            }else{
+                alert("Ha ocurrido un error")
+            }
         } catch (error) {
-            
+            alert("Ha ocurrido un error")
         }
       }
+
+      function closeDeleteGroupParticipantModal() {
+        setDeleteGroupParticipantModal(false);
+        window.location.reload()
+    }
 
       useEffect(() => {
         GetGruposMembers();
@@ -69,6 +83,17 @@ export default function GetGroupsMembers({idGrupo, modalidad, idSubtorneo, NotAd
                   :
                   <>
                   <h4 style={{textAlign:"center"}}>Grupo No.{GroupNumber}</h4>
+                  <Modal
+                    open={DeleteGroupParticipantModal}
+                    onClose={closeDeleteGroupParticipantModal}
+                    center
+                >
+                        <h2>Participante eliminado exitosamente</h2>
+                        <div className="modal_container">
+                            <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                            <button onClick={closeDeleteGroupParticipantModal}>Aceptar</button>
+                        </div>
+                    </Modal>
                   <table className="subtorneo_details_table">
                 <thead>
                     <tr className="table_headers">

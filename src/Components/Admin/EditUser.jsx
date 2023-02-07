@@ -3,6 +3,10 @@ import './AddUser.css'
 import axios from 'axios'
 import {Link, useParams} from 'react-router-dom'
 import moment from 'moment'
+import { RotatingLines } from  'react-loader-spinner'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 export default function EditUser() {
@@ -19,6 +23,9 @@ export default function EditUser() {
     const [Categoria, setCategoria] = useState(0)
 
     const [Confirmation, setConfirmation] = useState("")
+    const [IsUpdatingUser, setIsUpdatingUser] = useState(false)
+    const [modalIsOpen, setIsOpen] = useState(false);
+    
 
     const params = useParams();
 
@@ -49,8 +56,8 @@ export default function EditUser() {
         if(Sexo==="empty" || Role==="empty"){
             setConfirmation("Complete todos los campos")
         }else{
-            setConfirmation("Editando Usuario")
             try {
+                setIsUpdatingUser(true)
                 const result = await axios.put(`http://localhost:4000/api/EditUsers/${params.user_id}`,
                 {
                     username: User.toLowerCase(),
@@ -83,15 +90,22 @@ export default function EditUser() {
                     alert("El usuario ya pertence a otra persona")
                     setConfirmation("No se ha podido realizar el registro")
                 }else{
-                    setConfirmation("Se ha actualizado el usuario correctamente")
+                    if(result.data.success===true){
+                        setIsUpdatingUser(false)
+                    }
+                    setIsOpen(true)
+                    setIsUpdatingUser(false)
                 }
             } catch (error) {
                 setConfirmation("Ha ocurrido un error")
+                setIsUpdatingUser(false)
                 alert(error.message);
             }
         }  
     }
-
+    function closeModal() {
+        setIsOpen(false);
+      }
     
     useEffect(() => {
         GetUserById();
@@ -102,6 +116,18 @@ export default function EditUser() {
     <div className="main_addUser_container">
         <h3>Editar Usuario</h3>
         <div className="Add_userform_container">
+        <Modal
+            open={modalIsOpen}
+            onClose={closeModal}
+            center
+          >
+            <h2>El usuario ha sido actualizado exitosamente</h2>
+            <div className="modal_container">
+              <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+              <button onClick={closeModal}>Aceptar</button>
+            </div>
+
+          </Modal>
             <form onSubmit={EditUsers} className="form_add_users">
                 <div className="left_right_side_container">
                 <div className="left_side_container">
@@ -111,7 +137,7 @@ export default function EditUser() {
                     </div>
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Usuario</label>
-                        <input readOnly value={User} type="text" id="name" onChange={(e)=>setUser(e.target.value)} required/>
+                        <input disabled value={User} type="text" id="name" onChange={(e)=>setUser(e.target.value)} required/>
                     </div>
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Correo</label>
@@ -136,7 +162,7 @@ export default function EditUser() {
                     </div>
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Contrasena</label>
-                        <input /* value={Contrasena} */ type="text" id="name" onChange={(e)=>setContrasena(e.target.value)} required/>
+                        <input /* value={Contrasena} */ type="text" id="name" onChange={(e)=>setContrasena(e.target.value)}/>
                     </div>
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Accion</label>
@@ -169,7 +195,16 @@ export default function EditUser() {
             </div>
 
                 <div className="btn_addCancha_container">
-                    <button type="submit">Agregar</button>
+                {IsUpdatingUser && 
+                    <RotatingLines
+                        strokeColor="green"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="35"
+                        visible={true}
+                        />
+                }
+                    <button type="submit">Guardar Cambios</button>
                     <Link to="/admin/manageUsuarios" className="link_go_back">Volver</Link>
                 </div>
 

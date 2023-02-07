@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react'
 import './AddUser.css'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
-
+import { RotatingLines } from  'react-loader-spinner'
+import { Modal } from 'react-responsive-modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function AddUser() {
 
@@ -19,6 +22,9 @@ export default function AddUser() {
     const [Categoria, setCategoria] = useState(0)
 
     const [Confirmation, setConfirmation] = useState("")
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [IsAddingUser, setIsAddingUser] = useState(false);
+
 
     useEffect(() => {
       //console.log(Role);
@@ -31,6 +37,7 @@ export default function AddUser() {
         }else{
             setConfirmation("Agregando Usuario")
             try {
+                setIsAddingUser(true)
                 /* const result = await axios.post('http://localhost:4000/api/addUser',
                 {
                     username: User.toLowerCase(),
@@ -62,20 +69,39 @@ export default function AddUser() {
                 if(result.data.loggedIn === false){
                     alert("El usuario ya pertence a otra persona")
                     setConfirmation("No se ha podido realizar el registro")
+                    setIsAddingUser(false)
                 }else{
-                    setConfirmation("Se ha agregado el usuario correctamente")
+                    setIsOpen(true)
+                    setIsAddingUser(false)
                 }
             } catch (error) {
                 setConfirmation("Ha ocurrido un error")
+                setIsAddingUser(false)
                 alert(error.message);
             }
         }  
     }
 
+    function closeModal() {
+        setIsOpen(false);
+      }
+
   return (
     <div className="main_addUser_container">
         <h3>Agregar nuevo usuario</h3>
         <div className="Add_userform_container">
+        <Modal
+            open={modalIsOpen}
+            onClose={closeModal}
+            center
+          >
+            <h2>El usuario ha sido agregado exitosamente</h2>
+            <div className="modal_container">
+              <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+              <button onClick={closeModal}>Aceptar</button>
+            </div>
+
+          </Modal>
             <form onSubmit={AddNewUser} className="form_add_users">
                 <div className="left_right_side_container">
                 <div className="left_side_container">
@@ -93,7 +119,7 @@ export default function AddUser() {
                     </div>
                     <div className="name_input_container">
                         <label htmlFor="nameCancha">Cedula</label>
-                        <input type="text" id="name" onChange={(e)=>setCedula(e.target.value)} required/>
+                        <input type="number" id="name" onChange={(e)=>setCedula(e.target.value)} required/>
                     </div>
                     <div className="name_input_container">
                         <label htmlFor="sexo">Sexo</label>
@@ -148,6 +174,15 @@ export default function AddUser() {
             </div>
 
                 <div className="btn_addCancha_container">
+                {IsAddingUser && 
+                    <RotatingLines
+                        strokeColor="green"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="35"
+                        visible={true}
+                        />
+                }
                     <button type="submit">Agregar</button>
                     <Link to="/admin/manageUsuarios" className="link_go_back">Volver</Link>
                 </div>
