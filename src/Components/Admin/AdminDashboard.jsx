@@ -19,9 +19,13 @@ export default function Dashboard() {
       try {
           //const result = await axios.get('http://localhost:4000/api/getTorneoColores');
           const result = await axios.get('http://localhost:4000/api/getTorneoColores');
-          setTorneoColores(result.data);
-          console.log("result.data TorneoColores: " + JSON.stringify(result.data));
+          if(result.data.success===false){
+            setTorneoColores({validColores:false})
+          }else{
+            setTorneoColores(result.data);
+          }
           setIsLoadingColores(false)
+          console.log("result.data TorneoColores: " + JSON.stringify(result.data));
       }catch (error) {
       alert(error.message)
   
@@ -55,7 +59,10 @@ export default function Dashboard() {
                 <Link className="optionsLinks" to='manageCanchas'>Gestion de Canchas</Link>
                 <Link className="optionsLinks" to='manageHorarios'>Gestion de Horarios</Link>
                 <Link className="optionsLinks" to='manageTorneos'>Gestion de Torneos</Link>   
-                <Link className="optionsLinks" to={`torneosColores/${TorneoColores.id_torneo}`}>Gestion Torneo Colores</Link>   
+                {
+                  TorneoColores.validColores!==false &&
+                  <Link className="optionsLinks" to={`torneosColores/${TorneoColores.id_torneo}`}>Gestion Torneo Colores</Link>
+                }   
                 <Link className="optionsLinks" to="manageRondas">Gestion Rondas</Link>   
               </div>
             </div>

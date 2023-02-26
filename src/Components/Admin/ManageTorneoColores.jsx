@@ -10,6 +10,9 @@ import {Link} from 'react-router-dom'
 import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+
 
 
 export default function ManageTorneoColores() {
@@ -53,7 +56,6 @@ export default function ManageTorneoColores() {
     const [IdRonda, setIdRonda] = useState(0)
     const [Resultado, setResultado] = useState("")
     const [Fecha, setFecha] = useState(new Date().toLocaleDateString("EN-US"))
-    const [Confirmation, setConfirmation] = useState("")
 
 
     const [IsCreatingGrupo, setIsCreatingGrupo] = useState(false)
@@ -62,6 +64,15 @@ export default function ManageTorneoColores() {
     const [IsCreatingJornada, setIsCreatingJornada] = useState(false)
     const [IsPublishingEquipos, setIsPublishingEquipos] = useState(false)
     const [IsLoadingColoresParejasDropdown, setIsLoadingColoresParejasDropdown] = useState(false)
+
+    const [UpdatingTorneoColores, setIsUpdatingTorneoColores] = useState(false)
+
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    const [GruposModalIsOpen, setGruposModalIsOpen] = useState(false);
+    const [EquiposModalIsOpen, setEquiposModalIsOpen] = useState(false);
+
+    const [PublishGruposEquiposModalIsOpen, setPublishGruposEquiposModalIsOpen] = useState(false);
 
     const params = useParams();
 
@@ -117,19 +128,18 @@ export default function ManageTorneoColores() {
                 id_torneo: params.id,
                 nombre_bombo: NombreGrupo
             });
-            
-            /* const result = await axios.post('http://localhost:4000/api/CreateColoresGrupo',
-            {
-                id_torneo: params.id,
-                nombre_bombo: NombreGrupo
-            });
-             */
-            console.log("result.data: " + JSON.stringify(result.data));
-            setIsCreatingGrupo(false)
-            window.location.reload()
+            //console.log("result.data: " + JSON.stringify(result.data));
+            if(result.data.success===true){
+                //setColoresGrupos([...ColoresGrupos, {id_torneo:params.id, nombre_bombo: NombreGrupo}])
+                setIsCreatingGrupo(false)
+                setGruposModalIsOpen(true);
+            }else{
+                setIsCreatingGrupo(false)
+                alert("Ha ocurrido un error al agregar el grupo");
+            }
         }catch (error) {
-        alert(error.message)
-    
+            setIsCreatingGrupo(false)
+            alert("Ha ocurrido un error creando el grupo")
         }
     }
 
@@ -145,21 +155,17 @@ export default function ManageTorneoColores() {
                 isPublicado:0,
                 color: ColorEquipo,
             });
-            /* const result = await axios.post('http://localhost:4000/api/CreateColoresEquipo',
-            {
-                nombre_equipo: NombreEquipo,
-                id_bombo: GrupoEquipo,
-                id_torneo: params.id,
-                isPublicado:0,
-                color: ColorEquipo,
-            }); */
-            
-            console.log("result.data: " + JSON.stringify(result.data));
-            setIsCreatingEquipo(false)
-            window.location.reload()
+            if(result.data.success===true){
+                setIsCreatingEquipo(false);
+                setEquiposModalIsOpen(true);
+                
+            }else{
+                setIsCreatingEquipo(false);
+                alert("Ha ocurrido un error creando el equipo")
+            }
         }catch (error) {
-        alert(error.message)
-    
+            setIsCreatingEquipo(false);
+            alert("Ha ocurrido un error creando el equipo")
         }
     }
 
@@ -188,20 +194,6 @@ export default function ManageTorneoColores() {
                         IdHorario: IDHorario,
                         id_cancha: IDCancha
                     });
-                    /* const result = await axios.post('http://localhost:4000/api/addColoresMatch',
-                    {
-                        id_torneo: params.id,
-                        player_one: Id_player_one,
-                        player_two: Id_player_two,
-                        player_three: Id_player_three,
-                        player_four: Id_player_four,
-                        fecha: Fecha,
-                        resultado: Resultado,
-                        idRonda: IdRonda,
-                        IdHorario: IDHorario,
-                        id_cancha: IDCancha
-                    }); */
-                    
                     console.log("result.data: " + JSON.stringify(result.data));
 
                     if(result.data.success===true){
@@ -230,15 +222,6 @@ export default function ManageTorneoColores() {
                     fecha: FechaJornada,
                     id_ronda: RondaJornada,
                 });
-                /* const result = await axios.post('http://localhost:4000/api/addJornada',
-                {
-                    id_torneo: params.id,
-                    equipo_uno: Equipo_uno,
-                    equipo_dos: Equipo_dos,
-                    fecha: FechaJornada,
-                    id_ronda: RondaJornada,
-                }); */
-                
                 console.log("result.data: " + JSON.stringify(result.data));
 
                 if(result.data.success===true){
@@ -263,20 +246,17 @@ export default function ManageTorneoColores() {
             {
                 isPublicado: 1
             });
-            /* const result = await axios.put(`http://localhost:4000/api/PublishColoresTeamsAndGroups/${params.id}`,
-            {
-                isPublicado: 1
-            }); */
-            
-            //console.log("result.data: " + JSON.stringify(result.data));
-            setIsPublishingEquipos(false)
             if(result.data.success===true){
-                window.location.reload()
+                setPublishGruposEquiposModalIsOpen(true);
+                setIsPublishingEquipos(false)
+                
             }else{
                 alert("Ha ocurrido un error publicando los grupos y equipos")
+                setIsPublishingEquipos(false)
             }
         }catch (error) {
-            alert(error.message)
+            alert("Ha ocurrido un error publicando los grupos y equipos")
+            setIsPublishingEquipos(false)
         }
     }
 
@@ -332,15 +312,6 @@ export default function ManageTorneoColores() {
             id_inv_dos: Id_player_two,
             descripcion: "Torneo Colores"
           })
-          /* const result = await axios.post(`http://localhost:4000/api/createReservation`,{
-            idCancha: IDCancha,
-            idHorario: IDHorario,
-            idSocio: sessionStorage.getItem('userId'),
-            fecha: Fecha,
-            id_inv_uno: Id_player_one,
-            id_inv_dos: Id_player_two,
-            descripcion: "Torneo Colores"
-          }) */
           if(result.data.validHorario===false){
             alert("El horario no esta disponible para la fecha y cancha seleccionada")
             return false;
@@ -393,9 +364,10 @@ export default function ManageTorneoColores() {
         try {
             const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEquipo/${id_equipo}`);
             //const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEquipo/${id_equipo}`);
-            //console.log("Pareja " + JSON.stringify(result.data));
+            console.log("Pareja " + JSON.stringify(result.data));
             const filter = ColoresEquipos.filter(eq => eq.id_equipo !== id_equipo )
             setColoresEquipos(filter);
+            window.location.reload();
         }catch (error) {
             alert(error.message)
         }
@@ -403,8 +375,8 @@ export default function ManageTorneoColores() {
 
     const EditTorneo = async (e) =>{
         e.preventDefault();
-            setConfirmation("Actualizando Torneo...")
             try {
+                setIsUpdatingTorneoColores(true)
                 //const editResult = await axios.put(`https://atcbackend.herokuapp.com/api/editTorneo/${params.idTorneo}`,
                 const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.id}`,
                 {
@@ -430,15 +402,38 @@ export default function ManageTorneoColores() {
                   modalidad: "Dobles",
                   is_colores: true
                 }) */
-                console.log(editResult.data);
-                setConfirmation("Se ha actualizado el torneo correctamente")
+                if(editResult.data.success===true){
+                    setIsUpdatingTorneoColores(false)
+                    setIsOpen(true)
+                    //setConfirmation("Se ha actualizado el torneo correctamente")
+                }else{
+                    setIsUpdatingTorneoColores(false)
+                    alert("Ha ocurrido un error actualizando los datos")
+                }
             } catch (error) {
-                setConfirmation("Ha ocurrido un error")
-                alert(error.message);
+                //setConfirmation("Ha ocurrido un error")
+                //alert(error.message);
+                setIsUpdatingTorneoColores(false)
+                alert("Ha ocurrido un error actualizando los datos")
             }
         
     }
 
+    function closeModal() {
+        setIsOpen(false);
+    }
+    function closeGruposModal() {
+        setGruposModalIsOpen(false);
+        window.location.reload()
+    }
+    function closeEquiposModal() {
+        setEquiposModalIsOpen(false);
+        window.location.reload()
+    }
+    function closePublishGruposEquiposModal() {
+        setPublishGruposEquiposModalIsOpen(false);
+        window.location.reload()
+    }
 
     useEffect(() => {
         getCurrentTorneoColores();
@@ -458,6 +453,18 @@ export default function ManageTorneoColores() {
         <div className="manageColoresSubContainer">
             <div className="manageColoresFormContainer">
                 <h3 style={{textAlign:"center"}}>Informacion General</h3>
+                <Modal
+                    open={modalIsOpen}
+                    onClose={closeModal}
+                    center
+                >
+                    <h2>La gestión se realizó exitosamente</h2>
+                    <div className="modal_container">
+                    <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                    <button onClick={closeModal}>Aceptar</button>
+                    </div>
+
+                </Modal>
                 <form className="manageColoresForm"> 
                     <div className="manageColoresLeftSideContainer">
 
@@ -495,8 +502,18 @@ export default function ManageTorneoColores() {
                 </form>
                 <div className="btnUpdateColores">
                     <button onClick={EditTorneo}>Acualizar Datos</button>
+                    {
+                    UpdatingTorneoColores &&
+
+                    <RotatingLines
+                    strokeColor="green"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="35"
+                    visible={true}
+                    />
+                }
                 </div>
-                    <p style={{textAlign: "center"}}>{Confirmation}</p>
             </div>
         <hr className="new1"/> 
         
@@ -507,6 +524,18 @@ export default function ManageTorneoColores() {
 
         <div className="manageColoresGrupsTeamsContainer">
             <div className='createGruposColoresFormContainer'>
+            <Modal
+                    open={GruposModalIsOpen}
+                    onClose={closeGruposModal}
+                    center
+                >
+                    <h2>Grupo creado exitosamente</h2>
+                    <div className="modal_container">
+                    <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                    <button onClick={closeGruposModal}>Aceptar</button>
+                    </div>
+
+                </Modal>
                 <form className="createGrupoColoresForm" onSubmit={CreateGrupo}>
                     <div className="nombre_bombo_container">
                         <label htmlFor="nombre_bombo">Nombre del Grupo</label>
@@ -526,6 +555,18 @@ export default function ManageTorneoColores() {
                 </form>
             </div>
             <div className='createGruposColoresFormContainer'>
+            <Modal
+                    open={EquiposModalIsOpen}
+                    onClose={closeEquiposModal}
+                    center
+                >
+                    <h2>Equipo creado exitosamente</h2>
+                    <div className="modal_container">
+                    <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                    <button onClick={closeEquiposModal}>Aceptar</button>
+                    </div>
+
+                </Modal>
                     <form className="createGrupoColoresForm" onSubmit={CreateEquipo}>
                         <div className="nombre_bombo_container">
                             <label htmlFor="nombre_bombo">Nombre del Equipo</label>
@@ -613,6 +654,18 @@ export default function ManageTorneoColores() {
 
             <div className='Grupos_equipos_players_container'>
                 <div style={{display: "flex"}}>
+                <Modal
+                    open={PublishGruposEquiposModalIsOpen}
+                    onClose={closePublishGruposEquiposModal}
+                    center
+                >
+                    <h2>Grupos y Equipos publicados exitosamente</h2>
+                    <div className="modal_container">
+                    <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                    <button onClick={closePublishGruposEquiposModal}>Aceptar</button>
+                    </div>
+
+                </Modal>
                     <button className="publicarColoresEquiposBtn" onClick={PublishColoresEquiposAndGroups}>Publicar Grupos y Equipos</button>
                     { IsPublishingEquipos && 
                         <RotatingLines

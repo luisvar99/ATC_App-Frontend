@@ -470,7 +470,7 @@ export default function EditSubtorneo() {
                 <form onSubmit={addGrupo} className="form_create_group">
                     <div className="groups_number_input_container">
                         <label htmlFor="numberOfGroups">Numero de grupos</label>
-                        <input type="number" id="numberOfGroups" onChange={(e)=>setNumberOfGroups(e.target.value)} required/>
+                        <input type="number" id="numberOfGroups" onChange={(e)=>setNumberOfGroups(e.target.value)} min="1" required/>
                     </div>
                     {IsAddingGroup &&
                     <RotatingLines
