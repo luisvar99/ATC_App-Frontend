@@ -3,6 +3,9 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
 import './EditColoresEquipos.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function EditColoresEquipos() {
 
@@ -12,6 +15,8 @@ export default function EditColoresEquipos() {
     const [GrupoColoresEquipo, setGrupoColoresEquipo] = useState()
 
     const [IsCreatingEquipo, setIsCreatingEquipo] = useState(false)
+
+    const [modalIsOpen, setIsOpen] = useState(false);
 
     const params = useParams();
 
@@ -53,23 +58,22 @@ export default function EditColoresEquipos() {
                 ispublicado:0,
                 color: ColorColoresEquipo,
             });
-            /* const result = await axios.put(`http://localhost:4000/api/UpdateColoresEquipo/${params.id}/${params.id_equipo}`,
-            {
-                nombre_equipo: NombreColoresEquipo,
-                id_bombo: GrupoColoresEquipo,
-                id_torneo: params.id,
-                ispublicado:0,
-                color: ColorColoresEquipo,
-            }); */
-            
-            console.log("result.data: " + JSON.stringify(result.data));
-            setIsCreatingEquipo(false)
-            window.location.reload()
+            if(result.data.success===true){
+                setIsOpen(true)
+                setIsCreatingEquipo(false)
+            }else{
+                alert("Ha ocurrido un error guardando los cambios")
+                setIsCreatingEquipo(false)
+            }
         }catch (error) {
-            alert(error.message)
+            alert("Ha ocurrido un error guardando los cambios")
             setIsCreatingEquipo(false)
-    
         }
+    }
+        
+    function closeModal() {
+        setIsOpen(false);
+        window.location.reload()
     }
 
     useEffect(() => {
@@ -80,6 +84,18 @@ export default function EditColoresEquipos() {
 
   return (
     <div className='editEquiposColoresFormContainer'>
+        <Modal
+        open={modalIsOpen}
+        onClose={closeModal}
+        center
+    >
+        <h2>Se ha actualizado el equipo exitosamente</h2>
+        <div className="modal_container">
+        <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+        <button onClick={closeModal}>Aceptar</button>
+        </div>
+
+    </Modal>
         <form className="EditEquipoColoresForm" onSubmit={UpdateEquipo}>
             <div className="nombre_bombo_container">
                 <label htmlFor="nombre_bombo">Nombre del Equipo</label>

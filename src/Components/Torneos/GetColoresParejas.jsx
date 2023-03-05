@@ -6,6 +6,8 @@ import GetColoresParejasMembers from './GetColoresParejasMembers'
 import './GetColoresParejas.css'
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -17,6 +19,7 @@ export default function GetColoresParejas() {
     const [ColoresParticipantes, setColoresParticipantes] = useState([])
     const [ColoresEquipos, setColoresEquipos] = useState([])
     const [IdEquipo, setIdEquipo] = useState(0)
+    const [modalIsOpen, setIsOpen] = useState(false);
 
 
     const params = useParams();
@@ -65,11 +68,12 @@ export default function GetColoresParejas() {
                 {
                     id_equipo: IdEquipo
                 });
-                /* const result = await axios.put(`http://localhost:4000/api/setEquipoToPareja/${id_pareja}/${params.id}`,
-                {
-                    id_equipo: IdEquipo
-                }); */
-                console.log("Pareja " + JSON.stringify(result.data));
+                if(result.data.success===true){
+                    //console.log("Pareja " + JSON.stringify(result.data));
+                    setIsOpen(true);
+                }else{
+                    alert("Ha ocurrido un error asignando un equipo al participante")
+                }
             }catch (error) {
                 alert(error.message)
             }
@@ -87,16 +91,24 @@ export default function GetColoresParejas() {
         }
     } */
     const DeleteColoresParticipante = async (id_pareja) => {
-        
+        console.log(id_pareja);
         try {
             const result = await axios.delete(`http://localhost:4000/api/DeleteColoresParticipante/${id_pareja}/${params.id}`);
-            //const result = await axios.delete(`http://localhost:4000/api/DeleteColoresParticipante/${id_pareja}/${params.id}`);
-            console.log("Pareja " + JSON.stringify(result.data));
-            window.location.reload();
+            if(result.data.success===true){
+                const filter = ColoresParticipantes.filter(cp => cp.id !== id_pareja);
+                setColoresParticipantes(filter);
+                setIsOpen(true);
+            }else{
+                alert("Ha ocurrido un error eliminando al participante")
+            }
         }catch (error) {
             alert(error.message)
         }
     }
+
+    function closeModal() {
+        setIsOpen(false);
+      }
 
     useEffect(() => {
         /* getColoresParejas(); */
@@ -132,6 +144,18 @@ export default function GetColoresParejas() {
                 }
         </div> */}
         <div className="coloresParticipantsContainer">
+        <Modal
+            open={modalIsOpen}
+            onClose={closeModal}
+            center
+          >
+            <h2>Proceso completado con exito</h2>
+            <div className="modal_container">
+              <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+              <button onClick={closeModal}>Aceptar</button>
+            </div>
+
+          </Modal>
         {
             ColoresParticipantes.map((cp, index)=>(
                 <>
@@ -162,7 +186,7 @@ export default function GetColoresParejas() {
                             }
                         </select>
                         <div style={{display:"flex", width: "100%", justifyContent:"space-between", marginTop:"0.3rem", alignItems:"center"}}>
-                            <button onClick={(e) => setTeamToParticipante(cp.id)} style={{padding:"0.4rem", width: "85%", fontSize:"0.8rem"}}>Guardar Cambios</button>
+                            <button className='GuardarCambiosBtn' onClick={(e) => setTeamToParticipante(cp.id)} style={{padding:"0.4rem", width: "85%", fontSize:"0.8rem"}}>Guardar Cambios</button>
                             <FontAwesomeIcon icon={faTrash} className="deleteColoresParejaIcon" onClick={(e) => DeleteColoresParticipante(cp.id)} style={{cursor: "pointer", fontSize:"2rem", color: "#515151"}}/>                            
                         </div>
                     </div>

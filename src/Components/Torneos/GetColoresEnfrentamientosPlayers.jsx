@@ -5,6 +5,7 @@ import { RotatingLines } from  'react-loader-spinner'
 import './GetColoresEnfrentamientosPlayers.css'
 
 
+
 export default function GetColoresEnfretamientosPlayers({id_partido, id_torneo}) {
 
     const [Enfrentamiento, setEnfrentamiento] = useState([])
@@ -22,10 +23,10 @@ export default function GetColoresEnfretamientosPlayers({id_partido, id_torneo})
             //const result = await axios.get(`http://localhost:4000/api/GetColoresEnfretamientosPlayers/${id_torneo}/${id_partido}`);
             console.log("getColoresEnfrentamientosByIdPartido: " + JSON.stringify(result.data));
             setEnfrentamiento(result.data);
-            setFechaEnfrentamiento(result.data[0].fecha);
-            setRondaEnfrentamientos(result.data[0].nombre);
-            setNombreCancha(result.data[0].nombre_cancha)
-            setResultado(result.data[0].resultado || "Partido sin jugar")
+            setFechaEnfrentamiento(result.data[0] ===undefined ? "Error" : result.data[0].fecha);
+            setRondaEnfrentamientos(result.data[0] ===undefined ? "Error" : result.data[0].nombre);
+            setNombreCancha(result.data[0] ===undefined ? "Error" : result.data[0].nombre_cancha)
+            setResultado(result.data[0] ===undefined ? "Error" : result.data[0].resultado || "Partido sin jugar")
             setIsLoadingEnfrentamientos(false)
         }catch (error) {
             alert("getColoresEnfrentamientosByIdPartido: " + error.message)

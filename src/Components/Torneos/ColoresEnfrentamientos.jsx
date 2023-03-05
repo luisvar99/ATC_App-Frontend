@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
-import moment from 'moment'
 import {Link} from 'react-router-dom'
 import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleExclamation} from '@fortawesome/free-solid-svg-icons'
 import './ColoresEnfrentamientos.css'
 import GetColoresEnfretamientosPlayers from './GetColoresEnfrentamientosPlayers'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 
 export default function ColoresEnfrentamientos({isAdmin}) {
 
     const [Enfrentamientos, setEnfrentamientos] = useState([])
+    const [modalIsOpen, setIsOpen] = useState(false);
 
     const params = useParams();
 
@@ -34,14 +35,21 @@ export default function ColoresEnfrentamientos({isAdmin}) {
         try {
             const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEnfrentamiento/${id_partido}/${id_cancha}/${id_horario}/${fecha}`);
             //const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEnfrentamiento/${id_partido}/${id_cancha}/${id_horario}/${fecha}`);
-            const filter = Enfrentamientos.filter(p => p.id_partido !== id_partido )
-            console.log("filter: "+filter);
-            setEnfrentamientos(filter);
+            if(result.data.success===true){
+                setIsOpen(true)
+                const filter = Enfrentamientos.filter(p => p.id_partido !== id_partido )
+                setEnfrentamientos(filter);
+            }else{
+                alert("Ha ocurrido un error eliminando el enfrentamiento")
+            }
         }catch (error) {
-            alert(error.message)
+            alert("Ha ocurrido un error eliminando el enfrentamiento")
         }
     }
-    
+
+    function closeModal() {
+        setIsOpen(false);
+    }
 
     useEffect(() => {
         getColoresEnfrentamientos();
@@ -51,6 +59,18 @@ export default function ColoresEnfrentamientos({isAdmin}) {
     <>
     
     <div className='ColoresEnfrentamientos_main_container'>
+                    <Modal
+                        open={modalIsOpen}
+                        onClose={closeModal}
+                        center
+                    >
+                    <h2>Enfrentamiento eliminado exitosamente</h2>
+                    <div className="modal_container">
+                        <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                        <button onClick={closeModal}>Aceptar</button>
+                    </div>
+
+                </Modal>
         <div className='ColoresEnfrentamientos_sub_container'>
             {
                 Enfrentamientos.length===0 ?

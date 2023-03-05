@@ -6,6 +6,9 @@ import moment from 'moment'
 import {Link} from 'react-router-dom'
 import Select from 'react-select';
 import './EditColoresEnfrentamiento.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function EditColoresEnfrentamiento() {
 
@@ -37,6 +40,9 @@ export default function EditColoresEnfrentamiento() {
 
     const [IsLoadingColoresParejasDropdown, setIsLoadingColoresParejasDropdown] = useState(false)
 
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [IsUpdatingColoresMatch, setIsUpdatingColoresMatch] = useState(false);
+
     const params = useParams();
 
     const customStyles = {
@@ -65,6 +71,12 @@ export default function EditColoresEnfrentamiento() {
             setPlayer_two_name(result.data[1].nombres + ' ' + result.data[1].apellidos)
             setPlayer_three_name(result.data[2].nombres + ' ' + result.data[2].apellidos)
             setPlayer_four_name(result.data[3].nombres + ' ' + result.data[3].apellidos)
+
+            setId_player_one(result.data[0].id)
+            setId_player_two(result.data[1].id)
+            setId_player_three(result.data[2].id)
+            setId_player_four(result.data[3].id)
+
             setFecha(result.data[0].fecha)
             setResultado(result.data[0].resultado)
             setIdRonda(result.data[0].id_ronda)
@@ -133,20 +145,7 @@ export default function EditColoresEnfrentamiento() {
 
       const EditColoresMatch = async (e) =>{
         e.preventDefault();
-            setConfirmation("Actualizando Enfrentamiento...")
             try {
-                /* const editResult = await axios.put(`http://localhost:4000/api/editColoresMatch/${params.id_partido}`,
-                {
-                  id_player_one: Id_player_one,
-                  id_player_two: Id_player_two,
-                  id_player_three: Id_player_three,
-                  id_player_four: Id_player_four,
-                  fecha: Fecha,
-                  resultado: Resultado,
-                  id_ronda: IdRonda,
-                  id_horario: IdHorario,
-                  id_cancha: IdCancha,
-                }) */
                 const editResult = await axios.put(`http://localhost:4000/api/editColoresMatch/${params.id_partido}`,
                 {
                   id_player_one: Id_player_one,
@@ -160,15 +159,21 @@ export default function EditColoresEnfrentamiento() {
                   id_cancha: IdCancha,
                 })
                 if(editResult.data.success===true){
-                    setConfirmation("Se ha actualizado el Enfrentamiento correctamente")
+                    setIsUpdatingColoresMatch(false)
+                    setIsOpen(true)
                 }else{
-                    setConfirmation("Ha ocurrido un error actualizando el enfrentamiento")
+                    setIsUpdatingColoresMatch(false)
+                    alert("Ha ocurrido un error actualizando el enfrentamiento")
                 }
                 /* window.location.reload(); */
             } catch (error) {
-                setConfirmation("Ha ocurrido un error")
-                alert(error.message);
+                setIsUpdatingColoresMatch(false)
+                alert("Ha ocurrido un error actualizando el enfrentamiento")
             }
+    }
+
+    function closeModal() {
+        setIsOpen(false);
     }
 
     useEffect(() => {
@@ -185,7 +190,18 @@ export default function EditColoresEnfrentamiento() {
     <div>
         <div className="EditColoresMatchContainer">
                 <div className="EditColoresMatchFormContainer">
+                <Modal
+                        open={modalIsOpen}
+                        onClose={closeModal}
+                        center
+                    >
+                    <h2>Enfrentamiento actualizado exitosamente</h2>
+                    <div className="modal_container">
+                        <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                        <button onClick={closeModal}>Aceptar</button>
+                    </div>
 
+                </Modal>
                     <form className="editColoresMatchForm" onSubmit={EditColoresMatch}>
                         <h3 style={{ margin:"0", textAlign:"center" }}>Editar Enfrentamiento</h3>
                         <div className="coloresEditmatchrightleftside">
@@ -223,7 +239,7 @@ export default function EditColoresEnfrentamiento() {
                                 }
                                 <p style={{margin:"0.3rem 0"}}>Jugador 3</p>
                                 {
-                                    (Player_two_name!=="") &&
+                                    (Player_three_name!=="") &&
                                     <Select 
                                     onChange={(item) => {
                                         console.log("id_pareja: "+ JSON.stringify(item.userId));
@@ -237,7 +253,7 @@ export default function EditColoresEnfrentamiento() {
                                 }
                                 <p style={{margin:"0.3rem 0"}}>Jugador 4</p>
                                 {
-                                    (Player_three_name!=="") &&
+                                    (Player_four_name!=="") &&
                                     <Select 
                                     onChange={(item) => {
                                         console.log("id_pareja: "+ JSON.stringify(item.userId));
@@ -294,8 +310,16 @@ export default function EditColoresEnfrentamiento() {
                                 </div>
                             </div>
                         </div>
-                        <div className='btnCreateColoresMatchContainer'>
+                        <div className='btnCreateColoresMatchContainer' id="btnUpdateColoresMatchContainer">
                             <button type="submit">Guardar Cambios</button>
+                            { IsUpdatingColoresMatch && 
+                                <RotatingLines
+                                strokeColor="green"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                width="35"
+                                visible={true}
+                            />}
                         </div>
                         <p>{Confirmation}</p>
                     </form>

@@ -4,12 +4,18 @@ import { useParams } from 'react-router-dom'
 import { RotatingLines } from  'react-loader-spinner'
 import './EditColoresEquipos.css'
 import './EditColoresGrupo.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Modal } from 'react-responsive-modal';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function EditColoresGrupo() {
 
     const [NombreGrupo, setNombreGrupo] = useState("")
     const [IsCreatingGrupo, setIsCreatingGrupo] = useState(false)
     const [IsLoadingGrupo, setIsLoadingGrupo] = useState(false)
+
+    const [modalIsOpen, setIsOpen] = useState(false);
+
 
     const params = useParams();
 
@@ -35,18 +41,25 @@ export default function EditColoresGrupo() {
                 id_torneo: params.id,
                 nombre_bombo: NombreGrupo
             });
-            /* const result = await axios.put(`http://localhost:4000/api/UpdateColoresGrupo/${params.id_bombo}`,
-            {
-                id_torneo: params.id,
-                nombre_bombo: NombreGrupo
-            }); */
-            setIsCreatingGrupo(false)
-            window.location.reload()
+            if(result.data.success===true){
+                setIsOpen(true)
+                setIsCreatingGrupo(false)
+            }else{
+                alert("Ha ocurrido un error guardando los cambios")
+                setIsCreatingGrupo(false)
+            }
         }catch (error) {
-            alert(error.message)
+            alert("Ha ocurrido un error guardando los cambios")
             setIsCreatingGrupo(false)
         }
     }
+    
+    
+    function closeModal() {
+        setIsOpen(false);
+        window.location.reload()
+    }
+
     useEffect(() => {
       getColoresGrupoById();
     }, [])
@@ -54,6 +67,18 @@ export default function EditColoresGrupo() {
 
   return (
     <div className='UpdateGruposColoresFormContainer'>
+        <Modal
+        open={modalIsOpen}
+        onClose={closeModal}
+        center
+    >
+        <h2>Se ha actualizado el grupo exitosamente</h2>
+        <div className="modal_container">
+        <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+        <button onClick={closeModal}>Aceptar</button>
+        </div>
+
+    </Modal>
                 {
                     IsLoadingGrupo ? 
                     <RotatingLines

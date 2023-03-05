@@ -27,6 +27,7 @@ export default function SubtorneoDetails() {
   const [IsLoadingParejas, setIsLoadingParejas] = useState(false)
   const [IsLoadingGrupos, setIsLoadingGrupos] = useState(false)
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [DesinscripcionModalIsOpen, setDesinscripcionModalIsOpen] = useState(false);
 
   const [NumberOfParticipants, setNumberOfParticipants] = useState(0)
   const [Cantidad_personas, setCantidad_personas] = useState(0)
@@ -55,22 +56,22 @@ export default function SubtorneoDetails() {
           modalidad: params.modalidad,
           myParejaId: MyParejaId
         })
-        /* const result = await axios.post('http://localhost:4000/api/addParticipant',
-        {
-          id_subtorneo: params.idSubTorneo,
-          user_id: sessionStorage.getItem('userId'),
-          modalidad: params.modalidad,
-          myParejaId: MyParejaId
-        }) */
-        //console.log(result.data); 
-        
+
         if(params.modalidad === "Dobles"){
-          await inscripcionPareja()
-          setIsLoading(false)
-          setIsOpen(true)
+          const inscripcionParejaResult = await inscripcionPareja()
+          if(inscripcionParejaResult===true){
+            setIsLoading(false)
+            setIsOpen(true)
+          }else{
+            alert("Ha ocurrido un error realizando la inscripcion de la pareja")
+          }
         }else{
-          setIsLoading(false)
-          setIsOpen(true)
+          if(result.data.success===true){
+            setIsLoading(false)
+            setIsOpen(true)
+          }else{
+            alert("Ha ocurrido un error realizando la inscripcion")
+          }
         }
         
       }
@@ -89,22 +90,19 @@ export default function SubtorneoDetails() {
           myParejaId: MyParejaId,
           id_subtorneo: params.idSubTorneo,
         })
-        /* const result = await axios.post('http://localhost:4000/api/addSubtorneoPareja',
-        {
-          myId: sessionStorage.getItem('userId'),
-          myParejaId: MyParejaId,
-          id_subtorneo: params.idSubTorneo,
-        }) */
-        console.log(result.data); 
+        if(result.success===true){
+          console.log(result.data); 
+          return true;
+        }else{
+          return false;
+        }
       }
     }
 
     const getSubTournamentParticipants = async () => {
 
       const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
-      //const result = await axios.get(`http://localhost:4000/api/GetSubTorneosParticipants/${params.idSubTorneo}`)
       setParticipants(result.data);
-      //console.log("getSubTournamentParticipants: " + JSON.stringify(result.data));
     }
 
     const getParejas = async () => {
@@ -179,8 +177,52 @@ export default function SubtorneoDetails() {
       }
     }
 
+    const Desinscripcion = async (user_id, pareja_id) => {
+      try {
+        const DesinscripcionResult = await axios.delete(`http://localhost:4000/api/Desinscripcion/${params.idSubTorneo}/${user_id}/${params.modalidad}/${pareja_id}`)
+        
+        if(params.modalidad === "Dobles"){
+          const DesinscripcionParejaResult = await DesinscripcionPareja(pareja_id)
+
+          if(DesinscripcionParejaResult===true){
+            setDesinscripcionModalIsOpen(true)
+          }else{
+            alert("Ha ocurrido un error realizando la desinscripcion de la pareja")
+          }
+
+        }else{
+
+          if(DesinscripcionResult.data.success===true){
+            setDesinscripcionModalIsOpen(true)
+          }else{
+            alert("Ha ocurrido un error realizando la desinscripcion")
+          }
+
+        }
+      } catch (error) {
+        alert("Ha ocurrido un error realizando la desinscripcion")
+      }
+    }
+
+    const DesinscripcionPareja = async (pareja_id) => {
+      try {
+        const DesinscripcionPareja = await axios.delete(`http://localhost:4000/api/DesinscripcionPareja/${pareja_id}/${params.idSubTorneo}`)
+        if(DesinscripcionPareja.data.success===true){
+          return true
+        }else{
+          return false
+        }
+      } catch (error) {
+        return false
+      }
+    }
+
     function closeModal() {
       setIsOpen(false);
+      window.location.reload();
+    }
+    function closeModalDesinscripcion() {
+      setDesinscripcionModalIsOpen(false);
       window.location.reload();
     }
 
@@ -217,9 +259,10 @@ export default function SubtorneoDetails() {
       GetUsers();
     },[NumberOfParticipants])
     
-    useEffect(() => {
+    /* useEffect(() => {
       console.log(typeof MyParejaId);
     },[MyParejaId])
+ */
 
   return (
     <div className="subtorneoDetails_main_container">
@@ -268,8 +311,11 @@ export default function SubtorneoDetails() {
             Cantidad_personas-NumberOfParticipants>0 && params.modalidad==="Singles" ?
             <button onClick={inscripcion} className="btn_inscripcion">Inscribirme</button>
             :
-            ((Users.length!==0 && Cantidad_personas-NumberOfParticipants>0) && new Date(FechaFinInscripcion).getTime() > new Date().getTime()) &&
+            ((Users.length!==0 && Cantidad_personas-NumberOfParticipants>0) && (new Date(FechaFinInscripcion).getTime() > new Date().getTime())) &&
+            <>
+            
             <button onClick={inscripcion} className="btn_inscripcion">Inscribir Pareja</button>
+            </>
           }
           {IsLoading && <RotatingLines
             strokeColor="green"
@@ -300,8 +346,14 @@ export default function SubtorneoDetails() {
                                   animationDuration="0.75"
                                   width="35"
                                   visible={true}/></td>
-                                  : 
-                                  <td style={ participant.id === parseInt(sessionStorage.getItem('userId')) ? {backgroundColor:"yellow"}: {}} >{participant.username}</td>
+                                  :
+                                  <>
+                                    <td style={ participant.id === parseInt(sessionStorage.getItem('userId')) ? {backgroundColor:"yellow"}: {}} >{participant.accion} - {participant.nombres} {participant.apellidos}</td>
+                                    {
+                                      participant.id === parseInt(sessionStorage.getItem('userId')) && 
+                                      <td style={{width:"10%"}}><button className='Desinscripcion_Btn' onClick={() => Desinscripcion(participant.id, null)}>Desinscribirme</button></td>
+                                    }
+                                  </>
                               }  
                             </tr>
                             ))
@@ -334,6 +386,10 @@ export default function SubtorneoDetails() {
                                   <>
                                     <td style={ pareja.id_pareja === parseInt(sessionStorage.getItem('userId')) ? {backgroundColor:"yellow"}: {}} >{pareja.nombres} {pareja.apellidos} </td>
                                     <td>{pareja.id_pareja}</td>
+                                    {
+                                      pareja.id === parseInt(sessionStorage.getItem('userId')) && 
+                                      <td style={{width:"15%"}}><button className='Desinscripcion_Btn' onClick={() => Desinscripcion(null,pareja.id_pareja)}>Desinscribir Pareja</button></td>
+                                    }
                                   </>
                             </tr>
                             ))}
@@ -357,6 +413,24 @@ export default function SubtorneoDetails() {
             <div className="modal_container">
               <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
               <button onClick={closeModal}>Aceptar</button>
+            </div>
+
+          </Modal>
+          <Modal
+            open={DesinscripcionModalIsOpen}
+            onClose={closeModalDesinscripcion}
+            style={customStyles}
+            center
+          >
+            {
+              params.modalidad==="Dobles" ?
+              <h2>La desinscripcion de la pareja se ha realizado correctamente</h2>
+              :
+              <h2>La desinscripcion se ha realizado correctamente</h2>
+            }
+            <div className="modal_container">
+              <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+              <button onClick={closeModalDesinscripcion}>Aceptar</button>
             </div>
 
           </Modal>

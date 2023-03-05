@@ -194,17 +194,18 @@ export default function ManageTorneoColores() {
                         IdHorario: IDHorario,
                         id_cancha: IDCancha
                     });
-                    console.log("result.data: " + JSON.stringify(result.data));
+                    //console.log("result.data: " + JSON.stringify(result.data));
 
                     if(result.data.success===true){
                         setIsCreatingMatch(false)
-                        window.location.reload();
+                        setIsOpen(true)
                     }else{
-                        alert("Ha ocurrido un error creando el enfrentamiento")  
                         setIsCreatingMatch(false)
+                        alert("Ha ocurrido un error creando el enfrentamiento")  
                     }
                 }catch (error) {
-                    alert(error.message)
+                    setIsCreatingMatch(false)
+                    alert("Ha ocurrido un error creando el enfrentamiento")
                 }
             }
         }
@@ -226,12 +227,14 @@ export default function ManageTorneoColores() {
 
                 if(result.data.success===true){
                     setIsCreatingJornada(false)
+                    setIsOpen(true)
                 }else{
                     alert("Ha ocurrido un error creando la jornada")  
                     setIsCreatingJornada(false)
                 }
             }catch (error) {
-                alert(error.message)
+                alert("Ha ocurrido un error creando la jornada")
+                setIsCreatingJornada(false)
             }
         
 
@@ -351,9 +354,13 @@ export default function ManageTorneoColores() {
         
         try {
             const result = await axios.delete(`http://localhost:4000/api/DeleteColoresGrupo/${id_bombo}`);
-            //const result = await axios.delete(`http://localhost:4000/api/DeleteColoresGrupo/${id_bombo}`);
-            //console.log("Pareja " + JSON.stringify(result.data));
-            window.location.reload();
+            if(result.data.success===true){
+                const filter = ColoresGrupos.filter(gr => gr.id_bombo !== id_bombo )
+                setColoresGrupos(filter);
+                setIsOpen(true)
+            }else{
+                alert("Ha ocurrido un error eliminando el equipo")
+            }
         }catch (error) {
             alert(error.message)
         }
@@ -364,10 +371,14 @@ export default function ManageTorneoColores() {
         try {
             const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEquipo/${id_equipo}`);
             //const result = await axios.delete(`http://localhost:4000/api/DeleteColoresEquipo/${id_equipo}`);
-            console.log("Pareja " + JSON.stringify(result.data));
-            const filter = ColoresEquipos.filter(eq => eq.id_equipo !== id_equipo )
-            setColoresEquipos(filter);
-            window.location.reload();
+            //console.log("Pareja " + JSON.stringify(result.data));
+            if(result.data.success===true){
+                const filter = ColoresEquipos.filter(eq => eq.id_equipo !== id_equipo )
+                setColoresEquipos(filter);
+                setIsOpen(true)
+            }else{
+                alert("Ha ocurrido un error eliminando el equipo")
+            }
         }catch (error) {
             alert(error.message)
         }
@@ -390,18 +401,6 @@ export default function ManageTorneoColores() {
                   modalidad: "Dobles",
                   is_colores: true
                 })
-                /* const editResult = await axios.put(`http://localhost:4000/api/editTorneo/${params.id}`,
-                {
-                  nombre_torneo: NombreTorneo,
-                  fecha_inicio: FechaInicio,
-                  fecha_fin: FechaFin,
-                  fecha_inicio_inscripcion: InicioInscripcion,
-                  fecha_fin_inscripcion: FinInscripcion,
-                  id_categoria: 0,
-                  descripcion: Descripcion,
-                  modalidad: "Dobles",
-                  is_colores: true
-                }) */
                 if(editResult.data.success===true){
                     setIsUpdatingTorneoColores(false)
                     setIsOpen(true)
@@ -434,6 +433,7 @@ export default function ManageTorneoColores() {
         setPublishGruposEquiposModalIsOpen(false);
         window.location.reload()
     }
+    
 
     useEffect(() => {
         getCurrentTorneoColores();
@@ -699,6 +699,18 @@ export default function ManageTorneoColores() {
                             <Link to="jornadas">Ver Jornadas</Link>
                         </div>
                     </div>
+                    <Modal
+                    open={modalIsOpen}
+                    onClose={closeModal}
+                    center
+                >
+                    <h2>La gestión se realizó exitosamente</h2>
+                    <div className="modal_container">
+                    <FontAwesomeIcon icon={faCircleCheck} size="5x" style={{color: "#0D8641"}}/>
+                    <button onClick={closeModal}>Aceptar</button>
+                    </div>
+
+                </Modal>
                     <form className="createColoresMatchForm" onSubmit={CreateColoresJornada}>
                         <h3 style={{ margin:"0", textAlign:"center" }}>Jornadas</h3>
                         <div className="coloresmatchrightleftside">
